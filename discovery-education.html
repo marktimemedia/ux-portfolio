@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto" data-contrast="standard" data-size="default">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discovery Education — Michelle Hunt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,200;1,9..40,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --c-page: #8a6800; }
+  [data-theme="dark"] { --c-page: #f0b429; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --c-page: #f0b429; } }
+  [data-contrast="high"][data-theme="light"],
+  [data-contrast="high"]:root:not([data-theme="dark"]) { --c-page: #5c4400; }
+  [data-contrast="high"][data-theme="dark"] { --c-page: #ffd040; }
+  @media (prefers-color-scheme: dark) { [data-contrast="high"]:root:not([data-theme="light"]) { --c-page: #ffd040; } }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div class="sticky-org-mobile" id="sticky-org-mobile" aria-hidden="true">
+  <div class="sticky-org-inner">
+    <span class="sticky-org-dot"></span>
+    <span class="sticky-org-name">Discovery Education</span>
+  </div>
+  <select class="mobile-sticky-select" onchange="scrollToSection(this.value);this.blur();" aria-label="Jump to section">
+    <option value="situation">The Situation</option>
+    <option value="role">My Role</option>
+    <option value="work">The Work</option>
+    <option value="outcome">The Outcome</option>
+    <option value="learned">What I Learned</option>
+  </select>
+</div>
+
+<nav class="site-nav">
+  <div class="container">
+    <a href="index.html" class="nav-name">Michelle Hunt<span>.</span></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#philosophy">Approach</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-wrap">
+        <button class="nav-panel-btn menu-btn" id="menu-btn" onclick="togglePanel('menu-panel','menu-btn')" aria-expanded="false" aria-label="Menu">Menu</button>
+        <div class="nav-panel menu-panel" id="menu-panel" role="dialog" aria-label="Navigation">
+          <a href="index.html#work">Work</a>
+          <a href="index.html#philosophy">Approach</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+      <div class="nav-wrap">
+        <button class="nav-panel-btn" id="a11y-btn" onclick="togglePanel('a11y-panel','a11y-btn')" aria-expanded="false" aria-label="Display settings">Display</button>
+        <div class="nav-panel" id="a11y-panel" role="dialog" aria-label="Display settings">
+          <div class="a11y-group">
+            <p class="a11y-group-label">Mode</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setTheme('light')"    id="btn-light">Light</button>
+              <button class="a11y-btn" onclick="setTheme('dark')"     id="btn-dark">Dark</button>
+              <button class="a11y-btn" onclick="setTheme('auto')"     id="btn-auto">Auto</button>
+            </div>
+          </div>
+          <div class="a11y-group">
+            <p class="a11y-group-label">Contrast</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setContrast('standard')" id="btn-standard">Standard</button>
+              <button class="a11y-btn" onclick="setContrast('high')"     id="btn-high">High (AAA)</button>
+            </div>
+          </div>
+          <div class="a11y-group">
+            <p class="a11y-group-label">Text size</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setSize('default')" id="btn-default">Default</button>
+              <button class="a11y-btn" onclick="setSize('large')"   id="btn-large">Large</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+  <header class="cs-hero" id="hero">
+    <div class="cs-hero-line"></div>
+    <div class="container">
+      <div class="cs-hero-client-wrap">
+        <span class="cs-hero-dot"></span>
+        <span class="cs-hero-client">Discovery Education</span>
+      </div>
+      <h1 class="cs-hero-title">Research-backed UX for a virtual science lab platform used by teachers and students</h1>
+      <p class="cs-hero-synopsis">Embedded with a development team that had never worked with a designer, conducting user research that reoriented the product roadmap and shipping meaningful improvements across three distinct user types.</p>
+      <div class="cs-hero-skills" aria-label="Disciplines">
+        <span class="skill-item"><span class="skill-dot"></span>UX design</span>
+        <span class="skill-sep">·</span>
+        <span class="skill-item"><span class="skill-dot"></span>User research</span>
+        <span class="skill-sep">·</span>
+        <span class="skill-item"><span class="skill-dot"></span>Design systems</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-body">
+
+      <div class="sidebar-col">
+        <div class="sidebar-sticky">
+          <div class="sticky-org-desktop" id="sticky-org-desktop">
+            <span class="sticky-org-dot"></span>
+            <span class="sticky-org-name">Discovery Education</span>
+          </div>
+          <p class="sidebar-nav-label">On this page</p>
+          <nav aria-label="Page sections">
+            <ul class="sidebar-nav" id="sidebar-nav">
+              <li><a href="#situation">The Situation</a></li>
+              <li><a href="#role">My Role</a></li>
+              <li><a href="#work">The Work</a></li>
+              <li><a href="#outcome">The Outcome</a></li>
+              <li><a href="#learned">What I Learned</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <article class="case-content">
+
+        <section class="case-section" id="situation">
+          <h2 class="section-heading">The Situation</h2>
+          <p>Pivot Interactives was an education platform built around a genuinely novel idea: virtual science experiments students could do on a screen. Interactive videos, measurable observations, complex assessments — all designed to replace or supplement real lab work. The product was live and growing, but the team had never worked with a designer before. The interface had been built by a talented development team working close to the data, and it showed — experiences were sometimes clunky or inconsistent in ways that were hard to pinpoint without a design perspective in the room.</p>
+        </section>
+
+        <section class="case-section" id="role">
+          <h2 class="section-heading">My Role</h2>
+          <p>I came in part-time to improve the existing experience and help design new features across three distinct user groups: content creators, teachers, and students. Over two to three years I worked embedded with the development team, meeting weekly to review designs, work through challenges together, and gradually build a shared understanding of how users actually thought and worked. The team's relationship to UX shifted meaningfully over that time. I also led user research, designed new features across all three user types, and helped build a token and component library covering both the teacher and admin dashboards and the student-facing activity interface. Pivot was acquired by Discovery Education partway through, and I continued working with the team for about a year after the acquisition.</p>
+        </section>
+
+        <section class="case-section" id="work">
+          <h2 class="section-heading">The Work</h2>
+
+          <h3 class="subsection-heading">Understanding who we were actually designing for</h3>
+          <p>The team had a blind spot that was completely understandable. Their closest relationships were with power users — teachers who loved the platform, built their own custom activities, and had strong opinions about features. Naturally, that's who they built for.</p>
+          <p>User research told a different story. We ran broad surveys across teachers with varying levels of experience, followed by one-on-one sessions with a subset. A clear pattern emerged: most teachers weren't power users. They were time-strapped, curriculum-constrained, and looking for the path of least resistance. They didn't want to build custom activities. They wanted to find something that already existed, assign it quickly, and get through their grading without it taking over their evening. That finding reoriented a lot of what we built.</p>
+
+          <h3 class="subsection-heading">Designing for teachers</h3>
+          <p>We focused on reducing friction at every stage of the teacher workflow: finding activities, assigning them, tracking student progress, and grading. We implemented autograding, grading status indicators, and activity completion tracking. We improved how students could be sorted and grouped. We built better filtering and tagging so teachers could find activities by grade level, AP or IB designation, specific state educational standards, and difficulty. The throughline was the same across all of it: save time on the parts of teaching that feel like administration.</p>
+
+          <h3 class="subsection-heading">Designing for content creators</h3>
+          <p>For internal staff and power user teachers building their own activities, we improved the content creation interface significantly. We designed and shipped drag and drop interfaces, drawing tools, and significant improvements to table and graphing behavior. The platform supported a wide range of question types, from straightforward multiple choice and fill in the blank to complex custom interactions, and getting that range into a coherent, usable creation experience was its own challenge.</p>
+
+          <h3 class="subsection-heading">Designing for students</h3>
+          <p>For students the focus was clarity: what is assigned to me, what is the status of my work, what do I still need to do. The student interface needed to be straightforward enough to get out of the way of the actual learning.</p>
+
+          <h3 class="subsection-heading">Building the design system</h3>
+          <p>In parallel with the feature work, we built a token and component library from scratch covering both sides of the platform. It gave the team a shared language and made it possible to ship new features with more consistency and less rework. When the acquisition raised questions about whether the Pivot brand would eventually fold into Discovery Education's broader system, we stayed the course. The work needed a foundation regardless of what happened to the brand.</p>
+        </section>
+
+        <section class="case-section" id="outcome">
+          <h2 class="section-heading">The Outcome</h2>
+          <p>We shipped a significant number of new features across all three user types over the course of the engagement, all grounded in research. The autograding and workflow improvements reduced friction for teachers in meaningful ways. The design system gave the team a shared foundation they hadn't had before. And a development team that had never worked with a designer came out of the engagement with a genuinely different understanding of what UX could do for their product.</p>
+        </section>
+
+        <section class="case-section" id="learned">
+          <h2 class="section-heading">What I Learned</h2>
+          <p>When I was first brought on, the team came to me with specific tactical problems — this page is confusing, this component isn't working. That's useful work, but you're always responding to the priorities of the moment rather than getting ahead of them. It wasn't until we introduced research and discovery sessions that the work became strategic: step back, build a real understanding of who our users were and what they actually needed, and let that inform what we built and why. The products that came out of that phase were meaningfully better for it. I'd get to that strategic layer faster next time — not because the early work wasn't valuable, but because the research changed the questions we were asking, and better questions lead to better outcomes.</p>
+        </section>
+
+      </article>
+    </div>
+
+    <nav class="case-footer-nav" aria-label="Case study navigation">
+      <a href="target.html" class="case-footer-link prev">
+        <span class="case-footer-direction">← Previous</span>
+        <span class="case-footer-title">Target</span>
+      </a>
+      <a href="lone-rock-point.html" class="case-footer-link next">
+        <span class="case-footer-direction">Next →</span>
+        <span class="case-footer-title">Lone Rock Point</span>
+      </a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <a href="index.html" class="footer-back">← Back to portfolio</a>
+    <span class="footer-left">Michelle Hunt — Director of UX Engineering</span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

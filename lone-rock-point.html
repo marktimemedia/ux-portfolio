@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto" data-contrast="standard" data-size="default">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lone Rock Point — Michelle Hunt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,200;1,9..40,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --c-page: #111111; }
+  [data-theme="dark"] { --c-page: #eeeeee; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --c-page: #eeeeee; } }
+  [data-contrast="high"][data-theme="light"],
+  [data-contrast="high"]:root:not([data-theme="dark"]) { --c-page: #000000; }
+  [data-contrast="high"][data-theme="dark"] { --c-page: #eeeeee; }
+  @media (prefers-color-scheme: dark) { [data-contrast="high"]:root:not([data-theme="light"]) { --c-page: #eeeeee; } }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div class="sticky-org-mobile" id="sticky-org-mobile" aria-hidden="true">
+  <div class="sticky-org-inner">
+    <span class="sticky-org-dot"></span>
+    <span class="sticky-org-name">Lone Rock Point</span>
+  </div>
+  <select class="mobile-sticky-select" onchange="scrollToSection(this.value);this.blur();" aria-label="Jump to section">
+    <option value="situation">The Situation</option>
+    <option value="role">My Role</option>
+    <option value="work">The Work</option>
+    <option value="outcome">The Outcome</option>
+    <option value="learned">What I Learned</option>
+  </select>
+</div>
+
+<nav class="site-nav">
+  <div class="container">
+    <a href="index.html" class="nav-name">Michelle Hunt<span>.</span></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#philosophy">Approach</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-wrap">
+        <button class="nav-panel-btn menu-btn" id="menu-btn" onclick="togglePanel('menu-panel','menu-btn')" aria-expanded="false" aria-label="Menu">Menu</button>
+        <div class="nav-panel menu-panel" id="menu-panel" role="dialog" aria-label="Navigation">
+          <a href="index.html#work">Work</a>
+          <a href="index.html#philosophy">Approach</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+      <div class="nav-wrap">
+        <button class="nav-panel-btn" id="a11y-btn" onclick="togglePanel('a11y-panel','a11y-btn')" aria-expanded="false" aria-label="Display settings">Display</button>
+        <div class="nav-panel" id="a11y-panel" role="dialog" aria-label="Display settings">
+          <div class="a11y-group">
+            <p class="a11y-group-label">Mode</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setTheme('light')"    id="btn-light">Light</button>
+              <button class="a11y-btn" onclick="setTheme('dark')"     id="btn-dark">Dark</button>
+              <button class="a11y-btn" onclick="setTheme('auto')"     id="btn-auto">Auto</button>
+            </div>
+          </div>
+          <div class="a11y-group">
+            <p class="a11y-group-label">Contrast</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setContrast('standard')" id="btn-standard">Standard</button>
+              <button class="a11y-btn" onclick="setContrast('high')"     id="btn-high">High (AAA)</button>
+            </div>
+          </div>
+          <div class="a11y-group">
+            <p class="a11y-group-label">Text size</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setSize('default')" id="btn-default">Default</button>
+              <button class="a11y-btn" onclick="setSize('large')"   id="btn-large">Large</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+  <header class="cs-hero" id="hero">
+    <div class="cs-hero-line"></div>
+    <div class="container">
+      <div class="cs-hero-client-wrap">
+        <span class="cs-hero-dot"></span>
+        <span class="cs-hero-client">Lone Rock Point</span>
+      </div>
+      <h1 class="cs-hero-title">Building a UX practice from scratch at a public sector digital agency</h1>
+      <p class="cs-hero-synopsis">Developed the entire discovery process, Figma-to-development workflow, and client deliverable system from first principles — plus product ownership of CivicPress, the only USWDS-native WordPress theme of its kind.</p>
+      <div class="cs-hero-skills" aria-label="Disciplines">
+        <span class="skill-item"><span class="skill-dot"></span>UX practice development</span>
+        <span class="skill-sep">·</span>
+        <span class="skill-item"><span class="skill-dot"></span>Product ownership</span>
+        <span class="skill-sep">·</span>
+        <span class="skill-item"><span class="skill-dot"></span>Design systems</span>
+        <span class="skill-sep">·</span>
+        <span class="skill-item"><span class="skill-dot"></span>Workshop facilitation</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-body">
+
+      <div class="sidebar-col">
+        <div class="sidebar-sticky">
+          <div class="sticky-org-desktop" id="sticky-org-desktop">
+            <span class="sticky-org-dot"></span>
+            <span class="sticky-org-name">Lone Rock Point</span>
+          </div>
+          <p class="sidebar-nav-label">On this page</p>
+          <nav aria-label="Page sections">
+            <ul class="sidebar-nav" id="sidebar-nav">
+              <li><a href="#situation">The Situation</a></li>
+              <li><a href="#role">My Role</a></li>
+              <li><a href="#work">The Work</a></li>
+              <li><a href="#outcome">The Outcome</a></li>
+              <li><a href="#learned">What I Learned</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <article class="case-content">
+
+        <section class="case-section" id="situation">
+          <h2 class="section-heading">The Situation</h2>
+          <p>Lone Rock Point is a digital agency specializing in public sector web modernization, with clients including NASA, JPL, and the Department of Energy. When I joined, they were intentionally expanding from embedded contract work into full-service agency offerings, requiring design and UX capabilities they hadn't needed before, so they hired me as Director of UX Engineering to build that practice.</p>
+        </section>
+
+        <section class="case-section" id="role">
+          <h2 class="section-heading">My Role</h2>
+          <p>There was no template to follow. I built the practice from first principles, using the same lean approach I'd advocate for any client: put something together, test it, learn, and iterate. Every client engagement has made it better. My scope has expanded over time to include product ownership of CivicPress, our proprietary USWDS-native WordPress theme — the only one of its kind.</p>
+        </section>
+
+        <section class="case-section" id="work">
+          <h2 class="section-heading">The Work</h2>
+
+          <h3 class="subsection-heading">Building a client discovery system</h3>
+          <p>Before I arrived, there was no structured process for understanding what a client actually needed before building for them. I developed the entire discovery sequence from scratch: a comprehensive project intake survey, a business and user needs workshop, a content creator workshop focused on internal publishing processes, and a hypothesis workshop where we surface assumptions, assess risk, and pair proposed features with real business and user needs. Each workshop has a facilitation script, a Mural board, pre- and post-workshop communications, and a summary artifact. At the end of discovery, everything synthesizes into a findings deck that becomes the foundation for everything that follows.</p>
+          <p>I also standardized all of our client-facing deliverables on a single design system built on the agency's branding. Decks, documentation, summaries — everything looks cohesive because it was designed to be.</p>
+          <p>The practice runs on Lean UX principles: problem statements, proto-personas, jobs to be done, and hypothesis development done collaboratively with the client rather than handed to them afterward. Clients are participants in the research, not recipients of it. We close every workshop with a "key takeaways" round where everyone shares what they learned, what they think, or what they're still wondering. It consistently produces the most honest moments of the whole session, and clients regularly tell us they feel genuinely heard.</p>
+          <p>Importantly, we built this practice the same way we tell clients to build their products: iteratively, with real feedback at every stage. Each engagement has made the process better. We're practicing what we preach.</p>
+
+          <h3 class="subsection-heading">A Figma-to-development workflow</h3>
+          <p>I created our foundational Figma file to match our USWDS theme, including all theme tokens as variables, and developed a system covering tokens, components, templates, moodboards, layouts, and annotated views. I built this collaboratively with the development team so it reflects how they actually build, not just how a designer would imagine they build. The goal was enough structure to work from without creating a system that becomes its own maintenance burden. We are still working through the tension between lean iteration and the large deliverables and formal approvals that public sector clients expect. That tension is real and ongoing.</p>
+
+          <h3 class="subsection-heading">CivicPress</h3>
+          <p>CivicPress is our USWDS-native WordPress theme, built to support the U.S. Web Design System natively within WordPress's Full Site Editing architecture. For public sector organizations navigating OMB M-23-22 and the IDEA Act, having a compliant, accessible, and maintainable theme isn't just useful — it's a response to a real federal mandate for digital-first public experiences.</p>
+          <p>I led the initial refactor to support Full Site Editing, which is where WordPress theme development is headed. I now lead our product sprints, set the technical and design direction, track WordPress core releases to ensure compatibility, and contribute feedback upstream. I also created all developer documentation for the theme and the client-facing design system documentation we customize and hand over as part of every delivery. CivicPress is the only WordPress theme of its kind, and it came entirely from identifying a need nobody else had filled.</p>
+
+          <h3 class="subsection-heading">AI-assisted research</h3>
+          <p>I've integrated AI into our discovery and synthesis work in a collaborative rather than generative way: using it to synthesize workshop findings, pressure-test assumptions, and seed client conversations about their users with grounded starting points they can react to and build on. The goal is always to help clients think more clearly about their own users, not to replace that thinking.</p>
+        </section>
+
+        <section class="case-section" id="outcome">
+          <h2 class="section-heading">The Outcome</h2>
+          <p>The discovery practice is running with real clients and producing work that clients respond to positively. CivicPress is live and we are actively launching with our first clients on the platform. The Figma-to-development workflow is actively in use and continuing to evolve. What started as a missing capability at a growing agency is now a functioning practice with documented processes, real tooling, and a product attached to it.</p>
+        </section>
+
+        <section class="case-section" id="learned">
+          <h2 class="section-heading">What I Learned</h2>
+          <p>Building a practice from scratch means not knowing what you don't know until you're already doing it. The lean approach helped — shipping something and improving it was always better than waiting until everything felt perfect. There were moments early on where a more deliberate internal discovery phase would have helped: understanding the agency's existing client relationships and dynamics before designing processes around them. That's something I've gotten better at with each engagement, and it's a good reminder that the same principles I apply to client work apply equally to the work of building a practice.</p>
+        </section>
+
+      </article>
+    </div>
+
+    <nav class="case-footer-nav" aria-label="Case study navigation">
+      <a href="discovery-education.html" class="case-footer-link prev">
+        <span class="case-footer-direction">← Previous</span>
+        <span class="case-footer-title">Discovery Education</span>
+      </a>
+      <a href="nasa.html" class="case-footer-link next">
+        <span class="case-footer-direction">Next →</span>
+        <span class="case-footer-title">NASA</span>
+      </a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <a href="index.html" class="footer-back">← Back to portfolio</a>
+    <span class="footer-left">Michelle Hunt — Director of UX Engineering</span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

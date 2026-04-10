@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto" data-contrast="standard" data-size="default">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NASA — Michelle Hunt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,200;1,9..40,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --c-page: #00869e; }
+  [data-theme="dark"] { --c-page: #00b4d8; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --c-page: #00b4d8; } }
+  [data-contrast="high"][data-theme="light"],
+  [data-contrast="high"]:root:not([data-theme="dark"]) { --c-page: #005f73; }
+  [data-contrast="high"][data-theme="dark"] { --c-page: #40d0f0; }
+  @media (prefers-color-scheme: dark) { [data-contrast="high"]:root:not([data-theme="light"]) { --c-page: #40d0f0; } }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div class="sticky-org-mobile" id="sticky-org-mobile" aria-hidden="true">
+  <div class="sticky-org-inner">
+    <span class="sticky-org-dot"></span>
+    <span class="sticky-org-name">NASA</span>
+  </div>
+  <select class="mobile-sticky-select" onchange="scrollToSection(this.value);this.blur();" aria-label="Jump to section">
+    <option value="situation">The Situation</option>
+    <option value="role">My Role</option>
+    <option value="work">The Work</option>
+    <option value="outcome">The Outcome</option>
+    <option value="learned">What I Learned</option>
+  </select>
+</div>
+
+<nav class="site-nav">
+  <div class="container">
+    <a href="index.html" class="nav-name">Michelle Hunt<span>.</span></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#philosophy">Approach</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-wrap">
+        <button class="nav-panel-btn menu-btn" id="menu-btn" onclick="togglePanel('menu-panel','menu-btn')" aria-expanded="false" aria-label="Menu">Menu</button>
+        <div class="nav-panel menu-panel" id="menu-panel" role="dialog" aria-label="Navigation">
+          <a href="index.html#work">Work</a>
+          <a href="index.html#philosophy">Approach</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+      <div class="nav-wrap">
+        <button class="nav-panel-btn" id="a11y-btn" onclick="togglePanel('a11y-panel','a11y-btn')" aria-expanded="false" aria-label="Display settings">Display</button>
+        <div class="nav-panel" id="a11y-panel" role="dialog" aria-label="Display settings">
+          <div class="a11y-group">
+            <p class="a11y-group-label">Mode</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setTheme('light')"    id="btn-light">Light</button>
+              <button class="a11y-btn" onclick="setTheme('dark')"     id="btn-dark">Dark</button>
+              <button class="a11y-btn" onclick="setTheme('auto')"     id="btn-auto">Auto</button>
+            </div>
+          </div>
+          <div class="a11y-group">
+            <p class="a11y-group-label">Contrast</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setContrast('standard')" id="btn-standard">Standard</button>
+              <button class="a11y-btn" onclick="setContrast('high')"     id="btn-high">High (AAA)</button>
+            </div>
+          </div>
+          <div class="a11y-group">
+            <p class="a11y-group-label">Text size</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setSize('default')" id="btn-default">Default</button>
+              <button class="a11y-btn" onclick="setSize('large')"   id="btn-large">Large</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+  <header class="cs-hero" id="hero">
+    <div class="cs-hero-line"></div>
+    <div class="container">
+      <div class="cs-hero-client-wrap">
+        <span class="cs-hero-dot"></span>
+        <span class="cs-hero-client">NASA</span>
+      </div>
+      <h1 class="cs-hero-title">Building a streaming platform and scaling a design system for a federal agency</h1>
+      <p class="cs-hero-synopsis">Personally built the NASA+ streaming platform frontend, then helped evolve the Horizon Design System from a site-specific design language into an open source digital platform system — an initiative I helped spearhead.</p>
+      <div class="cs-hero-skills" aria-label="Disciplines">
+        <span class="skill-item"><span class="skill-dot"></span>Front-end development</span>
+        <span class="skill-sep">·</span>
+        <span class="skill-item"><span class="skill-dot"></span>Design systems</span>
+        <span class="skill-sep">·</span>
+        <span class="skill-item"><span class="skill-dot"></span>UX design</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-body">
+
+      <div class="sidebar-col">
+        <div class="sidebar-sticky">
+          <div class="sticky-org-desktop" id="sticky-org-desktop">
+            <span class="sticky-org-dot"></span>
+            <span class="sticky-org-name">NASA</span>
+          </div>
+          <p class="sidebar-nav-label">On this page</p>
+          <nav aria-label="Page sections">
+            <ul class="sidebar-nav" id="sidebar-nav">
+              <li><a href="#situation">The Situation</a></li>
+              <li><a href="#role">My Role</a></li>
+              <li><a href="#work">The Work</a></li>
+              <li><a href="#outcome">The Outcome</a></li>
+              <li><a href="#learned">What I Learned</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <article class="case-content">
+
+        <section class="case-section" id="situation">
+          <h2 class="section-heading">The Situation</h2>
+          <p>NASA had invested significantly in a new digital presence. The Horizon Design System (HDS) had been developed by an external UX agency, and the designs for NASA+ — their new streaming platform — were complete and ready to build. The external agency had finished their work and moved on, leaving behind comprehensive research documentation, design rationale, and a detailed Figma file. It was thorough work, built for the solution they had designed. By the time we were building, the scope had shifted.</p>
+        </section>
+
+        <section class="case-section" id="role">
+          <h2 class="section-heading">My Role</h2>
+          <p>I came on as a contractor to build the NASA+ frontend. Within a year I was a full agency employee with a significantly broader scope, eventually spanning UX design, user research, and a collaborative effort to evolve HDS into a true open source digital platform design system. In total I was embedded in this work for about two and a half years.</p>
+        </section>
+
+        <section class="case-section" id="work">
+          <h2 class="section-heading">The Work</h2>
+
+          <h3 class="subsection-heading">Building NASA+</h3>
+          <p>I personally built the entire NASA+ frontend: a WordPress theme in PHP, CSS, and JavaScript, pulling in structured data, embedded video, the NASA flagship header and footer, and a timezone-aware live event experience. Everything had to be fully accessible and meet performance benchmarks under real traffic conditions.</p>
+
+          <h3 class="subsection-heading">Rethinking the streaming experience</h3>
+          <p>The original NASA+ design followed a TV guide model: a grid of always-on channels. That works for a platform with constant live content. NASA doesn't always have live content, so we decided to design a new scheduled content model within the existing design system that surfaced upcoming events and featured live content prominently when it was happening.</p>
+
+          <h3 class="subsection-heading">The NASA blogs redesign</h3>
+          <p>When blogs.nasa.gov was folded into the main NASA site, the project grew considerably: searchability, unified categories, longform and live feed formats, sub-blogs, and a new layout that hadn't been accounted for in the original designs. Before touching anything visual, I pushed to do user research with the actual content creators. What we learned changed the direction of the project. NASA blog authors write for genuinely different reasons — compliance, thought leadership, breaking news, information sharing — and those motivations sometimes conflict. That led directly to a dual-format solution: a livestream-style format for fast, immediate content and a longform format for in-depth storytelling. Without the research, we would have built one thing that didn't serve anyone particularly well.</p>
+
+          <h3 class="subsection-heading">Expanding HDS</h3>
+          <p>The design system had font size scales and color swatches, but no guidance on when to use them. As internal NASA teams started asking whether HDS could extend to email, non-flagship sites, and presentations, it became clear that the system was missing a decision-making layer — not just what the options were, but when and why to use them. I reached out to the right people at NASA and asked how we could separate the website-specific decisions from the core system and what design philosophy needed to be documented. That work grew into a formal open source contribution. I'm receiving credit from NASA for it, alongside one other collaborator.</p>
+        </section>
+
+        <section class="case-section" id="outcome">
+          <h2 class="section-heading">The Outcome</h2>
+          <p>NASA+ launched on time. During a lunar eclipse that drew millions of concurrent viewers, the site held up without performance issues — it was the central hub for the event. The blogs redesign gave NASA content creators tools that matched how they actually worked. HDS is now on a path to being usable across digital platforms, with documentation that helps teams make consistent decisions rather than just picking from a list of options.</p>
+        </section>
+
+        <section class="case-section" id="learned">
+          <h2 class="section-heading">What I Learned</h2>
+          <p>The external agency left us everything we needed to understand the solution they had designed. What a big upfront handoff can't give you is flexibility when scope changes — and on a long-running project, scope always changes. Decisions made months earlier become constraints that are costly to revisit, and work gets done twice. It also reinforces a misconception that UX research and design are things you finish before handing off to development. They aren't. Keeping the process lean and collaborative throughout isn't just more efficient, it produces better work.</p>
+        </section>
+
+      </article>
+    </div>
+
+    <nav class="case-footer-nav" aria-label="Case study navigation">
+      <a href="lone-rock-point.html" class="case-footer-link prev">
+        <span class="case-footer-direction">← Previous</span>
+        <span class="case-footer-title">Lone Rock Point</span>
+      </a>
+      <a href="target.html" class="case-footer-link next">
+        <span class="case-footer-direction">Next →</span>
+        <span class="case-footer-title">Target</span>
+      </a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <a href="index.html" class="footer-back">← Back to portfolio</a>
+    <span class="footer-left">Michelle Hunt — Director of UX Engineering</span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

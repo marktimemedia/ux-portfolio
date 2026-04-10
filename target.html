@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto" data-contrast="standard" data-size="default">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Target — Michelle Hunt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,200;1,9..40,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  :root { --c-page: #b5005e; }
+  [data-theme="dark"] { --c-page: #f04d9e; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --c-page: #f04d9e; } }
+  [data-contrast="high"][data-theme="light"],
+  [data-contrast="high"]:root:not([data-theme="dark"]) { --c-page: #8c0044; }
+  [data-contrast="high"][data-theme="dark"] { --c-page: #ff80c0; }
+  @media (prefers-color-scheme: dark) { [data-contrast="high"]:root:not([data-theme="light"]) { --c-page: #ff80c0; } }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div class="sticky-org-mobile" id="sticky-org-mobile" aria-hidden="true">
+  <div class="sticky-org-inner">
+    <span class="sticky-org-dot"></span>
+    <span class="sticky-org-name">Target</span>
+  </div>
+  <select class="mobile-sticky-select" onchange="scrollToSection(this.value);this.blur();" aria-label="Jump to section">
+    <option value="situation">The Situation</option>
+    <option value="role">My Role</option>
+    <option value="work">The Work</option>
+    <option value="outcome">The Outcome</option>
+    <option value="learned">What I Learned</option>
+  </select>
+</div>
+
+<nav class="site-nav">
+  <div class="container">
+    <a href="index.html" class="nav-name">Michelle Hunt<span>.</span></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#philosophy">Approach</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-wrap">
+        <button class="nav-panel-btn menu-btn" id="menu-btn" onclick="togglePanel('menu-panel','menu-btn')" aria-expanded="false" aria-label="Menu">Menu</button>
+        <div class="nav-panel menu-panel" id="menu-panel" role="dialog" aria-label="Navigation">
+          <a href="index.html#work">Work</a>
+          <a href="index.html#philosophy">Approach</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+      <div class="nav-wrap">
+        <button class="nav-panel-btn" id="a11y-btn" onclick="togglePanel('a11y-panel','a11y-btn')" aria-expanded="false" aria-label="Display settings">Display</button>
+        <div class="nav-panel" id="a11y-panel" role="dialog" aria-label="Display settings">
+          <div class="a11y-group">
+            <p class="a11y-group-label">Mode</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setTheme('light')"    id="btn-light">Light</button>
+              <button class="a11y-btn" onclick="setTheme('dark')"     id="btn-dark">Dark</button>
+              <button class="a11y-btn" onclick="setTheme('auto')"     id="btn-auto">Auto</button>
+            </div>
+          </div>
+          <div class="a11y-group">
+            <p class="a11y-group-label">Contrast</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setContrast('standard')" id="btn-standard">Standard</button>
+              <button class="a11y-btn" onclick="setContrast('high')"     id="btn-high">High (AAA)</button>
+            </div>
+          </div>
+          <div class="a11y-group">
+            <p class="a11y-group-label">Text size</p>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setSize('default')" id="btn-default">Default</button>
+              <button class="a11y-btn" onclick="setSize('large')"   id="btn-large">Large</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+  <header class="cs-hero" id="hero">
+    <div class="cs-hero-line"></div>
+    <div class="container">
+      <div class="cs-hero-client-wrap">
+        <span class="cs-hero-dot"></span>
+        <span class="cs-hero-client">Target</span>
+      </div>
+      <h1 class="cs-hero-title">Evolving design visions through transition</h1>
+      <p class="cs-hero-synopsis">Designed an enterprise reporting tool for Target's internal digital advertising business, then was pulled onto StudioConnect — a community social app navigating the move from experimental to enterprise.</p>
+      <div class="cs-hero-skills" aria-label="Disciplines">
+        <span class="skill-item"><span class="skill-dot"></span>Enterprise UX</span>
+        <span class="skill-sep">·</span>
+        <span class="skill-item"><span class="skill-dot"></span>Product design</span>
+        <span class="skill-sep">·</span>
+        <span class="skill-item"><span class="skill-dot"></span>Design systems</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-body">
+
+      <div class="sidebar-col">
+        <div class="sidebar-sticky">
+          <div class="sticky-org-desktop" id="sticky-org-desktop">
+            <span class="sticky-org-dot"></span>
+            <span class="sticky-org-name">Target</span>
+          </div>
+          <p class="sidebar-nav-label">On this page</p>
+          <nav aria-label="Page sections">
+            <ul class="sidebar-nav" id="sidebar-nav">
+              <li><a href="#situation">The Situation</a></li>
+              <li><a href="#role">My Role</a></li>
+              <li><a href="#work">The Work</a></li>
+              <li><a href="#outcome">The Outcome</a></li>
+              <li><a href="#learned">What I Learned</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <article class="case-content">
+
+        <section class="case-section" id="situation">
+          <h2 class="section-heading">The Situation</h2>
+          <p>Two engagements at Target, overlapping in time but distinct in nature. Target's internal digital advertising business needed a purpose-built reporting tool to replace a fragile, hard-to-maintain Excel file. And a small internal social app called StudioConnect was transitioning from an experimental initiative to a formal enterprise product. I worked on the reporting tool first, and when that project moved into the build phase, Target pulled me onto StudioConnect — specifically because of what they'd observed on the first project.</p>
+        </section>
+
+        <section class="case-section" id="role">
+          <h2 class="section-heading">My Role</h2>
+          <p>On the reporting tool, I was the lead designer, working alongside a development team and collaborating with the group building Target's new internal design system — a separate system from their consumer-facing one, built specifically for internal tools. On StudioConnect, I was part of the core leadership team alongside the lead developer and product owner, responsible for guiding the product through its transition to enterprise, shipping new features, and standardizing on that same internal design system without losing what made the app worth using.</p>
+        </section>
+
+        <section class="case-section" id="work">
+          <h2 class="section-heading">The Work</h2>
+
+          <h3 class="subsection-heading">The reporting tool: replacing a fragile workaround</h3>
+          <p>Target Media Network ran campaign performance reporting out of a bespoke Excel file. Marketing analysts used it to generate visual outputs: infographics, iconography, deck-style PDFs. It worked until it didn't. The file broke frequently, version control was a constant headache, and every new metric meant rebuilding something that was never meant to be rebuilt.</p>
+          <p>The goal was to design an interface that gave analysts enough options to tell any story they needed without overwhelming them with complexity. We wanted the tool to feel simple to use while still being flexible enough to handle the range of reporting their work required.</p>
+          <p>While we were designing the tool, I heard about the team building Target's new internal design system and component library. I reached out to them directly and decided to adopt it for the reporting tool. Our project became one of the first to use the system in practice, and we demoed it as an early proof of concept for what the system could do.</p>
+          <p>Then the rebrand happened. Target Media Network became Roundel overnight: a completely new brand with its own fonts, colors, iconography, and visual language. No advance notice. The deck outputs we had designed were already done. We redesigned all of them from scratch — new layouts, new typography, new color application, new iconography. The builder interface stayed intact but everything the tool produced had to be rebuilt to match a brand that hadn't existed when the project started.</p>
+          <p>The tool was fully built and functional but never rolled out, likely because internal priorities shifted after the rebrand.</p>
+
+          <h3 class="subsection-heading">StudioConnect: keeping the soul intact</h3>
+          <p>StudioConnect was unlike anything else in Target's product portfolio. It was a private social network where Target designers spoke directly with a curated group of Target guests to get real feedback on upcoming designs and new products. The experience felt similar to Instagram — personal, community-driven, and direct in a way that most enterprise feedback channels aren't. That direct connection between designers and real guests was both valuable and rare, and it was worth protecting.</p>
+          <p>When I joined, the app had just moved from experimental to enterprise. The original business owners who built it were no longer directly involved, and a formal team had taken over. My job, along with the lead developer and product owner, was to guide the dev team through that transition, ship new features, and standardize on Target's internal design system — without turning a community-driven app into just another internal tool.</p>
+          <p>The most complex part of this project was balancing a lot of competing needs simultaneously. The dev team was stretched thin and needed structure and support. The original business owners brought years of accumulated vision for the product and deep personal investment in where it should go. And on top of all of that, we needed to keep listening to actual users and make sure every decision preserved the sense of community and of being heard that made the app work. My role was to hold all of those needs together from a design perspective and find a path forward that didn't sacrifice any of them unnecessarily.</p>
+          <p>Implementing a formal scrum process helped us manage this from both a procedural and an empathetic standpoint. Retrospectives gave the dev team a structured place to be heard. Defined sprints made expectations clear across the whole group. I ran separate meetings with the business owners and Target designers to understand what they needed and pressure-test design directions before bringing them to the broader team.</p>
+          <p>On the design system side, we didn't just adopt it — we contributed back to it. StudioConnect needed a color scheme that didn't exist in the system yet, so we developed one and shared it with that team. The app and the admin screens needed to feel cohesive even though they were built differently, and the new palette made that possible.</p>
+          <p>We shipped user profiles — which sounds basic until you realize it was a community app that had never had them. We significantly improved the admin interface. We worked through a roadmap that had far more on it than we could ever build and made the hard calls about what actually mattered.</p>
+        </section>
+
+        <section class="case-section" id="outcome">
+          <h2 class="section-heading">The Outcome</h2>
+          <p>The reporting tool didn't roll out, but our early adoption helped demonstrate what Target's new internal design system could do in practice. StudioConnect launched new features, including user profiles, to a live and active user base. The product kept its personality through the transition, which was the goal from the start.</p>
+        </section>
+
+        <section class="case-section" id="learned">
+          <h2 class="section-heading">What I Learned</h2>
+          <p>As an external contractor, a lot of the friction on both projects came from systemic dynamics I couldn't control — internal politics, competing priorities, a rebrand nobody saw coming. You can do strong work inside a difficult system and still watch it not ship. What I could control was relationships. I built connections across teams and shared ideas with other people doing interesting UX work at Target, not because anyone asked me to, but because it seemed important. Those conversations turned out to be some of the most valuable parts of both engagements. Influence as a contractor doesn't come from your deliverables alone. It comes from the trust you build along the way.</p>
+        </section>
+
+      </article>
+    </div>
+
+    <nav class="case-footer-nav" aria-label="Case study navigation">
+      <a href="nasa.html" class="case-footer-link prev">
+        <span class="case-footer-direction">← Previous</span>
+        <span class="case-footer-title">NASA</span>
+      </a>
+      <a href="discovery-education.html" class="case-footer-link next">
+        <span class="case-footer-direction">Next →</span>
+        <span class="case-footer-title">Discovery Education</span>
+      </a>
+    </nav>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <a href="index.html" class="footer-back">← Back to portfolio</a>
+    <span class="footer-left">Michelle Hunt — Director of UX Engineering</span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
