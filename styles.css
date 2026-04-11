@@ -118,6 +118,31 @@
 }
 
 /* ============================================================
+   HERO BLOB — registered properties for animatable gradient positions
+   ============================================================ */
+@property --bx1 { syntax: '<percentage>'; inherits: false; initial-value: 15%; }
+@property --by1 { syntax: '<percentage>'; inherits: false; initial-value: 25%; }
+@property --bx2 { syntax: '<percentage>'; inherits: false; initial-value: 85%; }
+@property --by2 { syntax: '<percentage>'; inherits: false; initial-value: 75%; }
+@property --bx3 { syntax: '<percentage>'; inherits: false; initial-value: 55%; }
+@property --by3 { syntax: '<percentage>'; inherits: false; initial-value: 10%; }
+
+/* ============================================================
+   SCREEN-READER ONLY UTILITY
+   ============================================================ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================================
    SKIP LINK
    ============================================================ */
 .skip-link {
@@ -147,7 +172,17 @@
    RESET & BASE
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion="off"]) { scroll-behavior: smooth; }
+}
+[data-motion="on"] { scroll-behavior: smooth; }
+
+/* Match body background so the html layer never shows white during transitions */
+html {
+  background: var(--bg);
+  transition: background 0.3s;
+}
 
 body {
   font-family: 'DM Sans', sans-serif;
@@ -187,8 +222,8 @@ strong {
    ============================================================ */
 @view-transition { navigation: auto; }
 
-::view-transition-old(root) { animation: 200ms ease both vt-out; }
-::view-transition-new(root) { animation: 280ms ease both vt-in; }
+::view-transition-old(root) { animation: 220ms ease both vt-out; }
+::view-transition-new(root) { animation: 220ms ease both vt-in; }
 
 @keyframes vt-out {
   from { opacity: 1; }
@@ -304,9 +339,11 @@ nav.site-nav .container {
   white-space: nowrap;
 }
 
-.nav-panel-btn:hover {
+.nav-panel-btn:hover,
+.nav-panel-btn[aria-expanded="true"] {
   color: var(--accent);
   border-color: var(--accent);
+  background: var(--accent-dim);
 }
 .nav-panel-btn:focus-visible {
   color: var(--accent);
@@ -356,7 +393,12 @@ nav.site-nav .container {
 }
 .menu-panel a.active { color: var(--accent); }
 
-.a11y-group { margin-bottom: 0.75rem; }
+.a11y-group {
+  margin-bottom: 0.75rem;
+  border: none;
+  padding: 0;
+  min-inline-size: 0;
+}
 .a11y-group:last-child { margin-bottom: 0; }
 
 .a11y-group-label {
@@ -422,6 +464,24 @@ main { padding-top: var(--nav-h); }
 .home-hero {
   padding: clamp(4rem, 8vw, 7rem) 0 clamp(3rem, 6vw, 5rem);
   border-bottom: 0.5px solid var(--border);
+  position: relative;
+  isolation: isolate;
+}
+
+.home-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  --bx1: 15%; --by1: 25%;
+  --bx2: 85%; --by2: 75%;
+  --bx3: 55%; --by3: 10%;
+  background:
+    radial-gradient(ellipse 55% 65% at var(--bx1) var(--by1), color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 65% 55% at var(--bx2) var(--by2), color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at var(--bx3) var(--by3), color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 70%);
+  background-attachment: fixed;
 }
 
 .hero-label {
@@ -856,6 +916,23 @@ footer.site-footer .container {
   padding: clamp(3rem, 6vw, 5rem) 0 clamp(2.5rem, 5vw, 4rem);
   border-bottom: 0.5px solid var(--border);
   position: relative;
+  isolation: isolate;
+}
+
+.cs-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  --bx1: 15%; --by1: 25%;
+  --bx2: 85%; --by2: 75%;
+  --bx3: 55%; --by3: 10%;
+  background:
+    radial-gradient(ellipse 55% 65% at var(--bx1) var(--by1), color-mix(in srgb, var(--c-page) 14%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 65% 55% at var(--bx2) var(--by2), color-mix(in srgb, var(--c-page) 14%, transparent) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at var(--bx3) var(--by3), color-mix(in srgb, var(--c-page) 14%, transparent) 0%, transparent 70%);
+  background-attachment: fixed;
 }
 .cs-hero-line {
   position: absolute;
@@ -1074,6 +1151,84 @@ h3.subsection-heading:first-of-type { margin-top: 0; }
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroBlobs {
+  0%, 100% {
+    --bx1:  8%; --by1: 20%;
+    --bx2: 92%; --by2: 80%;
+    --bx3: 50%; --by3:  5%;
+  }
+  25% {
+    --bx1: 12%; --by1: 82%;
+    --bx2: 85%; --by2: 12%;
+    --bx3: 72%; --by3: 55%;
+  }
+  50% {
+    --bx1: 88%; --by1: 30%;
+    --bx2: 10%; --by2: 65%;
+    --bx3: 30%; --by3: 90%;
+  }
+  75% {
+    --bx1: 70%; --by1: 90%;
+    --bx2: 25%; --by2: 10%;
+    --bx3: 15%; --by3: 45%;
+  }
+}
+
+/* Hero blob: on when OS allows and not explicitly off */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion="off"]) .home-hero::after,
+  :root:not([data-motion="off"]) .cs-hero::after {
+    animation: heroBlobs 22s ease-in-out infinite;
+  }
+}
+/* Hero blob: force on even when OS reduces motion */
+[data-motion="on"] .home-hero::after,
+[data-motion="on"] .cs-hero::after {
+  animation: heroBlobs 22s ease-in-out infinite;
+}
+
+/* ---- Reduce motion: OS setting (unless explicitly overridden to "show") ---- */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="on"]) .hero-label,
+  :root:not([data-motion="on"]) .hero-title,
+  :root:not([data-motion="on"]) .hero-body,
+  :root:not([data-motion="on"]) .hero-meta,
+  :root:not([data-motion="on"]) .cmyk-dots {
+    opacity: 1;
+    animation: none;
+  }
+
+  /* view-transition is also controlled by the JS-injected <style id="vt-pref"> */
+  @view-transition { navigation: none; }
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none; }
+
+  :root:not([data-motion="on"]) *,
+  :root:not([data-motion="on"]) *::before,
+  :root:not([data-motion="on"]) *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- Reduce motion: explicit user choice ("Reduce") ---- */
+[data-motion="off"] .hero-label,
+[data-motion="off"] .hero-title,
+[data-motion="off"] .hero-body,
+[data-motion="off"] .hero-meta,
+[data-motion="off"] .cmyk-dots {
+  opacity: 1;
+  animation: none;
+}
+[data-motion="off"] *,
+[data-motion="off"] *::before,
+[data-motion="off"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
 }
 
 /* ============================================================

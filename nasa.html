@@ -46,38 +46,46 @@
         <li><a href="index.html#contact">Contact</a></li>
       </ul>
       <div class="nav-wrap">
-        <button class="nav-panel-btn menu-btn" id="menu-btn" onclick="togglePanel('menu-panel','menu-btn')" aria-expanded="false" aria-label="Menu">Menu</button>
-        <div class="nav-panel menu-panel" id="menu-panel" role="dialog" aria-label="Navigation">
+        <button class="nav-panel-btn menu-btn" id="menu-btn" onclick="togglePanel('menu-panel','menu-btn')" aria-expanded="false" aria-controls="menu-panel" aria-label="Menu">Menu</button>
+        <div class="nav-panel menu-panel" id="menu-panel" aria-label="Navigation">
           <a href="index.html#work">Work</a>
           <a href="index.html#philosophy">Approach</a>
           <a href="index.html#contact">Contact</a>
         </div>
       </div>
       <div class="nav-wrap">
-        <button class="nav-panel-btn" id="a11y-btn" onclick="togglePanel('a11y-panel','a11y-btn')" aria-expanded="false" aria-label="Display settings">Display</button>
-        <div class="nav-panel" id="a11y-panel" role="dialog" aria-label="Display settings">
-          <div class="a11y-group">
-            <p class="a11y-group-label">Mode</p>
+        <button class="nav-panel-btn" id="a11y-btn" onclick="togglePanel('a11y-panel','a11y-btn')" aria-expanded="false" aria-controls="a11y-panel" aria-label="Display settings">Display</button>
+        <div class="nav-panel" id="a11y-panel" aria-label="Display settings">
+          <fieldset class="a11y-group">
+            <legend class="a11y-group-label">Mode</legend>
             <div class="a11y-options">
-              <button class="a11y-btn" onclick="setTheme('light')"    id="btn-light">Light</button>
-              <button class="a11y-btn" onclick="setTheme('dark')"     id="btn-dark">Dark</button>
-              <button class="a11y-btn" onclick="setTheme('auto')"     id="btn-auto">Auto</button>
+              <button class="a11y-btn" onclick="setTheme('light')"    id="btn-light"    aria-pressed="false">Light</button>
+              <button class="a11y-btn" onclick="setTheme('dark')"     id="btn-dark"     aria-pressed="false">Dark</button>
+              <button class="a11y-btn" onclick="setTheme('auto')"     id="btn-auto"     aria-pressed="false">Auto</button>
             </div>
-          </div>
-          <div class="a11y-group">
-            <p class="a11y-group-label">Contrast</p>
+          </fieldset>
+          <fieldset class="a11y-group">
+            <legend class="a11y-group-label">Contrast</legend>
             <div class="a11y-options">
-              <button class="a11y-btn" onclick="setContrast('standard')" id="btn-standard">Standard</button>
-              <button class="a11y-btn" onclick="setContrast('high')"     id="btn-high">High (AAA)</button>
+              <button class="a11y-btn" onclick="setContrast('standard')" id="btn-standard" aria-pressed="false">Standard</button>
+              <button class="a11y-btn" onclick="setContrast('high')"     id="btn-high"     aria-pressed="false">High (AAA)</button>
             </div>
-          </div>
-          <div class="a11y-group">
-            <p class="a11y-group-label">Text size</p>
+          </fieldset>
+          <fieldset class="a11y-group">
+            <legend class="a11y-group-label">Text size</legend>
             <div class="a11y-options">
-              <button class="a11y-btn" onclick="setSize('default')" id="btn-default">Default</button>
-              <button class="a11y-btn" onclick="setSize('large')"   id="btn-large">Large</button>
+              <button class="a11y-btn" onclick="setSize('default')" id="btn-default" aria-pressed="false">Default</button>
+              <button class="a11y-btn" onclick="setSize('large')"   id="btn-large"   aria-pressed="false">Large</button>
             </div>
-          </div>
+          </fieldset>
+          <fieldset class="a11y-group">
+            <legend class="a11y-group-label">Animation</legend>
+            <div class="a11y-options">
+              <button class="a11y-btn" onclick="setAnimation('show')"   id="btn-anim-show"   aria-pressed="false">Show</button>
+              <button class="a11y-btn" onclick="setAnimation('reduce')" id="btn-anim-reduce" aria-pressed="false">Reduce</button>
+              <button class="a11y-btn" onclick="setAnimation('auto')"   id="btn-anim-auto"   aria-pressed="false">Auto</button>
+            </div>
+          </fieldset>
         </div>
       </div>
     </div>
