@@ -1084,7 +1084,7 @@ h3.subsection-heading:first-of-type { margin-top: 0; }
   .sidebar-col { display: none; }
   .sticky-org-mobile { display: flex; }
   .nav-links { display: none; }
-  .menu-btn { display: flex; }
+  .menu-btn { display: inline-block; }
   .case-study { grid-template-columns: 1fr; gap: 0.75rem; }
   .philosophy-grid { grid-template-columns: 1fr; }
   .contact-inner { grid-template-columns: 1fr; }
