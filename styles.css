@@ -586,11 +586,18 @@ main { padding-top: var(--nav-h); }
   width: 10px;
   height: 10px;
   border-radius: 50%;
+  display: block;
   position: relative;
-  cursor: default;
+  cursor: pointer;
   transition: transform 0.2s;
+  text-decoration: none;
 }
 .cmyk-dot:hover { transform: scale(1.5); }
+.cmyk-dot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  transform: scale(1.5);
+}
 .cmyk-dot::after {
   content: attr(data-label);
   position: absolute;
@@ -609,7 +616,8 @@ main { padding-top: var(--nav-h); }
   transition: opacity 0.2s;
   pointer-events: none;
 }
-.cmyk-dot:hover::after { opacity: 1; }
+.cmyk-dot:hover::after,
+.cmyk-dot:focus-visible::after { opacity: 1; }
 
 .dot-nasa      { background: var(--c-nasa); }
 .dot-target    { background: var(--c-target); }
