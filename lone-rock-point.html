@@ -160,7 +160,446 @@
           <p>Importantly, we built this practice the same way we tell clients to build their products: iteratively, with real feedback at every stage. Each engagement has made the process better. We're practicing what we preach.</p>
 
           <h3 class="subsection-heading">A Figma-to-development workflow</h3>
-          <p>I created our foundational Figma file to match our USWDS theme, including all theme tokens as variables, and developed a system covering tokens, components, templates, moodboards, layouts, and annotated views. I built this collaboratively with the development team so it reflects how they actually build, not just how a designer would imagine they build. The goal was enough structure to work from without creating a system that becomes its own maintenance burden. We are still working through the tension between lean iteration and the large deliverables and formal approvals that public sector clients expect. That tension is real and ongoing.</p>
+          <p>I created our foundational Figma file to match our USWDS theme, including all theme tokens as variables, and developed a system covering tokens, components, templates, moodboards, layouts, and annotated views. I built this collaboratively with the development team so it reflects how they actually build, not just how a designer would imagine they build. The goal was enough structure to work from without creating a system that becomes its own maintenance burden. We are still working through the tension between lean iteration and the large deliverables and formal approvals that public sector clients expect.</p>
+          <p>To close the loop between design and code, I forked and extensively modified an <a href="https://github.com/Lone-Rock-Point/figma-to-wordpress-theme-json-exporter" target="_blank" rel="noopener">open-source Figma plugin</a> to export our variable collections directly into WordPress <code>theme.json</code> format. The plugin reads variable collections from Figma and merges them into the correct sections of the JSON file without overwriting existing configuration. Getting this to work required structuring the Figma file very precisely to match what the plugin expects, which supports using the Figma file as a source of truth for the design system.</p>
+
+
+          <figure class="lrp-visual" id="lrp-visual" aria-hidden="true">
+          <style>
+          .lrp-visual {
+            margin: 2rem 0 2.5rem; border-radius: 10px; overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,.07), 0 8px 32px rgba(0,0,0,.12);
+            border: 1px solid rgba(0,0,0,.08);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            background: #161616; color: #ccc; line-height: 1.4;
+          }
+          /* chrome */
+          .lrp-chrome {
+            display: flex; align-items: center; gap: 8px; padding: 9px 14px;
+            background: #2c2c2c; border-bottom: 1px solid #3a3a3a;
+            opacity: 0; transform: translateY(-5px);
+            transition: opacity .4s ease, transform .4s ease;
+          }
+          .lrp-visual.is-visible .lrp-chrome { opacity: 1; transform: none; }
+          .lrp-chrome-dots { display: flex; gap: 5px; }
+          .lrp-chrome-dots span { width: 10px; height: 10px; border-radius: 50%; }
+          .lrp-chrome-dots span:nth-child(1) { background: #ff5f57; }
+          .lrp-chrome-dots span:nth-child(2) { background: #febc2e; }
+          .lrp-chrome-dots span:nth-child(3) { background: #28c840; }
+          .lrp-chrome-title { font-size: 11.5px; color: #888; flex: 1; text-align: center; margin-right: 52px; }
+          .lrp-chrome-title strong { color: #ddd; font-weight: 500; }
+          /* pipeline: two panels touching */
+          .lrp-pipeline { display: grid; grid-template-columns: 1fr 1fr; position: relative; }
+          /* seam badge overlaps the border between panels */
+          .lrp-seam-badge {
+            position: absolute; left: 50%; top: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            z-index: 5; background: #6c4fbf; color: #fff;
+            border-radius: 8px; padding: 7px 12px;
+            font-size: 9px; font-weight: 700; text-align: center; line-height: 1.45; letter-spacing: .03em;
+            box-shadow: 0 2px 12px rgba(108,79,191,.45), 0 0 0 2.5px #161616;
+            opacity: 0; white-space: nowrap;
+            transition: opacity .4s ease .65s, transform .45s cubic-bezier(.34,1.56,.64,1) .65s;
+            pointer-events: none;
+          }
+          .lrp-visual.is-visible .lrp-seam-badge { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+          /* figma panel */
+          .lrp-panel-figma { background: #1e1e1e; border-right: 1px solid #2a2a2a; display: flex; flex-direction: column; }
+          .lrp-panel-json  { background: #1e1e2e; display: flex; flex-direction: column; }
+          .lrp-panel-head {
+            display: flex; align-items: center; gap: 7px; padding: 8px 12px;
+            border-bottom: 1px solid #2a2a2a;
+            font-size: 10px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: .07em; flex-shrink: 0;
+          }
+          .lrp-panel-json .lrp-panel-head { border-bottom-color: #2a2a3e; }
+          /* figma body */
+          .lrp-figma-body { display: flex; flex: 1; overflow: hidden; }
+          .lrp-sidebar {
+            width: 108px; flex-shrink: 0; background: #252525; border-right: 1px solid #2a2a2a; padding: 6px 0;
+            opacity: 0; transition: opacity .4s ease .1s;
+          }
+          .lrp-visual.is-visible .lrp-sidebar { opacity: 1; }
+          .lrp-sidebar-label { font-size: 9px; text-transform: uppercase; letter-spacing: .06em; color: #555; padding: 4px 8px 3px; }
+          .lrp-coll { display: flex; justify-content: space-between; align-items: center; padding: 3px 8px 2px; font-size: 9.5px; color: #777; cursor: default; }
+          .lrp-coll.lrp-coll-active { background: rgba(108,79,191,.22); color: #b9a8f0; font-weight: 600; }
+          .lrp-coll-count { font-size: 9px; opacity: .55; }
+          .lrp-vars { flex: 1; overflow: hidden; min-width: 0; }
+          .lrp-vars-head { display: grid; grid-template-columns: 16px 1fr 1fr; gap: 6px; padding: 4px 9px 3px; border-bottom: 1px solid #2a2a2a; font-size: 9px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .06em; }
+          .lrp-var { display: grid; grid-template-columns: 16px 1fr 1fr; gap: 6px; padding: 3px 9px; align-items: center; border-bottom: 1px solid rgba(255,255,255,.03); opacity: 0; transform: translateX(-8px); transition: opacity .3s ease, transform .3s ease; }
+          .lrp-visual.is-visible .lrp-var { opacity: 1; transform: none; }
+          .lrp-swatch { width: 13px; height: 13px; border-radius: 3px; border: 1px solid rgba(255,255,255,.08); flex-shrink: 0; }
+          .lrp-var-name { font-size: 10px; color: #bbb; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+          .lrp-var-ref  { font-size: 9px; color: #555; font-family: "SF Mono", Consolas, monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+          .lrp-var-sep  { padding: 3px 9px 2px; font-size: 9px; color: #3a3a3a; text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid rgba(255,255,255,.03); }
+          /* json panel */
+          .lrp-json-body { flex: 1; padding: 10px 12px; overflow: hidden; font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 9.5px; line-height: 1.72; }
+          .lrp-jl { opacity: 0; transition: opacity .25s ease; white-space: pre; overflow: hidden; }
+          .lrp-visual.is-visible .lrp-jl { opacity: 1; }
+          .lrp-jk { color: #9cdcfe; } .lrp-js { color: #ce9178; } .lrp-jn { color: #b5cea8; }
+          .lrp-jb { color: #808080; } .lrp-jt { color: #c586c0; } .lrp-jc { color: #6a9955; font-style: italic; }
+          /* bridge */
+          .lrp-bridge {
+            background: #161616; border-top: 1px solid #2a2a2a; padding: 6px 14px;
+            display: flex; align-items: center; gap: 10px;
+            opacity: 0; transition: opacity .4s ease 1.1s;
+          }
+          .lrp-visual.is-visible .lrp-bridge { opacity: 1; }
+          .lrp-bridge-line { flex: 1; height: 1px; background: #2a2a2a; }
+          .lrp-bridge-label { font-size: 9.5px; color: #555; letter-spacing: .02em; white-space: nowrap; }
+          /* design preview */
+          .lrp-design { background: #1c1c1c; border-top: 1px solid #2a2a2a; padding: 14px 16px; }
+          .lrp-design-inner { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: start; }
+          /* swatch rows */
+          .lrp-token-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; opacity: 0; transform: translateY(6px); transition: opacity .35s ease, transform .35s ease; }
+          .lrp-design.design-vis .lrp-token-row { opacity: 1; transform: none; }
+          .lrp-token-label { font-size: 9px; color: #666; width: 55px; flex-shrink: 0; text-align: right; }
+          .lrp-swatches { display: flex; gap: 3px; }
+          .lrp-sw-d { width: 22px; height: 22px; border-radius: 3px; border: 1px solid rgba(255,255,255,.06); flex-shrink: 0; }
+          /* state column */
+          .lrp-state-col { display: flex; flex-direction: column; gap: 7px; min-width: 195px; }
+          .lrp-state-label { font-size: 9px; color: #555; text-transform: uppercase; letter-spacing: .07em; opacity: 0; transition: opacity .35s ease; }
+          .lrp-design.design-vis .lrp-state-label { opacity: 1; }
+          .lrp-btn-row { display: flex; gap: 5px; flex-wrap: wrap; }
+          .lrp-dsbtn { padding: 4px 10px; font-size: 10px; font-weight: 700; border-radius: 3px; cursor: default; pointer-events: none; font-family: inherit; opacity: 0; transform: translateY(4px); transition: opacity .3s ease, transform .3s ease; }
+          .lrp-design.design-vis .lrp-dsbtn { opacity: 1; transform: none; }
+          .lrp-btn-fd { background: #005ea2; color: #fff; border: 2px solid #005ea2; }
+          .lrp-btn-fh { background: #1a4480; color: #fff; border: 2px solid #1a4480; }
+          .lrp-btn-fa { background: #162e51; color: #fff; border: 2px solid #162e51; }
+          .lrp-btn-od { background: transparent; color: #73b3e7; border: 2px solid #73b3e7; }
+          .lrp-btn-oh { background: rgba(0,94,162,.15); color: #005ea2; border: 2px solid #005ea2; }
+          .lrp-stat-divider { height: 1px; background: #2a2a2a; margin: 2px 0; }
+          .lrp-stat-list { display: flex; flex-direction: column; gap: 3px; }
+          .lrp-stat { display: flex; align-items: stretch; border-radius: 4px; overflow: hidden; font-size: 9px; opacity: 0; transform: translateX(6px); transition: opacity .3s ease, transform .3s ease; }
+          .lrp-design.design-vis .lrp-stat { opacity: 1; transform: none; }
+          .lrp-stat-bar { width: 3px; flex-shrink: 0; }
+          .lrp-stat-body { padding: 3px 8px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+          .lrp-stat-sub { font-weight: 400; opacity: .6; }
+          .lrp-si { background: rgba(27,135,201,.18); } .lrp-si .lrp-stat-bar { background: #1b87c9; } .lrp-si .lrp-stat-body { color: #9acfe8; }
+          .lrp-ss { background: rgba(46,133,64,.18); }  .lrp-ss .lrp-stat-bar { background: #2e8540; } .lrp-ss .lrp-stat-body { color: #90cc98; }
+          .lrp-sw { background: rgba(194,133,10,.18); } .lrp-sw .lrp-stat-bar { background: #c2850a; } .lrp-sw .lrp-stat-body { color: #e8c26a; }
+          .lrp-se { background: rgba(216,57,51,.18); }  .lrp-se .lrp-stat-bar { background: #d83933; } .lrp-se .lrp-stat-body { color: #e8908e; }
+          .lrp-sem { background: #6b1a00; }             .lrp-sem .lrp-stat-bar { background: #9c3d10; } .lrp-sem .lrp-stat-body { color: #fff; }
+          /* caption */
+          .lrp-caption { display: block; padding: 8px 14px; font-size: 11px; color: #666; background: #f0f0f0; border-top: 1px solid #e0e0e0; text-align: right; font-style: italic; margin: 0; }
+          /* mobile */
+          @media (max-width: 640px) {
+            .lrp-pipeline { grid-template-columns: 1fr; }
+            .lrp-panel-figma { border-right: none; border-bottom: 1px solid #2a2a2a; }
+            .lrp-seam-badge { top: auto; bottom: -14px; left: 50%; transform: translateX(-50%) scale(0.8); }
+            .lrp-visual.is-visible .lrp-seam-badge { transform: translateX(-50%) scale(1); }
+            .lrp-design-inner { grid-template-columns: 1fr; }
+            .lrp-state-col { min-width: unset; }
+          }
+          /* reduced motion */
+          @media (prefers-reduced-motion: reduce) {
+            :root:not([data-motion="on"]) .lrp-chrome, :root:not([data-motion="on"]) .lrp-sidebar,
+            :root:not([data-motion="on"]) .lrp-var, :root:not([data-motion="on"]) .lrp-seam-badge,
+            :root:not([data-motion="on"]) .lrp-bridge, :root:not([data-motion="on"]) .lrp-jl,
+            :root:not([data-motion="on"]) .lrp-token-row, :root:not([data-motion="on"]) .lrp-state-label,
+            :root:not([data-motion="on"]) .lrp-dsbtn, :root:not([data-motion="on"]) .lrp-stat { opacity: 1; transform: none; transition: none; }
+          }
+          [data-motion="off"] .lrp-chrome, [data-motion="off"] .lrp-sidebar, [data-motion="off"] .lrp-var,
+          [data-motion="off"] .lrp-seam-badge, [data-motion="off"] .lrp-bridge, [data-motion="off"] .lrp-jl,
+          [data-motion="off"] .lrp-token-row, [data-motion="off"] .lrp-state-label,
+          [data-motion="off"] .lrp-dsbtn, [data-motion="off"] .lrp-stat { opacity: 1; transform: none; transition: none; }
+
+          /* ── Light mode overrides ── */
+          [data-theme="light"] .lrp-visual { background: #f4f4f4; color: #1a1a1a; }
+          [data-theme="light"] .lrp-chrome { background: #e4e4e4; border-bottom-color: #ccc; }
+          [data-theme="light"] .lrp-chrome-title { color: #777; }
+          [data-theme="light"] .lrp-chrome-title strong { color: #222; }
+          [data-theme="light"] .lrp-panel-figma { background: #f0f0f0; border-right-color: #d8d8d8; }
+          [data-theme="light"] .lrp-panel-json { background: #fafafa; }
+          [data-theme="light"] .lrp-panel-head { border-bottom-color: #d8d8d8; color: #999; }
+          [data-theme="light"] .lrp-panel-json .lrp-panel-head { border-bottom-color: #e8e8e8; }
+          [data-theme="light"] .lrp-sidebar { background: #e6e6e6; border-right-color: #d4d4d4; opacity: 1; }
+          [data-theme="light"] .lrp-sidebar-label { color: #aaa; }
+          [data-theme="light"] .lrp-coll { color: #888; }
+          [data-theme="light"] .lrp-coll.lrp-coll-active { background: rgba(108,79,191,.12); color: #5c4a9e; }
+          [data-theme="light"] .lrp-vars-head { border-bottom-color: #d8d8d8; color: #aaa; }
+          [data-theme="light"] .lrp-var { border-bottom-color: rgba(0,0,0,.05); }
+          [data-theme="light"] .lrp-var-name { color: #222; }
+          [data-theme="light"] .lrp-var-ref { color: #aaa; }
+          [data-theme="light"] .lrp-var-sep { color: #ccc; border-bottom-color: rgba(0,0,0,.05); }
+          [data-theme="light"] .lrp-swatch { border-color: rgba(0,0,0,.12); }
+          [data-theme="light"] .lrp-jk { color: #0451a5; }
+          [data-theme="light"] .lrp-js { color: #a31515; }
+          [data-theme="light"] .lrp-jn { color: #098658; }
+          [data-theme="light"] .lrp-jb { color: #555; }
+          [data-theme="light"] .lrp-jt { color: #811f3f; }
+          [data-theme="light"] .lrp-jc { color: #008000; }
+          [data-theme="light"] .lrp-bridge { background: #ebebeb; border-top-color: #d8d8d8; }
+          [data-theme="light"] .lrp-bridge-line { background: #d0d0d0; }
+          [data-theme="light"] .lrp-bridge-label { color: #aaa; }
+          [data-theme="light"] .lrp-design { background: #ffffff; border-top-color: #e0e0e0; }
+          [data-theme="light"] .lrp-token-label { color: #aaa; }
+          [data-theme="light"] .lrp-sw-d { border-color: rgba(0,0,0,.1); }
+          [data-theme="light"] .lrp-state-label { color: #bbb; }
+          [data-theme="light"] .lrp-stat-divider { background: #e8e8e8; }
+          [data-theme="light"] .lrp-si { background: #ddeef8; }
+          [data-theme="light"] .lrp-si .lrp-stat-body { color: #0d3f5f; }
+          [data-theme="light"] .lrp-ss { background: #daf0df; }
+          [data-theme="light"] .lrp-ss .lrp-stat-body { color: #1a4a20; }
+          [data-theme="light"] .lrp-sw { background: #fef0cc; }
+          [data-theme="light"] .lrp-sw .lrp-stat-body { color: #4a3000; }
+          [data-theme="light"] .lrp-se { background: #fde8e7; }
+          [data-theme="light"] .lrp-se .lrp-stat-body { color: #5c0f0f; }
+          @media (prefers-color-scheme: light) {
+            :root:not([data-theme="dark"]) .lrp-visual { background: #f4f4f4; color: #1a1a1a; }
+            :root:not([data-theme="dark"]) .lrp-chrome { background: #e4e4e4; border-bottom-color: #ccc; }
+            :root:not([data-theme="dark"]) .lrp-chrome-title { color: #777; }
+            :root:not([data-theme="dark"]) .lrp-chrome-title strong { color: #222; }
+            :root:not([data-theme="dark"]) .lrp-panel-figma { background: #f0f0f0; border-right-color: #d8d8d8; }
+            :root:not([data-theme="dark"]) .lrp-panel-json { background: #fafafa; }
+            :root:not([data-theme="dark"]) .lrp-panel-head { border-bottom-color: #d8d8d8; color: #999; }
+            :root:not([data-theme="dark"]) .lrp-panel-json .lrp-panel-head { border-bottom-color: #e8e8e8; }
+            :root:not([data-theme="dark"]) .lrp-sidebar { background: #e6e6e6; border-right-color: #d4d4d4; opacity: 1; }
+            :root:not([data-theme="dark"]) .lrp-sidebar-label { color: #aaa; }
+            :root:not([data-theme="dark"]) .lrp-coll { color: #888; }
+            :root:not([data-theme="dark"]) .lrp-coll.lrp-coll-active { background: rgba(108,79,191,.12); color: #5c4a9e; }
+            :root:not([data-theme="dark"]) .lrp-vars-head { border-bottom-color: #d8d8d8; color: #aaa; }
+            :root:not([data-theme="dark"]) .lrp-var { border-bottom-color: rgba(0,0,0,.05); }
+            :root:not([data-theme="dark"]) .lrp-var-name { color: #222; }
+            :root:not([data-theme="dark"]) .lrp-var-ref { color: #aaa; }
+            :root:not([data-theme="dark"]) .lrp-var-sep { color: #ccc; border-bottom-color: rgba(0,0,0,.05); }
+            :root:not([data-theme="dark"]) .lrp-swatch { border-color: rgba(0,0,0,.12); }
+            :root:not([data-theme="dark"]) .lrp-jk { color: #0451a5; }
+            :root:not([data-theme="dark"]) .lrp-js { color: #a31515; }
+            :root:not([data-theme="dark"]) .lrp-jn { color: #098658; }
+            :root:not([data-theme="dark"]) .lrp-jb { color: #555; }
+            :root:not([data-theme="dark"]) .lrp-jt { color: #811f3f; }
+            :root:not([data-theme="dark"]) .lrp-jc { color: #008000; }
+            :root:not([data-theme="dark"]) .lrp-bridge { background: #ebebeb; border-top-color: #d8d8d8; }
+            :root:not([data-theme="dark"]) .lrp-bridge-line { background: #d0d0d0; }
+            :root:not([data-theme="dark"]) .lrp-bridge-label { color: #aaa; }
+            :root:not([data-theme="dark"]) .lrp-design { background: #ffffff; border-top-color: #e0e0e0; }
+            :root:not([data-theme="dark"]) .lrp-token-label { color: #aaa; }
+            :root:not([data-theme="dark"]) .lrp-sw-d { border-color: rgba(0,0,0,.1); }
+            :root:not([data-theme="dark"]) .lrp-state-label { color: #bbb; }
+            :root:not([data-theme="dark"]) .lrp-stat-divider { background: #e8e8e8; }
+            :root:not([data-theme="dark"]) .lrp-si { background: #ddeef8; }
+            :root:not([data-theme="dark"]) .lrp-si .lrp-stat-body { color: #0d3f5f; }
+            :root:not([data-theme="dark"]) .lrp-ss { background: #daf0df; }
+            :root:not([data-theme="dark"]) .lrp-ss .lrp-stat-body { color: #1a4a20; }
+            :root:not([data-theme="dark"]) .lrp-sw { background: #fef0cc; }
+            :root:not([data-theme="dark"]) .lrp-sw .lrp-stat-body { color: #4a3000; }
+            :root:not([data-theme="dark"]) .lrp-se { background: #fde8e7; }
+            :root:not([data-theme="dark"]) .lrp-se .lrp-stat-body { color: #5c0f0f; }
+          }
+                    </style>
+
+          <div class="lrp-chrome">
+            <div class="lrp-chrome-dots"><span></span><span></span><span></span></div>
+            <span class="lrp-chrome-title"><strong>CivicPress Library</strong> &mdash; Figma Variables &rarr; Design &amp; Code</span>
+          </div>
+
+          <div class="lrp-pipeline">
+            <div class="lrp-panel-figma">
+              <div class="lrp-panel-head">
+                <svg width="13" height="16" viewBox="0 0 10 15" style="flex-shrink:0">
+                  <rect x="0" y="0" width="5" height="5" rx="1.8" fill="#F24E1E"/>
+                  <rect x="5" y="0" width="5" height="5" rx="1.8" fill="#FF7262"/>
+                  <rect x="0" y="5" width="5" height="5" rx="1.8" fill="#A259FF"/>
+                  <circle cx="7.5" cy="7.5" r="2.5" fill="#1ABCFE"/>
+                  <rect x="0" y="10" width="5" height="5" rx="1.8" fill="#0ACF83"/>
+                </svg>
+                Variables
+              </div>
+              <div class="lrp-figma-body">
+                <div class="lrp-sidebar">
+                  <div class="lrp-sidebar-label">Collections</div>
+                  <div class="lrp-coll lrp-coll-active">settings [color] <span class="lrp-coll-count">53</span></div>
+                  <div class="lrp-coll">settings [fluid] <span class="lrp-coll-count">19</span></div>
+                  <div class="lrp-coll">settings [static] <span class="lrp-coll-count">19</span></div>
+                  <div class="lrp-coll">settings [custom] <span class="lrp-coll-count">25</span></div>
+                  <div class="lrp-coll">styles <span class="lrp-coll-count">18</span></div>
+                  <div class="lrp-coll">l-theme-tokens <span class="lrp-coll-count">41</span></div>
+                </div>
+                <div class="lrp-vars">
+                  <div class="lrp-vars-head"><span></span><span>Name</span><span>Default</span></div>
+                  <div class="lrp-var"><span class="lrp-swatch" style="background:#e8f5ff"></span><span class="lrp-var-name">primary-lightest</span><span class="lrp-var-ref">blue/5v</span></div>
+                  <div class="lrp-var"><span class="lrp-swatch" style="background:#cfe7ff"></span><span class="lrp-var-name">primary-lighter</span><span class="lrp-var-ref">blue/10v</span></div>
+                  <div class="lrp-var"><span class="lrp-swatch" style="background:#73b3e7"></span><span class="lrp-var-name">primary-light</span><span class="lrp-var-ref">blue/30</span></div>
+                  <div class="lrp-var"><span class="lrp-swatch" style="background:#005ea2"></span><span class="lrp-var-name">primary</span><span class="lrp-var-ref">blue/60v</span></div>
+                  <div class="lrp-var"><span class="lrp-swatch" style="background:#0050d8"></span><span class="lrp-var-name">primary-vivid</span><span class="lrp-var-ref">blue-warm/60v</span></div>
+                  <div class="lrp-var"><span class="lrp-swatch" style="background:#1a4480"></span><span class="lrp-var-name">primary-dark</span><span class="lrp-var-ref">blue/70v</span></div>
+                  <div class="lrp-var"><span class="lrp-swatch" style="background:#162e51"></span><span class="lrp-var-name">primary-darker</span><span class="lrp-var-ref">blue/80v</span></div>
+                  <div class="lrp-var-sep">Secondary</div>
+                  <div class="lrp-var"><span class="lrp-swatch" style="background:#d83933"></span><span class="lrp-var-name">secondary</span><span class="lrp-var-ref">red/50</span></div>
+                  <div class="lrp-var"><span class="lrp-swatch" style="background:#e52207"></span><span class="lrp-var-name">secondary-vivid</span><span class="lrp-var-ref">red/50v</span></div>
+                  <div class="lrp-var"><span class="lrp-swatch" style="background:#b50909"></span><span class="lrp-var-name">secondary-dark</span><span class="lrp-var-ref">red/60v</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lrp-seam-badge">WordPress<br>Theme.json<br>Export</div>
+
+            <div class="lrp-panel-json">
+              <div class="lrp-panel-head"><span style="font-family:monospace;font-size:12px;color:#666;line-height:1">{}</span>&nbsp;theme.json</div>
+              <div class="lrp-json-body">
+                <div class="lrp-jl"><span class="lrp-jb">{</span></div>
+                <div class="lrp-jl">  <span class="lrp-jk">"version"</span>: <span class="lrp-jn">3</span>,</div>
+                <div class="lrp-jl">  <span class="lrp-jk">"settings"</span>: <span class="lrp-jb">{</span></div>
+                <div class="lrp-jl">    <span class="lrp-jk">"color"</span>: <span class="lrp-jb">{</span></div>
+                <div class="lrp-jl">      <span class="lrp-jk">"palette"</span>: <span class="lrp-jb">[</span></div>
+                <div class="lrp-jl">        <span class="lrp-jb">{</span></div>
+                <div class="lrp-jl">          <span class="lrp-jk">"slug"</span>: <span class="lrp-js">"primary-lightest"</span>,</div>
+                <div class="lrp-jl">          <span class="lrp-jk">"name"</span>: <span class="lrp-js">"Primary Lightest"</span>,</div>
+                <div class="lrp-jl">          <span class="lrp-jk">"color"</span>: <span class="lrp-jt">"var(--token--color--blue-5v)"</span></div>
+                <div class="lrp-jl">        <span class="lrp-jb">},</span></div>
+                <div class="lrp-jl">        <span class="lrp-jb">{</span></div>
+                <div class="lrp-jl">          <span class="lrp-jk">"slug"</span>: <span class="lrp-js">"primary"</span>,</div>
+                <div class="lrp-jl">          <span class="lrp-jk">"name"</span>: <span class="lrp-js">"Primary"</span>,</div>
+                <div class="lrp-jl">          <span class="lrp-jk">"color"</span>: <span class="lrp-jt">"var(--token--color--blue-60v)"</span></div>
+                <div class="lrp-jl">        <span class="lrp-jb">},</span></div>
+                <div class="lrp-jl">        <span class="lrp-jb">{</span></div>
+                <div class="lrp-jl">          <span class="lrp-jk">"slug"</span>: <span class="lrp-js">"secondary"</span>,</div>
+                <div class="lrp-jl">          <span class="lrp-jk">"name"</span>: <span class="lrp-js">"Secondary"</span>,</div>
+                <div class="lrp-jl">          <span class="lrp-jk">"color"</span>: <span class="lrp-jt">"var(--token--color--red-50)"</span></div>
+                <div class="lrp-jl">        <span class="lrp-jb">}</span></div>
+                <div class="lrp-jl">        <span class="lrp-jc">// &hellip; 50 more color tokens</span></div>
+                <div class="lrp-jl">      <span class="lrp-jb">]</span></div>
+                <div class="lrp-jl">    <span class="lrp-jb">}</span></div>
+                <div class="lrp-jl">  <span class="lrp-jb">}</span></div>
+                <div class="lrp-jl"><span class="lrp-jb">}</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lrp-bridge">
+            <div class="lrp-bridge-line"></div>
+            <span class="lrp-bridge-label">The same variables power the design system</span>
+            <div class="lrp-bridge-line"></div>
+          </div>
+
+          <div class="lrp-design" id="lrp-design">
+            <div class="lrp-design-inner">
+              <div>
+                <div class="lrp-token-row">
+                  <span class="lrp-token-label">Primary</span>
+                  <div class="lrp-swatches">
+                    <span class="lrp-sw-d" style="background:#e8f5ff"></span>
+                    <span class="lrp-sw-d" style="background:#cfe7ff"></span>
+                    <span class="lrp-sw-d" style="background:#73b3e7"></span>
+                    <span class="lrp-sw-d" style="background:#005ea2"></span>
+                    <span class="lrp-sw-d" style="background:#0050d8"></span>
+                    <span class="lrp-sw-d" style="background:#1a4480"></span>
+                    <span class="lrp-sw-d" style="background:#162e51"></span>
+                  </div>
+                </div>
+                <div class="lrp-token-row">
+                  <span class="lrp-token-label">Secondary</span>
+                  <div class="lrp-swatches">
+                    <span class="lrp-sw-d" style="background:#fff3f0"></span>
+                    <span class="lrp-sw-d" style="background:#fdd0c6"></span>
+                    <span class="lrp-sw-d" style="background:#f2b0ab"></span>
+                    <span class="lrp-sw-d" style="background:#d83933"></span>
+                    <span class="lrp-sw-d" style="background:#e52207"></span>
+                    <span class="lrp-sw-d" style="background:#b50909"></span>
+                    <span class="lrp-sw-d" style="background:#8b0a03"></span>
+                  </div>
+                </div>
+                <div class="lrp-token-row">
+                  <span class="lrp-token-label">Tertiary</span>
+                  <div class="lrp-swatches">
+                    <span class="lrp-sw-d" style="background:#eaf6ea"></span>
+                    <span class="lrp-sw-d" style="background:#c5e4c7"></span>
+                    <span class="lrp-sw-d" style="background:#86c888"></span>
+                    <span class="lrp-sw-d" style="background:#2e8540"></span>
+                    <span class="lrp-sw-d" style="background:#1b6326"></span>
+                    <span class="lrp-sw-d" style="background:#154225"></span>
+                    <span class="lrp-sw-d" style="background:#0d2b19"></span>
+                  </div>
+                </div>
+                <div class="lrp-token-row">
+                  <span class="lrp-token-label">Base</span>
+                  <div class="lrp-swatches">
+                    <span class="lrp-sw-d" style="background:#f0f0f0"></span>
+                    <span class="lrp-sw-d" style="background:#c9c9c9"></span>
+                    <span class="lrp-sw-d" style="background:#adadad"></span>
+                    <span class="lrp-sw-d" style="background:#757575"></span>
+                    <span class="lrp-sw-d" style="background:#565656"></span>
+                    <span class="lrp-sw-d" style="background:#3d3d3d"></span>
+                    <span class="lrp-sw-d" style="background:#1b1b1b"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="lrp-state-col">
+                <div class="lrp-state-label">Interactive</div>
+                <div class="lrp-btn-row">
+                  <button class="lrp-dsbtn lrp-btn-fd" tabindex="-1">Default</button>
+                  <button class="lrp-dsbtn lrp-btn-fh" tabindex="-1">Hover</button>
+                  <button class="lrp-dsbtn lrp-btn-fa" tabindex="-1">Active</button>
+                </div>
+                <div class="lrp-btn-row">
+                  <button class="lrp-dsbtn lrp-btn-od" tabindex="-1">Default</button>
+                  <button class="lrp-dsbtn lrp-btn-oh" tabindex="-1">Hover</button>
+                </div>
+                <div class="lrp-stat-divider"></div>
+                <div class="lrp-state-label">Status</div>
+                <div class="lrp-stat-list">
+                  <div class="lrp-stat lrp-si"><span class="lrp-stat-bar"></span><span class="lrp-stat-body">Info <span class="lrp-stat-sub">Description</span></span></div>
+                  <div class="lrp-stat lrp-ss"><span class="lrp-stat-bar"></span><span class="lrp-stat-body">Success <span class="lrp-stat-sub">Description</span></span></div>
+                  <div class="lrp-stat lrp-sw"><span class="lrp-stat-bar"></span><span class="lrp-stat-body">Warning <span class="lrp-stat-sub">Description</span></span></div>
+                  <div class="lrp-stat lrp-se"><span class="lrp-stat-bar"></span><span class="lrp-stat-body">Error <span class="lrp-stat-sub">Description</span></span></div>
+                  <div class="lrp-stat lrp-sem"><span class="lrp-stat-bar"></span><span class="lrp-stat-body">Emergency <span class="lrp-stat-sub">Description</span></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <figcaption class="lrp-caption">CivicPress Library &mdash; Figma variable collections mapped to USWDS tokens, powering both design system and WordPress theme.json via custom plugin</figcaption>
+
+          <script>
+          (function () {
+            function motionOff() {
+              var m = document.documentElement.getAttribute("data-motion");
+              if (m === "off") return true;
+              if (m === "on")  return false;
+              return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            }
+            var vis   = document.getElementById("lrp-visual");
+            var des   = document.getElementById("lrp-design");
+            var vars  = vis.querySelectorAll(".lrp-var");
+            var jls   = vis.querySelectorAll(".lrp-jl");
+            var rows  = des.querySelectorAll(".lrp-token-row");
+            var stats = des.querySelectorAll(".lrp-stat");
+            var btns  = des.querySelectorAll(".lrp-dsbtn");
+            var done1 = false, done2 = false;
+
+            function runPipeline() {
+              if (done1) return; done1 = true;
+              vis.classList.add("is-visible");
+              if (motionOff()) {
+                vars.forEach(function(v) { v.style.opacity="1"; v.style.transform="none"; });
+                jls.forEach(function(l) { l.style.opacity="1"; });
+                return;
+              }
+              vars.forEach(function(v, i) { v.style.transitionDelay = (140 + i * 60) + "ms"; });
+              jls.forEach(function(l, i)  { l.style.transitionDelay = (820 + i * 55) + "ms"; });
+            }
+
+            function runDesign() {
+              if (done2) return; done2 = true;
+              des.classList.add("design-vis");
+              if (motionOff()) {
+                rows.forEach(function(r) { r.style.opacity="1"; r.style.transform="none"; });
+                stats.forEach(function(s) { s.style.opacity="1"; s.style.transform="none"; });
+                btns.forEach(function(b) { b.style.opacity="1"; b.style.transform="none"; });
+                return;
+              }
+              rows.forEach(function(r, i)  { r.style.transitionDelay  = (80  + i * 90)  + "ms"; });
+              btns.forEach(function(b, i)  { b.style.transitionDelay  = (200 + i * 60)  + "ms"; });
+              stats.forEach(function(s, i) { s.style.transitionDelay  = (400 + i * 70)  + "ms"; });
+            }
+
+            new IntersectionObserver(function(ee) { ee.forEach(function(e) { if (e.isIntersecting) runPipeline(); }); }, { threshold: 0.12 }).observe(vis);
+            new IntersectionObserver(function(ee) { ee.forEach(function(e) { if (e.isIntersecting) runDesign();   }); }, { threshold: 0.2  }).observe(des);
+            if (motionOff()) { runPipeline(); runDesign(); }
+          })();
+          </script>
+          </figure>
 
           <h3 class="subsection-heading">CivicPress</h3>
           <p>CivicPress is our USWDS-native WordPress theme, built to support the U.S. Web Design System natively within WordPress's Full Site Editing architecture. For public sector organizations navigating OMB M-23-22 and the IDEA Act, having a compliant, accessible, and maintainable theme isn't just useful — it's a response to a real federal mandate for digital-first public experiences.</p>

@@ -1103,6 +1103,11 @@ h3.subsection-heading:first-of-type { margin-top: 0; }
 }
 .case-content p:last-child { margin-bottom: 0; }
 .case-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.case-content code { font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace; font-size: 0.82em; background: #ededf4; color: #1e1e2e; padding: 0.15em 0.45em; border-radius: 4px; white-space: nowrap; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .case-content code { background: #1e1e2e; color: #f0f0ff; }
+}
+[data-theme="dark"] .case-content code { background: #1e1e2e; color: #f0f0ff; }
 .case-content a:hover { text-decoration: none; opacity: 0.8; }
 .case-content a:focus-visible {
   outline: 2px solid var(--accent);
