@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <radialGradient id="bg" cx="38%" cy="30%" r="72%">
+      <stop offset="0%" stop-color="#f472b6"/>
+      <stop offset="100%" stop-color="#8c0044"/>
+    </radialGradient>
+  </defs>
+  <!-- dot -->
+  <circle cx="16" cy="16" r="16" fill="url(#bg)"/>
+  <!-- subtle inner rim for depth -->
+  <circle cx="16" cy="16" r="15.25" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="0.75"/>
+  <!-- UX -->
+  <text
+    x="16" y="22"
+    text-anchor="middle"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
+    font-size="14.5"
+    font-weight="800"
+    letter-spacing="1.2"
+    fill="white"
+    opacity="0.97">UX</text>
+  <!-- tiny accent dot bottom-right, echoing the site's dot motif -->
+  <circle cx="23.5" cy="24.5" r="2" fill="#ffa0d0" opacity="0.7"/>
+</svg>
