@@ -219,7 +219,7 @@
             opacity: 0; transition: opacity .4s ease .1s;
           }
           .lrp-visual.is-visible .lrp-sidebar { opacity: 1; }
-          .lrp-sidebar-label { font-size: 9px; text-transform: uppercase; letter-spacing: .06em; color: #555; padding: 4px 8px 3px; }
+          .lrp-sidebar-label { font-size: 9px; text-transform: uppercase; letter-spacing: .06em; color: #666; padding: 4px 8px 3px; }
           .lrp-coll { display: flex; justify-content: space-between; align-items: center; padding: 3px 8px 2px; font-size: 9.5px; color: #777; cursor: default; }
           .lrp-coll.lrp-coll-active { background: rgba(108,79,191,.22); color: #b9a8f0; font-weight: 600; }
           .lrp-coll-count { font-size: 9px; opacity: .55; }
@@ -229,8 +229,8 @@
           .lrp-visual.is-visible .lrp-var { opacity: 1; transform: none; }
           .lrp-swatch { width: 13px; height: 13px; border-radius: 3px; border: 1px solid rgba(255,255,255,.08); flex-shrink: 0; }
           .lrp-var-name { font-size: 10px; color: #bbb; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-          .lrp-var-ref  { font-size: 9px; color: #555; font-family: "SF Mono", Consolas, monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-          .lrp-var-sep  { padding: 3px 9px 2px; font-size: 9px; color: #3a3a3a; text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid rgba(255,255,255,.03); }
+          .lrp-var-ref  { font-size: 9px; color: #666; font-family: "SF Mono", Consolas, monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+          .lrp-var-sep  { padding: 3px 9px 2px; font-size: 9px; color: #555; text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid rgba(255,255,255,.03); }
           /* json panel */
           .lrp-json-body { flex: 1; padding: 10px 12px; overflow: hidden; font-family: "SF Mono", "Fira Code", Consolas, monospace; font-size: 9.5px; line-height: 1.72; }
           .lrp-jl { opacity: 0; transition: opacity .25s ease; white-space: pre; overflow: hidden; }
@@ -245,19 +245,19 @@
           }
           .lrp-visual.is-visible .lrp-bridge { opacity: 1; }
           .lrp-bridge-line { flex: 1; height: 1px; background: #2a2a2a; }
-          .lrp-bridge-label { font-size: 9.5px; color: #555; letter-spacing: .02em; white-space: nowrap; }
+          .lrp-bridge-label { font-size: 9.5px; color: #777; letter-spacing: .02em; white-space: nowrap; }
           /* design preview */
           .lrp-design { background: #1c1c1c; border-top: 1px solid #2a2a2a; padding: 14px 16px; }
           .lrp-design-inner { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: start; }
           /* swatch rows */
           .lrp-token-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; opacity: 0; transform: translateY(6px); transition: opacity .35s ease, transform .35s ease; }
           .lrp-design.design-vis .lrp-token-row { opacity: 1; transform: none; }
-          .lrp-token-label { font-size: 9px; color: #666; width: 55px; flex-shrink: 0; text-align: right; }
+          .lrp-token-label { font-size: 9px; color: #888; width: 55px; flex-shrink: 0; text-align: right; }
           .lrp-swatches { display: flex; gap: 3px; }
           .lrp-sw-d { width: 22px; height: 22px; border-radius: 3px; border: 1px solid rgba(255,255,255,.06); flex-shrink: 0; }
           /* state column */
           .lrp-state-col { display: flex; flex-direction: column; gap: 7px; min-width: 195px; }
-          .lrp-state-label { font-size: 9px; color: #555; text-transform: uppercase; letter-spacing: .07em; opacity: 0; transition: opacity .35s ease; }
+          .lrp-state-label { font-size: 9px; color: #777; text-transform: uppercase; letter-spacing: .07em; opacity: 0; transition: opacity .35s ease; }
           .lrp-design.design-vis .lrp-state-label { opacity: 1; }
           .lrp-btn-row { display: flex; gap: 5px; flex-wrap: wrap; }
           .lrp-dsbtn { padding: 4px 10px; font-size: 10px; font-weight: 700; border-radius: 3px; cursor: default; pointer-events: none; font-family: inherit; opacity: 0; transform: translateY(4px); transition: opacity .3s ease, transform .3s ease; }
@@ -280,7 +280,7 @@
           .lrp-se { background: rgba(216,57,51,.18); }  .lrp-se .lrp-stat-bar { background: #d83933; } .lrp-se .lrp-stat-body { color: #e8908e; }
           .lrp-sem { background: #6b1a00; }             .lrp-sem .lrp-stat-bar { background: #9c3d10; } .lrp-sem .lrp-stat-body { color: #fff; }
           /* caption */
-          .lrp-caption { display: block; padding: 8px 14px; font-size: 11px; color: #666; background: #f0f0f0; border-top: 1px solid #e0e0e0; text-align: right; font-style: italic; margin: 0; }
+          .lrp-caption { display: block; padding: 8px 14px; font-size: 11px; color: #888; background: #252525; border-top: 1px solid #3a3a3a; text-align: right; font-style: italic; margin: 0; }
           /* mobile */
           @media (max-width: 640px) {
             .lrp-pipeline { grid-template-columns: 1fr; }
@@ -303,6 +303,14 @@
           [data-motion="off"] .lrp-token-row, [data-motion="off"] .lrp-state-label,
           [data-motion="off"] .lrp-dsbtn, [data-motion="off"] .lrp-stat { opacity: 1; transform: none; transition: none; }
 
+          .lrp-ui-row { display: flex; align-items: center; gap: 10px; margin-top: 16px; margin-bottom: 6px; opacity: 0; transform: translateY(6px); transition: opacity .35s ease, transform .35s ease; }
+          .lrp-design.design-vis .lrp-ui-row { opacity: 1; transform: none; }
+          .lrp-input-mock { flex: 1; height: 28px; border: 1.5px solid #636363; border-radius: 2px; background: transparent; }
+          .lrp-table-mock { border: 1px solid rgba(255,255,255,.08); border-radius: 3px; overflow: hidden; font-size: 9.5px; margin-top: 8px; opacity: 0; transform: translateY(6px); transition: opacity .35s ease, transform .35s ease; }
+          .lrp-design.design-vis .lrp-table-mock { opacity: 1; transform: none; }
+          .lrp-tbl-head { padding: 5px 10px; background: rgba(0,0,0,.52); color: rgba(255,255,255,.9); font-weight: 600; }
+          .lrp-tbl-border { height: 1px; background: rgba(255,255,255,.12); }
+          .lrp-tbl-stripe { padding: 5px 10px; background: rgba(255,255,255,.05); color: rgba(255,255,255,.5); }
           /* ── Light mode overrides ── */
           [data-theme="light"] .lrp-visual { background: #f4f4f4; color: #1a1a1a; }
           [data-theme="light"] .lrp-chrome { background: #e4e4e4; border-bottom-color: #ccc; }
@@ -313,13 +321,13 @@
           [data-theme="light"] .lrp-panel-head { border-bottom-color: #d8d8d8; color: #999; }
           [data-theme="light"] .lrp-panel-json .lrp-panel-head { border-bottom-color: #e8e8e8; }
           [data-theme="light"] .lrp-sidebar { background: #e6e6e6; border-right-color: #d4d4d4; opacity: 1; }
-          [data-theme="light"] .lrp-sidebar-label { color: #aaa; }
+          [data-theme="light"] .lrp-sidebar-label { color: #888; }
           [data-theme="light"] .lrp-coll { color: #888; }
           [data-theme="light"] .lrp-coll.lrp-coll-active { background: rgba(108,79,191,.12); color: #5c4a9e; }
           [data-theme="light"] .lrp-vars-head { border-bottom-color: #d8d8d8; color: #aaa; }
           [data-theme="light"] .lrp-var { border-bottom-color: rgba(0,0,0,.05); }
           [data-theme="light"] .lrp-var-name { color: #222; }
-          [data-theme="light"] .lrp-var-ref { color: #aaa; }
+          [data-theme="light"] .lrp-var-ref { color: #888; }
           [data-theme="light"] .lrp-var-sep { color: #ccc; border-bottom-color: rgba(0,0,0,.05); }
           [data-theme="light"] .lrp-swatch { border-color: rgba(0,0,0,.12); }
           [data-theme="light"] .lrp-jk { color: #0451a5; }
@@ -330,11 +338,11 @@
           [data-theme="light"] .lrp-jc { color: #008000; }
           [data-theme="light"] .lrp-bridge { background: #ebebeb; border-top-color: #d8d8d8; }
           [data-theme="light"] .lrp-bridge-line { background: #d0d0d0; }
-          [data-theme="light"] .lrp-bridge-label { color: #aaa; }
+          [data-theme="light"] .lrp-bridge-label { color: #888; }
           [data-theme="light"] .lrp-design { background: #ffffff; border-top-color: #e0e0e0; }
-          [data-theme="light"] .lrp-token-label { color: #aaa; }
+          [data-theme="light"] .lrp-token-label { color: #777; }
           [data-theme="light"] .lrp-sw-d { border-color: rgba(0,0,0,.1); }
-          [data-theme="light"] .lrp-state-label { color: #bbb; }
+          [data-theme="light"] .lrp-state-label { color: #888; }
           [data-theme="light"] .lrp-stat-divider { background: #e8e8e8; }
           [data-theme="light"] .lrp-si { background: #ddeef8; }
           [data-theme="light"] .lrp-si .lrp-stat-body { color: #0d3f5f; }
@@ -344,6 +352,13 @@
           [data-theme="light"] .lrp-sw .lrp-stat-body { color: #4a3000; }
           [data-theme="light"] .lrp-se { background: #fde8e7; }
           [data-theme="light"] .lrp-se .lrp-stat-body { color: #5c0f0f; }
+          [data-theme="light"] .lrp-table-mock { border-color: rgba(0,0,0,.1); }
+          [data-theme="light"] .lrp-tbl-head { background: rgba(29,50,80,.18); color: #1a1a1a; }
+          [data-theme="light"] .lrp-tbl-border { background: rgba(0,0,0,.1); }
+          [data-theme="light"] .lrp-tbl-stripe { background: rgba(0,0,0,.04); color: #555; }
+          [data-theme="light"] .lrp-caption { background: #f0f0f0; color: #666; border-top-color: #e0e0e0; }
+          [data-theme="light"] .lrp-btn-od { color: #005ea2; border-color: #005ea2; }
+          [data-theme="light"] .lrp-input-mock { border-color: #767676; }
           @media (prefers-color-scheme: light) {
             :root:not([data-theme="dark"]) .lrp-visual { background: #f4f4f4; color: #1a1a1a; }
             :root:not([data-theme="dark"]) .lrp-chrome { background: #e4e4e4; border-bottom-color: #ccc; }
@@ -354,13 +369,13 @@
             :root:not([data-theme="dark"]) .lrp-panel-head { border-bottom-color: #d8d8d8; color: #999; }
             :root:not([data-theme="dark"]) .lrp-panel-json .lrp-panel-head { border-bottom-color: #e8e8e8; }
             :root:not([data-theme="dark"]) .lrp-sidebar { background: #e6e6e6; border-right-color: #d4d4d4; opacity: 1; }
-            :root:not([data-theme="dark"]) .lrp-sidebar-label { color: #aaa; }
+            :root:not([data-theme="dark"]) .lrp-sidebar-label { color: #888; }
             :root:not([data-theme="dark"]) .lrp-coll { color: #888; }
             :root:not([data-theme="dark"]) .lrp-coll.lrp-coll-active { background: rgba(108,79,191,.12); color: #5c4a9e; }
             :root:not([data-theme="dark"]) .lrp-vars-head { border-bottom-color: #d8d8d8; color: #aaa; }
             :root:not([data-theme="dark"]) .lrp-var { border-bottom-color: rgba(0,0,0,.05); }
             :root:not([data-theme="dark"]) .lrp-var-name { color: #222; }
-            :root:not([data-theme="dark"]) .lrp-var-ref { color: #aaa; }
+            :root:not([data-theme="dark"]) .lrp-var-ref { color: #888; }
             :root:not([data-theme="dark"]) .lrp-var-sep { color: #ccc; border-bottom-color: rgba(0,0,0,.05); }
             :root:not([data-theme="dark"]) .lrp-swatch { border-color: rgba(0,0,0,.12); }
             :root:not([data-theme="dark"]) .lrp-jk { color: #0451a5; }
@@ -371,11 +386,11 @@
             :root:not([data-theme="dark"]) .lrp-jc { color: #008000; }
             :root:not([data-theme="dark"]) .lrp-bridge { background: #ebebeb; border-top-color: #d8d8d8; }
             :root:not([data-theme="dark"]) .lrp-bridge-line { background: #d0d0d0; }
-            :root:not([data-theme="dark"]) .lrp-bridge-label { color: #aaa; }
+            :root:not([data-theme="dark"]) .lrp-bridge-label { color: #888; }
             :root:not([data-theme="dark"]) .lrp-design { background: #ffffff; border-top-color: #e0e0e0; }
-            :root:not([data-theme="dark"]) .lrp-token-label { color: #aaa; }
+            :root:not([data-theme="dark"]) .lrp-token-label { color: #777; }
             :root:not([data-theme="dark"]) .lrp-sw-d { border-color: rgba(0,0,0,.1); }
-            :root:not([data-theme="dark"]) .lrp-state-label { color: #bbb; }
+            :root:not([data-theme="dark"]) .lrp-state-label { color: #888; }
             :root:not([data-theme="dark"]) .lrp-stat-divider { background: #e8e8e8; }
             :root:not([data-theme="dark"]) .lrp-si { background: #ddeef8; }
             :root:not([data-theme="dark"]) .lrp-si .lrp-stat-body { color: #0d3f5f; }
@@ -385,6 +400,13 @@
             :root:not([data-theme="dark"]) .lrp-sw .lrp-stat-body { color: #4a3000; }
             :root:not([data-theme="dark"]) .lrp-se { background: #fde8e7; }
             :root:not([data-theme="dark"]) .lrp-se .lrp-stat-body { color: #5c0f0f; }
+            :root:not([data-theme="dark"]) .lrp-table-mock { border-color: rgba(0,0,0,.1); }
+            :root:not([data-theme="dark"]) .lrp-tbl-head { background: rgba(29,50,80,.18); color: #1a1a1a; }
+            :root:not([data-theme="dark"]) .lrp-tbl-border { background: rgba(0,0,0,.1); }
+            :root:not([data-theme="dark"]) .lrp-tbl-stripe { background: rgba(0,0,0,.04); color: #555; }
+            :root:not([data-theme="dark"]) .lrp-caption { background: #f0f0f0; color: #666; border-top-color: #e0e0e0; }
+            :root:not([data-theme="dark"]) .lrp-btn-od { color: #005ea2; border-color: #005ea2; }
+            :root:not([data-theme="dark"]) .lrp-input-mock { border-color: #767676; }
           }
                     </style>
 
@@ -523,6 +545,16 @@
                     <span class="lrp-sw-d" style="background:#1b1b1b"></span>
                   </div>
                 </div>
+                <div class="lrp-ui-row">
+                  <span class="lrp-token-label">UI Border</span>
+                  <div class="lrp-input-mock"></div>
+                </div>
+                <div class="lrp-table-mock">
+                  <div class="lrp-tbl-head">Table Header: Translucent</div>
+                  <div class="lrp-tbl-border"></div>
+                  <div class="lrp-tbl-stripe">Table Striped: Translucent Subtle</div>
+                  <div class="lrp-tbl-border"></div>
+                </div>
               </div>
 
               <div class="lrp-state-col">
@@ -563,7 +595,7 @@
             var des   = document.getElementById("lrp-design");
             var vars  = vis.querySelectorAll(".lrp-var");
             var jls   = vis.querySelectorAll(".lrp-jl");
-            var rows  = des.querySelectorAll(".lrp-token-row");
+            var rows  = des.querySelectorAll(".lrp-token-row, .lrp-ui-row, .lrp-table-mock");
             var stats = des.querySelectorAll(".lrp-stat");
             var btns  = des.querySelectorAll(".lrp-dsbtn");
             var done1 = false, done2 = false;
