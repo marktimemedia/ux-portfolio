@@ -7,7 +7,7 @@
 <title>NASA — Michelle Hunt</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,200;1,9..40,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,200;1,9..40,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Public+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
   :root { --c-page: #00869e; }
@@ -17,6 +17,7 @@
   [data-contrast="high"]:root:not([data-theme="dark"]) { --c-page: #005f73; }
   [data-contrast="high"][data-theme="dark"] { --c-page: #40d0f0; }
   @media (prefers-color-scheme: dark) { [data-contrast="high"]:root:not([data-theme="light"]) { --c-page: #40d0f0; } }
+  .case-content { min-width: 0; }
 </style>
 </head>
 <body>
@@ -156,11 +157,772 @@
           <h3 class="subsection-heading">Rethinking the streaming experience</h3>
           <p>The original NASA+ design followed a TV guide model: a grid of always-on channels. That works for a platform with constant live content. NASA doesn't always have live content, so we decided to design a new scheduled content model within the existing design system that surfaced upcoming events and featured live content prominently when it was happening.</p>
 
+          <figure class="nx-visual" id="nx-visual" aria-hidden="true">
+            <style>
+            /* ── NASA+ illustrative visual ── */
+            .nx-visual {
+              margin: 2rem 0 2.5rem;
+              border-radius: 8px; overflow: hidden;
+              box-shadow: 0 2px 4px rgba(0,0,0,.2), 0 8px 40px rgba(0,0,0,.35);
+              border: 1px solid rgba(255,255,255,.08);
+              font-family: 'Public Sans', Helvetica, Arial, sans-serif;
+              font-size: 13px; color: #d1d1d1; line-height: 1.45; background: #17171b;
+            }
+            .nx-visual * { box-sizing: border-box; }
+          
+            /* browser chrome */
+            .nx-chrome { display: flex; align-items: center; gap: 8px; padding: 9px 14px; background: #101014; border-bottom: 1px solid #26262c; }
+            .nx-chrome-dots { display: flex; gap: 5px; }
+            .nx-chrome-dots span { width: 10px; height: 10px; border-radius: 50%; }
+            .nx-chrome-dots span:nth-child(1) { background: #ff5f57; }
+            .nx-chrome-dots span:nth-child(2) { background: #febc2e; }
+            .nx-chrome-dots span:nth-child(3) { background: #28c840; }
+            .nx-chrome-url { font-size: 11px; color: #7a7a80; flex: 1; text-align: center; margin-right: 52px; font-family: 'DM Mono', monospace; }
+          
+            /* app top bar */
+            .nx-topbar { display: flex; align-items: center; justify-content: space-between; padding: 13px 20px; border-bottom: 1px solid #26262c; background: #0f0f12; }
+            .nx-topbar-left { display: flex; align-items: center; gap: 22px; }
+            .nx-logo { font-weight: 700; font-size: 17px; letter-spacing: .01em; color: #f6f6f6; }
+            .nx-logo span { color: #b60109; }
+            .nx-topnav { display: flex; gap: 18px; }
+            .nx-topnav span { font-size: 12.5px; font-weight: 500; color: #959599; }
+            .nx-topnav span:first-child { color: #f6f6f6; }
+            /* view toggle (sharp, NASA styling) */
+            .nx-viewtoggle { display: inline-flex; border: 1px solid #3a3a42; }
+            .nx-vt { padding: 6px 16px; font-size: 11.5px; font-weight: 600; letter-spacing: .02em; border: none; background: #1c1c22; color: #b9b9bf; cursor: pointer; font-family: inherit; text-transform: uppercase; transition: background .18s ease, color .18s ease; }
+            .nx-vt + .nx-vt { border-left: 1px solid #3a3a42; }
+            .nx-vt.is-active { background: #b60109; color: #fff; }
+          
+            .nx-stage { position: relative; }
+            .nx-view { padding: 0 0 20px; }
+            .nx-view[hidden] { display: none; }
+          
+            /* hero */
+            .nx-hero {
+              position: relative; height: 236px; overflow: hidden;
+              display: flex; flex-direction: column; justify-content: flex-end; padding: 24px 26px;
+              background:
+                radial-gradient(ellipse 70% 130% at 82% 22%, #26364f 0%, transparent 52%),
+                radial-gradient(ellipse 90% 80% at 88% 90%, #0b1626 0%, transparent 55%),
+                linear-gradient(150deg, #10131c 0%, #17171b 72%);
+            }
+            .nx-hero::before {
+              content: ''; position: absolute; inset: 0;
+              background-image:
+                radial-gradient(1px 1px at 62% 26%, #fff 50%, transparent),
+                radial-gradient(1px 1px at 72% 54%, #cfd6ff 50%, transparent),
+                radial-gradient(1.3px 1.3px at 84% 34%, #fff 50%, transparent),
+                radial-gradient(1px 1px at 90% 66%, #fff 50%, transparent),
+                radial-gradient(1px 1px at 78% 78%, #dfe6ff 50%, transparent),
+                radial-gradient(1px 1px at 68% 40%, #fff 50%, transparent);
+              opacity: .85;
+            }
+            /* faint lunar limb on the right, like the live hero */
+            .nx-hero::after {
+              content: ''; position: absolute; right: -14%; top: -30%; width: 62%; height: 170%;
+              border-radius: 50%;
+              background: radial-gradient(circle at 34% 42%, #3a3a3e 0%, #202024 34%, #141418 60%, transparent 72%);
+              opacity: .55;
+            }
+            .nx-hero-inner { position: relative; z-index: 2; max-width: 60%; }
+            .nx-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #959599; margin-bottom: 12px; }
+            .nx-hero-title { font-size: 30px; font-weight: 700; line-height: 1.06; color: #f6f6f6; margin-bottom: 12px; }
+            .nx-hero-desc { font-size: 13px; color: #d1d1d1; line-height: 1.55; margin-bottom: 18px; }
+            .nx-watchbtn {
+              display: inline-flex; align-items: center; gap: 9px;
+              padding: 12px 22px; background: #b60109; color: #fff; border: none; border-radius: 0;
+              font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; font-family: inherit;
+              transition: background .15s ease;
+            }
+            .nx-watchbtn:hover { background: #d0060f; }
+            .nx-watchbtn svg { width: 11px; height: 11px; }
+          
+            /* rows */
+            .nx-row { padding: 22px 0 6px; }
+            .nx-row-head { display: flex; align-items: baseline; justify-content: space-between; padding: 0 26px 14px; }
+            .nx-row-title { font-size: 21px; font-weight: 700; color: #f6f6f6; letter-spacing: -.01em; display: flex; align-items: center; gap: 9px; }
+            .nx-row-title .nx-live-dot { width: 9px; height: 9px; border-radius: 50%; background: #b60109; box-shadow: 0 0 0 0 rgba(182,1,9,.5); animation: nxpulse 1.6s infinite; }
+            @keyframes nxpulse { 0%{box-shadow:0 0 0 0 rgba(182,1,9,.5)} 70%{box-shadow:0 0 0 6px rgba(182,1,9,0)} 100%{box-shadow:0 0 0 0 rgba(182,1,9,0)} }
+            .nx-row-controls { display: flex; align-items: center; gap: 14px; }
+            .nx-seeall { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 500; color: #f6f6f6; }
+            .nx-seeall .nx-seeall-arrow { width: 20px; height: 20px; border-radius: 50%; background: #b60109; display: inline-flex; align-items: center; justify-content: center; }
+            .nx-seeall .nx-seeall-arrow svg { width: 10px; height: 10px; }
+            .nx-arrows { display: flex; gap: 7px; }
+            .nx-arrow { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #3a3a42; background: rgba(28,28,34,.9); color: #d1d1d1; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; font-size: 14px; padding: 0; transition: background .15s ease, border-color .15s ease; }
+            .nx-arrow:hover { background: #2a2a32; border-color: #55555f; }
+          
+            .nx-rail { display: flex; gap: 16px; overflow-x: auto; padding: 2px 26px 12px; scroll-behavior: smooth; scrollbar-width: none; }
+            .nx-rail::-webkit-scrollbar { display: none; }
+          
+            /* series card */
+            .nx-card { flex: 0 0 auto; width: 208px; cursor: pointer; }
+            .nx-card-thumb { position: relative; width: 208px; height: 117px; overflow: hidden; background: #222; }
+            .nx-card-thumb > i { position: absolute; inset: 0; display: block; transition: transform .25s ease; }
+            .nx-card:hover .nx-card-thumb > i { transform: scale(1.05); }
+            .nx-card-thumb::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, transparent 42%, rgba(10,10,12,.86) 100%); }
+            .nx-dur { position: absolute; z-index: 2; left: 9px; bottom: 9px; font-family: 'DM Mono', monospace; font-size: 11px; color: #f6f6f6; letter-spacing: .01em; text-shadow: 0 1px 3px rgba(0,0,0,.8); }
+            .nx-card-title-ov { position: absolute; z-index: 2; left: 11px; right: 11px; bottom: 24px; font-size: 14px; font-weight: 500; color: #f6f6f6; line-height: 1.25; }
+            .nx-cat { display: flex; align-items: center; gap: 7px; margin-top: 10px; }
+            .nx-cat-ico { width: 17px; height: 17px; border-radius: 50%; border: 1px solid #6a6a72; color: #b9b9bf; font-size: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+            .nx-cat-label { font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #959599; }
+          
+            /* live & upcoming card */
+            .nx-live-card { flex: 0 0 auto; width: 236px; cursor: pointer; }
+            .nx-live-thumb { position: relative; width: 236px; height: 133px; overflow: hidden; background: #222; }
+            .nx-live-thumb > i { position: absolute; inset: 0; display: block; transition: transform .25s ease; }
+            .nx-live-card:hover .nx-live-thumb > i { transform: scale(1.05); }
+            .nx-flag { position: absolute; z-index: 2; left: 10px; top: 10px; display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; font-size: 9.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+            .nx-flag.is-live { background: #b60109; color: #fff; }
+            .nx-flag.is-live::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #fff; animation: nxblink 1.4s infinite; }
+            @keyframes nxblink { 0%,100%{opacity:1} 50%{opacity:.3} }
+            .nx-flag.is-up { background: rgba(20,20,24,.85); color: #e4e4e8; border: 1px solid rgba(255,255,255,.25); }
+            .nx-live-when { margin-top: 11px; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: #e4e4e8; letter-spacing: .01em; text-transform: uppercase; }
+            .nx-live-when .nx-tz { color: #85858c; text-transform: none; letter-spacing: 0; }
+            .nx-live-title { margin-top: 6px; font-size: 14px; font-weight: 500; color: #f6f6f6; line-height: 1.3; }
+          
+            /* watch view */
+            .nx-back { display: inline-flex; align-items: center; gap: 7px; margin: 18px 26px 0; padding: 7px 14px; background: #1c1c22; border: 1px solid #3a3a42; color: #e4e4e8; font-size: 12px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; cursor: pointer; font-family: inherit; transition: background .15s ease; }
+            .nx-back:hover { background: #2a2a32; }
+            .nx-player { position: relative; margin: 14px 26px 0; height: 300px; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
+            .nx-player-art { position: absolute; inset: 0; }
+            .nx-player-grad { position: absolute; z-index: 2; inset: 0; background: linear-gradient(180deg, transparent 58%, rgba(0,0,0,.6) 100%); }
+            .nx-player-play { position: relative; z-index: 3; width: 62px; height: 62px; border-radius: 50%; background: rgba(255,255,255,.95); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform .15s ease; }
+            .nx-player-play:hover { transform: scale(1.06); }
+            .nx-player-play svg { width: 22px; height: 22px; margin-left: 3px; }
+            .nx-scrubber { position: absolute; z-index: 4; left: 18px; right: 18px; bottom: 16px; }
+            .nx-scrub-bar { height: 4px; background: rgba(255,255,255,.28); position: relative; }
+            .nx-scrub-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 3%; background: #b60109; }
+            .nx-scrub-fill::after { content: ''; position: absolute; right: -5px; top: 50%; transform: translateY(-50%); width: 11px; height: 11px; border-radius: 50%; background: #fff; }
+            .nx-scrub-time { display: flex; justify-content: space-between; margin-top: 8px; font-family: 'DM Mono', monospace; font-size: 10.5px; color: #d1d1d1; }
+            .nx-watch-meta { padding: 18px 26px 4px; }
+            .nx-watch-badges { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; }
+            .nx-wb { padding: 3px 9px; font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+            .nx-wb.a { background: #b60109; color: #fff; }
+            .nx-wb.b { background: rgba(255,255,255,.12); color: #e4e4e8; }
+            .nx-watch-title { font-size: 25px; font-weight: 700; color: #f6f6f6; line-height: 1.12; margin-bottom: 10px; }
+            .nx-watch-sub { font-family: 'DM Mono', monospace; font-size: 11px; color: #959599; margin-bottom: 14px; display: flex; gap: 9px; flex-wrap: wrap; }
+            .nx-watch-desc { font-size: 13px; color: #d1d1d1; line-height: 1.6; max-width: 94%; }
+          
+            .nx-caption { display: block; padding: 10px 16px; font-size: 11px; color: #7a7a80; background: #101014; border-top: 1px solid #26262c; text-align: right; font-style: italic; margin: 0; }
+          
+            /* thumbnail art (CSS-only space imagery) */
+            .thumb-a { background: radial-gradient(circle at 68% 34%, #ffd9a8 0%, #e8892b 14%, #7a3410 34%, #14060a 72%); }
+            .thumb-b { background: radial-gradient(ellipse at 40% 60%, #2b6cff 0%, #10214f 45%, #05070f 90%); }
+            .thumb-b::before { content:''; position:absolute; left:38%; top:52%; width:64px; height:64px; border-radius:50%; transform:translate(-50%,-50%); background: radial-gradient(circle at 38% 34%, #9fd0ff 0%, #3a7bd0 42%, #14356a 76%, #071328 100%); box-shadow: 0 0 22px rgba(90,150,255,.35); }
+            .thumb-c { background: linear-gradient(150deg, #3a0d4a 0%, #7a1550 45%, #d0402a 100%); }
+            .thumb-c::before { content:''; position:absolute; inset:0; background-image: radial-gradient(1px 1px at 20% 30%, #fff 50%, transparent), radial-gradient(1px 1px at 62% 58%, #fff 50%, transparent), radial-gradient(1px 1px at 82% 24%, #fff 50%, transparent), radial-gradient(1px 1px at 44% 76%, #fff 50%, transparent); opacity:.7; }
+            .thumb-d { background: radial-gradient(ellipse at 50% 120%, #1b8a6b 0%, #0a2f3a 50%, #05090f 90%); }
+            .thumb-d::before { content:''; position:absolute; left:0; right:0; bottom:0; height:40%; background: linear-gradient(180deg, transparent, #0c4a3a 60%, #072d24); }
+            .thumb-e { background: linear-gradient(160deg, #0a1230 0%, #1a2a5e 60%, #2b3a6e 100%); }
+            .thumb-e::before { content:''; position:absolute; left:50%; top:12%; width:9px; height:72%; transform:translateX(-50%); background: linear-gradient(180deg, #dfe6ff, #7a86b8); border-radius: 4px 4px 2px 2px; box-shadow: 0 0 14px rgba(180,200,255,.4); }
+            .thumb-f { background: radial-gradient(circle at 30% 30%, #d0d6e0 0%, #8a94a8 20%, #3a4152 55%, #101319 90%); }
+            .thumb-g { background: linear-gradient(135deg, #12030a 0%, #4a0d18 45%, #b81e2e 100%); }
+            .thumb-g::before { content:''; position:absolute; left:60%; top:44%; width:52px; height:52px; border-radius:50%; transform:translate(-50%,-50%); background: radial-gradient(circle at 40% 36%, #ff8a5a 0%, #c23a1e 44%, #6a1410 80%); }
+            .thumb-h { background: radial-gradient(ellipse at 62% 40%, #4ec0d8 0%, #1a5a7a 40%, #0a2030 78%, #05090f 100%); }
+          
+            /* entrance animation */
+            .nx-topbar { opacity: 0; transform: translateY(-12px); transition: opacity .5s ease, transform .55s cubic-bezier(.2,.75,.25,1); }
+            .nx-hero-inner > * { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .7s cubic-bezier(.2,.8,.25,1); }
+            .nx-row-head { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .55s cubic-bezier(.2,.8,.25,1); }
+            .nx-home .nx-card, .nx-home .nx-live-card { opacity: 0; transform: translateY(28px) scale(.9); transition: opacity .5s ease, transform .62s cubic-bezier(.34,1.42,.5,1); }
+          
+            .nx-visual.is-visible .nx-topbar { opacity: 1; transform: none; }
+            .nx-visual.is-visible .nx-hero-inner > *:nth-child(1) { opacity: 1; transform: none; transition-delay: .08s; }
+            .nx-visual.is-visible .nx-hero-inner > *:nth-child(2) { opacity: 1; transform: none; transition-delay: .16s; }
+            .nx-visual.is-visible .nx-hero-inner > *:nth-child(3) { opacity: 1; transform: none; transition-delay: .26s; }
+            .nx-visual.is-visible .nx-hero-inner > *:nth-child(4) { opacity: 1; transform: none; transition-delay: .36s; }
+            .nx-visual.is-visible .nx-row-head { opacity: 1; transform: none; transition-delay: .30s; }
+            .nx-visual.is-visible .nx-home .nx-rail > *:nth-child(1) { opacity: 1; transform: none; transition-delay: .44s; }
+            .nx-visual.is-visible .nx-home .nx-rail > *:nth-child(2) { opacity: 1; transform: none; transition-delay: .52s; }
+            .nx-visual.is-visible .nx-home .nx-rail > *:nth-child(3) { opacity: 1; transform: none; transition-delay: .60s; }
+            .nx-visual.is-visible .nx-home .nx-rail > *:nth-child(4) { opacity: 1; transform: none; transition-delay: .68s; }
+            .nx-visual.is-visible .nx-home .nx-rail > *:nth-child(5) { opacity: 1; transform: none; transition-delay: .76s; }
+            .nx-visual.is-visible .nx-home .nx-rail > *:nth-child(6) { opacity: 1; transform: none; transition-delay: .84s; }
+          
+            @media (prefers-reduced-motion: reduce) {
+              :root:not([data-motion="on"]) .nx-topbar,
+              :root:not([data-motion="on"]) .nx-hero-inner > *,
+              :root:not([data-motion="on"]) .nx-row-head,
+              :root:not([data-motion="on"]) .nx-home .nx-card,
+              :root:not([data-motion="on"]) .nx-home .nx-live-card { opacity: 1 !important; transform: none !important; transition: none !important; }
+              :root:not([data-motion="on"]) .nx-flag.is-live::before,
+              :root:not([data-motion="on"]) .nx-row-title .nx-live-dot { animation: none !important; }
+            }
+            [data-motion="off"] .nx-topbar,
+            [data-motion="off"] .nx-hero-inner > *,
+            [data-motion="off"] .nx-row-head,
+            [data-motion="off"] .nx-home .nx-card,
+            [data-motion="off"] .nx-home .nx-live-card { opacity: 1 !important; transform: none !important; transition: none !important; }
+            [data-motion="off"] .nx-flag.is-live::before,
+            [data-motion="off"] .nx-row-title .nx-live-dot { animation: none !important; }
+          
+            @media (max-width: 640px) {
+              .nx-hero { height: 200px; padding: 18px; }
+              .nx-hero-inner { max-width: 84%; }
+              .nx-hero-title { font-size: 23px; }
+              .nx-player { height: 210px; }
+              .nx-topnav { display: none; }
+              .nx-row-title { font-size: 18px; }
+            }
+            </style>
+          
+            <div class="nx-chrome">
+              <div class="nx-chrome-dots"><span></span><span></span><span></span></div>
+              <span class="nx-chrome-url">plus.nasa.gov</span>
+            </div>
+          
+            <div class="nx-topbar">
+              <div class="nx-topbar-left">
+                <span class="nx-logo">NASA<span>+</span></span>
+                <div class="nx-topnav"><span>Home</span><span>Explore Topics</span><span>Explore Series</span><span>Scheduled Events</span></div>
+              </div>
+              <div class="nx-viewtoggle">
+                <button class="nx-vt is-active" id="nx-vt-home" tabindex="-1" onclick="nxView('home')">Home</button>
+                <button class="nx-vt" id="nx-vt-watch" tabindex="-1" onclick="nxView('watch')">Watch</button>
+              </div>
+            </div>
+          
+            <div class="nx-stage">
+              <!-- HOME VIEW -->
+              <div class="nx-view nx-home" id="nx-home">
+                <div class="nx-hero">
+                  <div class="nx-hero-inner">
+                    <div class="nx-eyebrow">Featured Documentary</div>
+                    <div class="nx-hero-title">Cosmic Dawn: The Untold Story of the James Webb Space Telescope</div>
+                    <div class="nx-hero-desc">The definitive story of the most powerful telescope ever built, told by the people who made it happen.</div>
+                    <button class="nx-watchbtn" tabindex="-1" onclick="nxOpen('cosmic-dawn')">
+                      <svg viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M2 1.5v9l8-4.5z"/></svg>
+                      Watch
+                    </button>
+                  </div>
+                </div>
+          
+                <!-- LIVE & UPCOMING -->
+                <div class="nx-row">
+                  <div class="nx-row-head">
+                    <span class="nx-row-title"><span class="nx-live-dot"></span>Live &amp; Upcoming Events</span>
+                    <div class="nx-row-controls"><span class="nx-seeall">See All <span class="nx-seeall-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="1.6"><path d="M3 6h6M6.5 3.5 9 6l-2.5 2.5"/></svg></span></span></div>
+                  </div>
+                  <div class="nx-rail">
+                    <div class="nx-live-card" tabindex="-1" onclick="nxOpen('exp72')">
+                      <div class="nx-live-thumb"><i class="thumb-b"></i><span class="nx-flag is-live">Live</span></div>
+                      <div class="nx-live-when">Streaming now<span class="nx-tz"> · started 9:15 AM your time</span></div>
+                      <div class="nx-live-title">Expedition 72 Spacewalk</div>
+                    </div>
+                    <div class="nx-live-card" tabindex="-1" onclick="nxOpen('artemis-brief')">
+                      <div class="nx-live-thumb"><i class="thumb-f"></i><span class="nx-flag is-up">Upcoming</span></div>
+                      <div class="nx-live-when">Today, 2:30 PM<span class="nx-tz"> your time zone</span></div>
+                      <div class="nx-live-title">Artemis II Crew Briefing</div>
+                    </div>
+                    <div class="nx-live-card" tabindex="-1" onclick="nxOpen('europa')">
+                      <div class="nx-live-thumb"><i class="thumb-d"></i><span class="nx-flag is-up">Upcoming</span></div>
+                      <div class="nx-live-when">Tomorrow, 11:00 AM<span class="nx-tz"> your time zone</span></div>
+                      <div class="nx-live-title">Europa Clipper Mission Update</div>
+                    </div>
+                    <div class="nx-live-card" tabindex="-1" onclick="nxOpen('perseverance')">
+                      <div class="nx-live-thumb"><i class="thumb-g"></i><span class="nx-flag is-up">Upcoming</span></div>
+                      <div class="nx-live-when">Friday, 1:00 PM<span class="nx-tz"> your time zone</span></div>
+                      <div class="nx-live-title">Perseverance: One Year on Mars</div>
+                    </div>
+                  </div>
+                </div>
+          
+                <!-- NASA SERIES -->
+                <div class="nx-row">
+                  <div class="nx-row-head">
+                    <span class="nx-row-title">Explore New Releases</span>
+                    <div class="nx-row-controls">
+                      <span class="nx-seeall">See All <span class="nx-seeall-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="1.6"><path d="M3 6h6M6.5 3.5 9 6l-2.5 2.5"/></svg></span></span>
+                      <div class="nx-arrows">
+                        <button class="nx-arrow" tabindex="-1" onclick="nxScroll('nx-rail-1',-1)" aria-hidden="true">‹</button>
+                        <button class="nx-arrow" tabindex="-1" onclick="nxScroll('nx-rail-1',1)" aria-hidden="true">›</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="nx-rail" id="nx-rail-1">
+                    <div class="nx-card" tabindex="-1" onclick="nxOpen('planetary-defenders')">
+                      <div class="nx-card-thumb"><i class="thumb-g"></i><span class="nx-dur">00:48:20</span><span class="nx-card-title-ov">Planetary Defenders</span></div>
+                      <div class="nx-cat"><span class="nx-cat-ico">#</span><span class="nx-cat-label">Documentaries</span></div>
+                    </div>
+                    <div class="nx-card" tabindex="-1" onclick="nxOpen('moonbound')">
+                      <div class="nx-card-thumb"><i class="thumb-a"></i><span class="nx-dur">00:36:42</span><span class="nx-card-title-ov">Moonbound | For All Humanity</span></div>
+                      <div class="nx-cat"><span class="nx-cat-ico">#</span><span class="nx-cat-label">Artemis II</span></div>
+                    </div>
+                    <div class="nx-card" tabindex="-1" onclick="nxOpen('alien-earth')">
+                      <div class="nx-card-thumb"><i class="thumb-d"></i><span class="nx-dur">00:19:46</span><span class="nx-card-title-ov">Our Alien Earth: The Lava Tubes of Mauna Loa</span></div>
+                      <div class="nx-cat"><span class="nx-cat-ico">#</span><span class="nx-cat-label">Documentaries</span></div>
+                    </div>
+                    <div class="nx-card" tabindex="-1" onclick="nxOpen('far-out')">
+                      <div class="nx-card-thumb"><i class="thumb-e"></i><span class="nx-dur">00:23:31</span><span class="nx-card-title-ov">Far Out: Sailing On Sunlight</span></div>
+                      <div class="nx-cat"><span class="nx-cat-ico">#</span><span class="nx-cat-label">Series</span></div>
+                    </div>
+                    <div class="nx-card" tabindex="-1" onclick="nxOpen('lucys-journey')">
+                      <div class="nx-card-thumb"><i class="thumb-c"></i><span class="nx-dur">00:12:04</span><span class="nx-card-title-ov">Lucy&rsquo;s Journey</span></div>
+                      <div class="nx-cat"><span class="nx-cat-ico">#</span><span class="nx-cat-label">Series</span></div>
+                    </div>
+                    <div class="nx-card" tabindex="-1" onclick="nxOpen('high-ground')">
+                      <div class="nx-card-thumb"><i class="thumb-h"></i><span class="nx-dur">00:21:10</span><span class="nx-card-title-ov">The High Ground</span></div>
+                      <div class="nx-cat"><span class="nx-cat-ico">#</span><span class="nx-cat-label">Series</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+              <!-- WATCH VIEW -->
+              <div class="nx-view nx-watch" id="nx-watch" hidden>
+                <button class="nx-back" tabindex="-1" onclick="nxView('home')">
+                  <svg viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7.5 2.5 4 6l3.5 3.5"/></svg>
+                  Back to browse
+                </button>
+                <div class="nx-player">
+                  <div class="nx-player-art thumb-h" id="nx-player-art"></div>
+                  <div class="nx-player-grad"></div>
+                  <div class="nx-player-play"><svg viewBox="0 0 20 20" fill="#17171b" aria-hidden="true"><path d="M4 2.5v15l13-7.5z"/></svg></div>
+                  <div class="nx-scrubber">
+                    <div class="nx-scrub-bar"><div class="nx-scrub-fill"></div></div>
+                    <div class="nx-scrub-time"><span id="nx-time-cur">00:00</span><span id="nx-time-dur">01:34:06</span></div>
+                  </div>
+                </div>
+                <div class="nx-watch-meta">
+                  <div class="nx-watch-badges">
+                    <span class="nx-wb a" id="nx-watch-flag">Documentary</span>
+                    <span class="nx-wb b">4K UHD</span>
+                    <span class="nx-wb b">Audio Described</span>
+                  </div>
+                  <div class="nx-watch-title" id="nx-watch-title">Cosmic Dawn: The Untold Story of the James Webb Space Telescope</div>
+                  <div class="nx-watch-sub" id="nx-watch-sub"><span>Documentary</span><span>· NASA Studios</span><span>· 2025</span></div>
+                  <div class="nx-watch-desc" id="nx-watch-desc">The definitive story of the most powerful telescope ever built. Follow the engineers and scientists through two decades of setbacks and breakthroughs to the moment Webb opened its eye on the early universe.</div>
+                </div>
+          
+                <div class="nx-row">
+                  <div class="nx-row-head"><span class="nx-row-title">Up Next</span></div>
+                  <div class="nx-rail" id="nx-rail-2">
+                    <div class="nx-card" tabindex="-1" onclick="nxOpen('planetary-defenders')">
+                      <div class="nx-card-thumb"><i class="thumb-g"></i><span class="nx-dur">00:48:20</span><span class="nx-card-title-ov">Planetary Defenders</span></div>
+                      <div class="nx-cat"><span class="nx-cat-ico">#</span><span class="nx-cat-label">Documentaries</span></div>
+                    </div>
+                    <div class="nx-card" tabindex="-1" onclick="nxOpen('far-out')">
+                      <div class="nx-card-thumb"><i class="thumb-e"></i><span class="nx-dur">00:23:31</span><span class="nx-card-title-ov">Far Out: Sailing On Sunlight</span></div>
+                      <div class="nx-cat"><span class="nx-cat-ico">#</span><span class="nx-cat-label">Series</span></div>
+                    </div>
+                    <div class="nx-card" tabindex="-1" onclick="nxOpen('alien-earth')">
+                      <div class="nx-card-thumb"><i class="thumb-d"></i><span class="nx-dur">00:19:46</span><span class="nx-card-title-ov">Our Alien Earth: The Lava Tubes of Mauna Loa</span></div>
+                      <div class="nx-cat"><span class="nx-cat-ico">#</span><span class="nx-cat-label">Documentaries</span></div>
+                    </div>
+                    <div class="nx-card" tabindex="-1" onclick="nxOpen('moonbound')">
+                      <div class="nx-card-thumb"><i class="thumb-a"></i><span class="nx-dur">00:36:42</span><span class="nx-card-title-ov">Moonbound | For All Humanity</span></div>
+                      <div class="nx-cat"><span class="nx-cat-ico">#</span><span class="nx-cat-label">Artemis II</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            <figcaption class="nx-caption">NASA+ homepage and video views &mdash; illustrative representation, not the shipped UI</figcaption>
+          
+            <script>
+            (function () {
+              function motionOff() {
+                var m = document.documentElement.getAttribute('data-motion');
+                if (m === 'off') return true;
+                if (m === 'on')  return false;
+                return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+              }
+              var vis = document.getElementById('nx-visual');
+              if (motionOff()) { vis.classList.add('is-visible'); }
+              else { new IntersectionObserver(function (ee) { ee.forEach(function (e) { if (e.isIntersecting) vis.classList.add('is-visible'); }); }, { threshold: 0.15 }).observe(vis); }
+          
+              var DATA = {
+                'cosmic-dawn': { title: 'Cosmic Dawn: The Untold Story of the James Webb Space Telescope', flag: 'Documentary', sub: 'Documentary · NASA Studios · 2025', dur: '01:34:06', art: 'thumb-h',
+                  desc: 'The definitive story of the most powerful telescope ever built. Follow the engineers and scientists through two decades of setbacks and breakthroughs to the moment Webb opened its eye on the early universe.' },
+                'exp72': { title: 'Expedition 72 Spacewalk', flag: 'Live', sub: 'Live · International Space Station', dur: '', live: true, art: 'thumb-b',
+                  desc: 'Live coverage as astronauts step outside the station to install new hardware. Timing shown in your local time zone, with a reminder you can set for the start.' },
+                'artemis-brief': { title: 'Artemis II Crew Briefing', flag: 'Upcoming', sub: 'Live event · Today, 2:30 PM your time', dur: '', live: true, art: 'thumb-f',
+                  desc: 'The Artemis II crew answers questions ahead of humanity’s return to the Moon. Starts today at 2:30 PM in your time zone.' },
+                'europa': { title: 'Europa Clipper Mission Update', flag: 'Upcoming', sub: 'Live event · Tomorrow, 11:00 AM your time', dur: '', live: true, art: 'thumb-d',
+                  desc: 'A progress report from the team sending a spacecraft to study Jupiter’s ocean moon. Starts tomorrow at 11:00 AM in your time zone.' },
+                'perseverance': { title: 'Perseverance: One Year on Mars', flag: 'Upcoming', sub: 'Live event · Friday, 1:00 PM your time', dur: '', live: true, art: 'thumb-g',
+                  desc: 'Highlights and new findings from the rover’s year on the Martian surface. Starts Friday at 1:00 PM in your time zone.' },
+                'planetary-defenders': { title: 'Planetary Defenders', flag: 'Documentary', sub: 'Documentary · NASA Studios · 2025', dur: '00:48:20', art: 'thumb-g',
+                  desc: 'How NASA finds, tracks, and plans to deflect the asteroids and comets that pass close to Earth.' },
+                'lucys-journey': { title: 'Lucy’s Journey', flag: 'Series', sub: 'Animated Series · 6 episodes · 2024', dur: '00:12:04', art: 'thumb-c',
+                  desc: 'An animated series following the Lucy spacecraft on its twelve-year mission to the Trojan asteroids around Jupiter.' },
+                'far-out': { title: 'Far Out: Sailing On Sunlight', flag: 'Series', sub: 'Series · Solar sail mission · 2024', dur: '00:23:31', art: 'thumb-e',
+                  desc: 'The story of the Advanced Composite Solar Sail System, a spacecraft that moves through space on nothing but the pressure of sunlight.' },
+                'alien-earth': { title: 'Our Alien Earth: The Lava Tubes of Mauna Loa', flag: 'Documentary', sub: 'Documentary · Earth science · 2024', dur: '00:19:46', art: 'thumb-d',
+                  desc: 'Scientists travel to the strangest places on our own planet to understand what life might look like elsewhere in the solar system.' },
+                'moonbound': { title: 'Moonbound | For All Humanity', flag: 'Series', sub: 'Series · Artemis program · 2025', dur: '00:36:42', art: 'thumb-a',
+                  desc: 'An inside look at the people and machines preparing to return astronauts to the Moon under the Artemis program.' },
+                'high-ground': { title: 'The High Ground', flag: 'Series', sub: 'Series · Earth from space', dur: '00:21:10', art: 'thumb-h',
+                  desc: 'What Earth looks like from orbit, and what those views tell us about the planet we live on.' }
+              };
+          
+              var home = document.getElementById('nx-home');
+              var watch = document.getElementById('nx-watch');
+              var vtH = document.getElementById('nx-vt-home');
+              var vtW = document.getElementById('nx-vt-watch');
+          
+              window.nxView = function (which) {
+                var toWatch = which === 'watch';
+                watch.hidden = !toWatch; home.hidden = toWatch;
+                vtW.classList.toggle('is-active', toWatch);
+                vtH.classList.toggle('is-active', !toWatch);
+              };
+          
+              window.nxOpen = function (id) {
+                var d = DATA[id]; if (!d) return;
+                document.getElementById('nx-watch-title').innerHTML = d.title;
+                document.getElementById('nx-watch-desc').innerHTML = d.desc;
+                document.getElementById('nx-watch-sub').innerHTML = '<span>' + d.sub + '</span>';
+                document.getElementById('nx-watch-flag').textContent = d.flag;
+                document.getElementById('nx-player-art').className = 'nx-player-art ' + d.art;
+                document.getElementById('nx-time-dur').textContent = d.live ? 'LIVE' : d.dur;
+                document.getElementById('nx-time-cur').textContent = d.live ? 'LIVE' : '00:00';
+                var fill = document.querySelector('.nx-scrub-fill');
+                if (fill) fill.style.width = d.live ? '100%' : '3%';
+                nxView('watch');
+                if (!motionOff()) { watch.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+              };
+          
+              window.nxScroll = function (id, dir) {
+                var rail = document.getElementById(id);
+                if (rail) rail.scrollBy({ left: dir * 260, behavior: motionOff() ? 'auto' : 'smooth' });
+              };
+            })();
+            </script>
+            </figure>
+
           <h3 class="subsection-heading">The NASA blogs redesign</h3>
           <p>When blogs.nasa.gov was folded into the main NASA site, the project grew considerably: searchability, unified categories, longform and live feed formats, sub-blogs, and a new layout that hadn't been accounted for in the original designs. Before touching anything visual, I pushed to do user research with the actual content creators. What we learned changed the direction of the project. NASA blog authors write for genuinely different reasons — compliance, thought leadership, breaking news, information sharing — and those motivations sometimes conflict. That led directly to a dual-format solution: a livestream-style format for fast, immediate content and a longform format for in-depth storytelling. Without the research, we would have built one thing that didn't serve anyone particularly well.</p>
 
           <h3 class="subsection-heading">Expanding HDS</h3>
           <p>The design system had font size scales and color swatches, but no guidance on when to use them. As internal NASA teams started asking whether HDS could extend to email, non-flagship sites, and presentations, it became clear that the system was missing a decision-making layer — not just what the options were, but when and why to use them. I reached out to the right people at NASA and asked how we could separate the website-specific decisions from the core system and what design philosophy needed to be documented. That work grew into a formal open source contribution. I'm receiving credit from NASA for it, alongside one other collaborator.</p>
+
+          <figure class="hz-visual" id="hz-visual" aria-hidden="true">
+            <style>
+            /* ── Horizon Design System illustrative visual ── */
+            .hz-visual {
+              margin: 2rem 0 2.5rem;
+              border-radius: 8px; overflow: hidden;
+              box-shadow: 0 2px 4px rgba(0,0,0,.08), 0 8px 32px rgba(0,0,0,.13);
+              border: 1px solid rgba(0,0,0,.1);
+              font-family: 'Public Sans', Helvetica, Arial, sans-serif;
+              font-size: 13px; color: #17171b; line-height: 1.5; background: #fff;
+            }
+            .hz-visual * { box-sizing: border-box; }
+            .hz-chrome { display: flex; align-items: center; gap: 8px; padding: 9px 14px; background: #e4e4e4; border-bottom: 1px solid #ccc; }
+            .hz-chrome-dots { display: flex; gap: 5px; }
+            .hz-chrome-dots span { width: 10px; height: 10px; border-radius: 50%; }
+            .hz-chrome-dots span:nth-child(1) { background: #ff5f57; }
+            .hz-chrome-dots span:nth-child(2) { background: #febc2e; }
+            .hz-chrome-dots span:nth-child(3) { background: #28c840; }
+            .hz-chrome-url { font-size: 11px; color: #999; flex: 1; text-align: center; margin-right: 52px; font-family: 'DM Mono', monospace; }
+          
+            .hz-topbar { display: flex; align-items: center; gap: 13px; padding: 15px 20px; background: #17171b; color: #fff; }
+            .hz-meatball { width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(circle at 40% 34%, #1c67e3 0%, #0b3d91 62%, #072a63 100%); position: relative; flex-shrink: 0; border: 1px solid rgba(255,255,255,.22); }
+            .hz-meatball::after { content:''; position:absolute; left:5px; top:12px; right:5px; height:4px; background:#f64137; border-radius:3px; transform: rotate(-16deg); }
+            .hz-brand-t { font-size: 15px; font-weight: 700; letter-spacing: .01em; }
+            .hz-brand-s { font-size: 10.5px; color: #b9b9bb; margin-top: 1px; }
+          
+            .hz-main { padding: 20px 20px 22px; }
+            .hz-side { background: #f6f6f6; border-top: 1px solid #e3e3e3; padding: 18px 20px; }
+          
+            .hz-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #58585b; margin-bottom: 12px; }
+            .hz-section + .hz-section { margin-top: 26px; }
+            .hz-eyebrow .hz-eyebrow-note { font-weight: 500; letter-spacing: .01em; text-transform: none; color: #959599; margin-left: 8px; }
+          
+            /* tokens */
+            .hz-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 9px; }
+            .hz-sw { cursor: pointer; border: none; background: none; padding: 0; font-family: inherit; text-align: left; display: block; }
+            .hz-sw-chip { display: block; height: 38px; border: 1px solid rgba(0,0,0,.12); transition: transform .15s ease, box-shadow .15s ease; }
+            .hz-sw:hover .hz-sw-chip { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.16); }
+            .hz-sw.is-sel .hz-sw-chip { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1c67e3; }
+            .hz-sw-name { display: block; font-size: 9.5px; font-weight: 600; color: #2e2e32; margin-top: 6px; line-height: 1.2; }
+            .hz-sw-hex { display: block; font-family: 'DM Mono', monospace; font-size: 9px; color: #77777a; margin-top: 1px; }
+          
+            /* buttons */
+            .hz-btnwrap { display: flex; flex-wrap: wrap; gap: 18px 22px; align-items: flex-start; }
+            .hz-btncell { display: flex; flex-direction: column; gap: 7px; }
+            .hz-btncell-label { font-size: 9px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: #959599; font-family: 'DM Mono', monospace; }
+            .hz-btn { font-family: inherit; font-size: 14px; font-weight: 700; padding: 11px 19px; border: none; border-radius: 0; cursor: pointer; transition: filter .12s ease; align-self: flex-start; }
+            .hz-btn:hover { filter: brightness(1.06); }
+            .hz-btn-cta { background: #d83933; color: #fff; }
+            .hz-btn-secondary { background: #1c67e3; color: #fff; }
+            .hz-btn-outline { background: transparent; color: #17171b; box-shadow: inset 0 0 0 2px #17171b; }
+            .hz-btn-unstyled { background: none; color: #17171b; padding: 4px 2px; text-decoration: underline; text-underline-offset: 3px; font-weight: 500; }
+            .hz-btn-cta.is-disabled, .hz-btn-secondary.is-disabled { background: #d1d1d1; color: #fff; cursor: default; }
+            .hz-btn-outline.is-disabled { box-shadow: inset 0 0 0 2px #b9b9bb; color: #b9b9bb; cursor: default; }
+            .hz-btn:hover.is-disabled { filter: none; }
+            /* primary arrow */
+            .hz-arrowbtn { display: inline-flex; align-items: center; gap: 10px; background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; font-size: 15px; font-weight: 700; color: #17171b; align-self: flex-start; }
+            .hz-arrowbtn .hz-arrow-c { width: 24px; height: 24px; border-radius: 50%; background: #f64137; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform .15s ease; }
+            .hz-arrowbtn:hover .hz-arrow-c { transform: translateX(3px); }
+            .hz-arrowbtn .hz-arrow-c svg { width: 13px; height: 13px; display: block; }
+          
+            /* palette example cards */
+            .hz-palettes { display: grid; grid-template-columns: repeat(auto-fill, minmax(216px, 1fr)); gap: 12px; }
+            .hz-pal { padding: 15px 16px 16px; border: 1px solid rgba(0,0,0,.12); cursor: pointer; background: var(--pbg); transition: transform .15s ease, box-shadow .15s ease; }
+            .hz-pal:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.16); }
+            .hz-pal.is-sel { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1c67e3; }
+            .hz-pal-tag { font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--pmuted); margin-bottom: 9px; letter-spacing: .01em; }
+            .hz-pal-h { font-size: 16px; font-weight: 700; color: var(--ptxt); line-height: 1.2; margin-bottom: 5px; }
+            .hz-pal-p { font-size: 11px; color: var(--pmuted); line-height: 1.5; margin-bottom: 12px; }
+            .hz-pal-actions { display: flex; align-items: center; gap: 14px; }
+            .hz-pal-link { font-size: 11.5px; font-weight: 600; color: var(--plink); text-decoration: underline; text-underline-offset: 2px; }
+            .hz-pal-btn { font-size: 11px; font-weight: 700; padding: 7px 13px; background: var(--pcta); color: var(--pctaf); }
+            .pal-white   { --pbg:#ffffff; --ptxt:#17171b; --pmuted:#58585b; --plink:#1c67e3; --pcta:#d83933; --pctaf:#fff; }
+            .pal-light   { --pbg:#f6f6f6; --ptxt:#17171b; --pmuted:#58585b; --plink:#1c67e3; --pcta:#d83933; --pctaf:#fff; }
+            .pal-midtone { --pbg:#d1d1d1; --ptxt:#17171b; --pmuted:#444447; --plink:#0b3d91; --pcta:#b60109; --pctaf:#fff; }
+            .pal-dark    { --pbg:#17171b; --ptxt:#f6f6f6; --pmuted:#b9b9bb; --plink:#288bff; --pcta:#f64137; --pctaf:#fff; }
+            .pal-blue    { --pbg:#0b3d91; --ptxt:#ffffff; --pmuted:#b9c8e8; --plink:#a9c4ff; --pcta:#ffffff; --pctaf:#0b3d91; }
+            .pal-black   { --pbg:#000000; --ptxt:#ffffff; --pmuted:#959599; --plink:#288bff; --pcta:#f64137; --pctaf:#fff; }
+          
+            /* guidance panel */
+            .hz-guide-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: #1c67e3; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+            .hz-guide-eyebrow::before { content:''; width: 6px; height: 6px; border-radius: 50%; background: #f64137; }
+            .hz-guide-name { font-size: 15px; font-weight: 700; color: #17171b; line-height: 1.2; }
+            .hz-guide-token { font-family: 'DM Mono', monospace; font-size: 10px; color: #77777a; margin-top: 3px; word-break: break-all; }
+            .hz-guide-swatch { height: 6px; margin: 12px 0 13px; background: #1c67e3; }
+            .hz-guide-block { margin-bottom: 12px; }
+            .hz-guide-label { font-size: 9.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 3px; }
+            .hz-guide-label.use { color: #1a7a2e; }
+            .hz-guide-label.avoid { color: #b60109; }
+            .hz-guide-text { font-size: 11.5px; color: #2e2e32; line-height: 1.5; }
+            .hz-guide-empty { font-size: 12px; color: #58585b; line-height: 1.6; }
+            .hz-guide-empty strong { color: #17171b; }
+          
+            .hz-caption { display: block; padding: 10px 16px; font-size: 11px; color: #77777a; background: #f0f0f0; border-top: 1px solid #e0e0e0; text-align: right; font-style: italic; margin: 0; }
+          
+            /* entrance animation — a downward wave of pops */
+            .hz-eyebrow { opacity: 0; transform: translateY(9px); transition: opacity .45s ease, transform .5s cubic-bezier(.2,.8,.25,1); }
+            .hz-sw { opacity: 0; transform: scale(.5); transition: opacity .38s ease, transform .5s cubic-bezier(.34,1.6,.5,1); }
+            .hz-btncell { opacity: 0; transform: translateY(16px); transition: opacity .45s ease, transform .55s cubic-bezier(.2,.8,.25,1); }
+            .hz-pal { opacity: 0; transform: translateY(24px) scale(.94); transition: opacity .5s ease, transform .62s cubic-bezier(.34,1.4,.5,1); }
+            .hz-side { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
+          
+            .hz-visual.is-visible .hz-eyebrow { opacity: 1; transform: none; }
+            .hz-visual.is-visible .hz-section:nth-child(2) .hz-eyebrow { transition-delay: .08s; }
+            .hz-visual.is-visible .hz-section:nth-child(3) .hz-eyebrow { transition-delay: .16s; }
+            .hz-visual.is-visible .hz-side { opacity: 1; transform: none; transition-delay: .12s; }
+          
+            .hz-visual.is-visible .hz-sw { opacity: 1; transform: none; }
+            .hz-visual.is-visible .hz-sw:nth-child(1)  { transition-delay: .10s; }
+            .hz-visual.is-visible .hz-sw:nth-child(2)  { transition-delay: .14s; }
+            .hz-visual.is-visible .hz-sw:nth-child(3)  { transition-delay: .18s; }
+            .hz-visual.is-visible .hz-sw:nth-child(4)  { transition-delay: .22s; }
+            .hz-visual.is-visible .hz-sw:nth-child(5)  { transition-delay: .26s; }
+            .hz-visual.is-visible .hz-sw:nth-child(6)  { transition-delay: .30s; }
+            .hz-visual.is-visible .hz-sw:nth-child(7)  { transition-delay: .34s; }
+            .hz-visual.is-visible .hz-sw:nth-child(8)  { transition-delay: .38s; }
+            .hz-visual.is-visible .hz-sw:nth-child(9)  { transition-delay: .42s; }
+            .hz-visual.is-visible .hz-sw:nth-child(10) { transition-delay: .46s; }
+            .hz-visual.is-visible .hz-sw:nth-child(11) { transition-delay: .50s; }
+            .hz-visual.is-visible .hz-sw:nth-child(12) { transition-delay: .54s; }
+            .hz-visual.is-visible .hz-sw:nth-child(13) { transition-delay: .58s; }
+            .hz-visual.is-visible .hz-sw:nth-child(14) { transition-delay: .62s; }
+          
+            .hz-visual.is-visible .hz-btncell { opacity: 1; transform: none; }
+            .hz-visual.is-visible .hz-btncell:nth-child(1) { transition-delay: .24s; }
+            .hz-visual.is-visible .hz-btncell:nth-child(2) { transition-delay: .30s; }
+            .hz-visual.is-visible .hz-btncell:nth-child(3) { transition-delay: .36s; }
+            .hz-visual.is-visible .hz-btncell:nth-child(4) { transition-delay: .42s; }
+            .hz-visual.is-visible .hz-btncell:nth-child(5) { transition-delay: .48s; }
+            .hz-visual.is-visible .hz-btncell:nth-child(6) { transition-delay: .54s; }
+            .hz-visual.is-visible .hz-btncell:nth-child(7) { transition-delay: .60s; }
+            .hz-visual.is-visible .hz-btncell:nth-child(8) { transition-delay: .66s; }
+          
+            .hz-visual.is-visible .hz-pal { opacity: 1; transform: none; }
+            .hz-visual.is-visible .hz-pal:nth-child(1) { transition-delay: .34s; }
+            .hz-visual.is-visible .hz-pal:nth-child(2) { transition-delay: .40s; }
+            .hz-visual.is-visible .hz-pal:nth-child(3) { transition-delay: .46s; }
+            .hz-visual.is-visible .hz-pal:nth-child(4) { transition-delay: .52s; }
+            .hz-visual.is-visible .hz-pal:nth-child(5) { transition-delay: .58s; }
+            .hz-visual.is-visible .hz-pal:nth-child(6) { transition-delay: .64s; }
+          
+            @media (prefers-reduced-motion: reduce) {
+              :root:not([data-motion="on"]) .hz-eyebrow,
+              :root:not([data-motion="on"]) .hz-sw,
+              :root:not([data-motion="on"]) .hz-btncell,
+              :root:not([data-motion="on"]) .hz-pal,
+              :root:not([data-motion="on"]) .hz-side { opacity: 1 !important; transform: none !important; transition: none !important; }
+            }
+            [data-motion="off"] .hz-eyebrow,
+            [data-motion="off"] .hz-sw,
+            [data-motion="off"] .hz-btncell,
+            [data-motion="off"] .hz-pal,
+            [data-motion="off"] .hz-side { opacity: 1 !important; transform: none !important; transition: none !important; }
+            </style>
+          
+            <div class="hz-chrome">
+              <div class="hz-chrome-dots"><span></span><span></span><span></span></div>
+              <span class="hz-chrome-url">nasa.github.io/hds-core</span>
+            </div>
+          
+            <div class="hz-topbar">
+              <span class="hz-meatball"></span>
+              <div>
+                <div class="hz-brand-t">Horizon Design System</div>
+                <div class="hz-brand-s">NASA brand standards, themed on the U.S. Web Design System</div>
+              </div>
+            </div>
+          
+            <div class="hz-body">
+              <div class="hz-main">
+          
+                <div class="hz-section">
+                  <div class="hz-eyebrow">Color tokens</div>
+                  <div class="hz-swatches">
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'nasa-red')"><span class="hz-sw-chip" style="background:#f64137"></span><span class="hz-sw-name">NASA Red</span><span class="hz-sw-hex">#F64137</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'nasa-red-tint')"><span class="hz-sw-chip" style="background:#ff5c52"></span><span class="hz-sw-name">Red Tint</span><span class="hz-sw-hex">#FF5C52</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'nasa-red-shade')"><span class="hz-sw-chip" style="background:#b60109"></span><span class="hz-sw-name">Red Shade</span><span class="hz-sw-hex">#B60109</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'nasa-blue')"><span class="hz-sw-chip" style="background:#1c67e3"></span><span class="hz-sw-name">NASA Blue</span><span class="hz-sw-hex">#1C67E3</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'nasa-blue-tint')"><span class="hz-sw-chip" style="background:#288bff"></span><span class="hz-sw-name">Blue Tint</span><span class="hz-sw-hex">#288BFF</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'nasa-blue-shade')"><span class="hz-sw-chip" style="background:#0b3d91"></span><span class="hz-sw-name">Blue Shade</span><span class="hz-sw-hex">#0B3D91</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'spacesuit-white')"><span class="hz-sw-chip" style="background:#ffffff"></span><span class="hz-sw-name">Spacesuit White</span><span class="hz-sw-hex">#FFFFFF</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'carbon-05')"><span class="hz-sw-chip" style="background:#f6f6f6"></span><span class="hz-sw-name">Carbon 05</span><span class="hz-sw-hex">#F6F6F6</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'carbon-20')"><span class="hz-sw-chip" style="background:#d1d1d1"></span><span class="hz-sw-name">Carbon 20</span><span class="hz-sw-hex">#D1D1D1</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'carbon-60')"><span class="hz-sw-chip" style="background:#58585b"></span><span class="hz-sw-name">Carbon 60</span><span class="hz-sw-hex">#58585B</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'carbon-90')"><span class="hz-sw-chip" style="background:#17171b"></span><span class="hz-sw-name">Carbon 90</span><span class="hz-sw-hex">#17171B</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'carbon-black')"><span class="hz-sw-chip" style="background:#000000"></span><span class="hz-sw-name">Carbon Black</span><span class="hz-sw-hex">#000000</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'international-orange')"><span class="hz-sw-chip" style="background:#ea6f24"></span><span class="hz-sw-name">Intl. Orange</span><span class="hz-sw-hex">#EA6F24</span></button>
+                    <button class="hz-sw" tabindex="-1" onclick="hzPick(this,'active-green')"><span class="hz-sw-chip" style="background:#47da84"></span><span class="hz-sw-name">Active Green</span><span class="hz-sw-hex">#47DA84</span></button>
+                  </div>
+                </div>
+          
+                <div class="hz-section">
+                  <div class="hz-eyebrow">Buttons</div>
+                  <div class="hz-btnwrap">
+                    <div class="hz-btncell"><span class="hz-btncell-label">CTA</span><button class="hz-btn hz-btn-cta" tabindex="-1" onclick="hzPick(this,'btn-cta')">Download Report</button></div>
+                    <div class="hz-btncell"><span class="hz-btncell-label">Secondary</span><button class="hz-btn hz-btn-secondary" tabindex="-1" onclick="hzPick(this,'btn-secondary')">Apply Filters</button></div>
+                    <div class="hz-btncell"><span class="hz-btncell-label">Outline</span><button class="hz-btn hz-btn-outline" tabindex="-1" onclick="hzPick(this,'btn-outline')">View Details</button></div>
+                    <div class="hz-btncell"><span class="hz-btncell-label">Unstyled</span><button class="hz-btn hz-btn-unstyled" tabindex="-1" onclick="hzPick(this,'btn-unstyled')">Cancel</button></div>
+                    <div class="hz-btncell"><span class="hz-btncell-label">Primary Arrow</span><button class="hz-arrowbtn" tabindex="-1" onclick="hzPick(this,'btn-arrow')">Explore the Mission <span class="hz-arrow-c"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8h10M8.5 4 12.5 8l-4 4"/></svg></span></button></div>
+                    <div class="hz-btncell"><span class="hz-btncell-label">Primary Arrow · External</span><button class="hz-arrowbtn" tabindex="-1" onclick="hzPick(this,'btn-arrow')">View on Flickr <span class="hz-arrow-c"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 11.5 11.5 4.5M6 4.5h5.5V10"/></svg></span></button></div>
+                    <div class="hz-btncell"><span class="hz-btncell-label">Disabled</span><button class="hz-btn hz-btn-cta is-disabled" tabindex="-1" onclick="hzPick(this,'btn-disabled')">Download Report</button></div>
+                    <div class="hz-btncell"><span class="hz-btncell-label">Disabled · Outline</span><button class="hz-btn hz-btn-outline is-disabled" tabindex="-1" onclick="hzPick(this,'btn-disabled')">View Details</button></div>
+                  </div>
+                </div>
+          
+                <div class="hz-section">
+                  <div class="hz-eyebrow">Color palettes <span class="hz-eyebrow-note">every component adapts to its background</span></div>
+                  <div class="hz-palettes">
+                    <div class="hz-pal pal-white" tabindex="-1" onclick="hzPick(this,'pal-white')">
+                      <div class="hz-pal-tag">White · hds-palette-white</div>
+                      <div class="hz-pal-h">Mission Control</div>
+                      <div class="hz-pal-p">Wrap a section in a palette and every element inside recolors itself.</div>
+                      <div class="hz-pal-actions"><span class="hz-pal-link">Read more</span><span class="hz-pal-btn">Get Started</span></div>
+                    </div>
+                    <div class="hz-pal pal-light" tabindex="-1" onclick="hzPick(this,'pal-light')">
+                      <div class="hz-pal-tag">Light · hds-palette-light</div>
+                      <div class="hz-pal-h">Mission Control</div>
+                      <div class="hz-pal-p">Wrap a section in a palette and every element inside recolors itself.</div>
+                      <div class="hz-pal-actions"><span class="hz-pal-link">Read more</span><span class="hz-pal-btn">Get Started</span></div>
+                    </div>
+                    <div class="hz-pal pal-midtone" tabindex="-1" onclick="hzPick(this,'pal-midtone')">
+                      <div class="hz-pal-tag">Midtone · hds-palette-midtone</div>
+                      <div class="hz-pal-h">Mission Control</div>
+                      <div class="hz-pal-p">Wrap a section in a palette and every element inside recolors itself.</div>
+                      <div class="hz-pal-actions"><span class="hz-pal-link">Read more</span><span class="hz-pal-btn">Get Started</span></div>
+                    </div>
+                    <div class="hz-pal pal-dark" tabindex="-1" onclick="hzPick(this,'pal-dark')">
+                      <div class="hz-pal-tag">Dark · hds-palette-dark</div>
+                      <div class="hz-pal-h">Mission Control</div>
+                      <div class="hz-pal-p">Wrap a section in a palette and every element inside recolors itself.</div>
+                      <div class="hz-pal-actions"><span class="hz-pal-link">Read more</span><span class="hz-pal-btn">Get Started</span></div>
+                    </div>
+                    <div class="hz-pal pal-blue" tabindex="-1" onclick="hzPick(this,'pal-blue')">
+                      <div class="hz-pal-tag">Blue · hds-palette-blue</div>
+                      <div class="hz-pal-h">Mission Control</div>
+                      <div class="hz-pal-p">Wrap a section in a palette and every element inside recolors itself.</div>
+                      <div class="hz-pal-actions"><span class="hz-pal-link">Read more</span><span class="hz-pal-btn">Get Started</span></div>
+                    </div>
+                    <div class="hz-pal pal-black" tabindex="-1" onclick="hzPick(this,'pal-black')">
+                      <div class="hz-pal-tag">Black · hds-palette-black</div>
+                      <div class="hz-pal-h">Mission Control</div>
+                      <div class="hz-pal-p">Reserved for headers and footers only, the darkest surface in the system.</div>
+                      <div class="hz-pal-actions"><span class="hz-pal-link">Read more</span><span class="hz-pal-btn">Get Started</span></div>
+                    </div>
+                  </div>
+                </div>
+          
+              </div>
+          
+              <div class="hz-side" id="hz-guide">
+                <div class="hz-guide-empty" id="hz-guide-empty">
+                  <strong>The decision layer.</strong><br>HDS shipped with tokens and components, but teams needed to know <em>when</em> to use each one. Select any token, button, or palette to see the usage guidance.
+                </div>
+                <div id="hz-guide-detail" style="display:none">
+                  <div class="hz-guide-eyebrow">Usage guidance</div>
+                  <div class="hz-guide-name" id="hz-g-name">—</div>
+                  <div class="hz-guide-token" id="hz-g-token">—</div>
+                  <div class="hz-guide-swatch" id="hz-g-swatch"></div>
+                  <div class="hz-guide-block"><div class="hz-guide-label use">Use for</div><div class="hz-guide-text" id="hz-g-use">—</div></div>
+                  <div class="hz-guide-block"><div class="hz-guide-label avoid">Avoid</div><div class="hz-guide-text" id="hz-g-avoid">—</div></div>
+                </div>
+              </div>
+            </div>
+          
+            <figcaption class="hz-caption">Horizon Design System tokens, buttons, and palette system &mdash; illustrative representation</figcaption>
+          
+            <script>
+            (function () {
+              function motionOff() {
+                var m = document.documentElement.getAttribute('data-motion');
+                if (m === 'off') return true;
+                if (m === 'on')  return false;
+                return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+              }
+              var vis = document.getElementById('hz-visual');
+              if (motionOff()) { vis.classList.add('is-visible'); }
+              else { new IntersectionObserver(function (ee) { ee.forEach(function (e) { if (e.isIntersecting) vis.classList.add('is-visible'); }); }, { threshold: 0.1 }).observe(vis); }
+          
+              var G = {
+                'nasa-red':        { name:'NASA Red', token:'--hds-color-nasa-red · #F64137', color:'#f64137', use:'The signature brand red. Primary calls to action and moments of key emphasis.', avoid:'Large background fills or body text. It is an action color, not a surface.' },
+                'nasa-red-tint':   { name:'NASA Red · Tint', token:'--hds-color-nasa-red-tint · #FF5C52', color:'#ff5c52', use:'Red actions and accents on dark palettes, where the base red would be too heavy.', avoid:'Light backgrounds, where it loses contrast against white.' },
+                'nasa-red-shade':  { name:'NASA Red · Shade', token:'--hds-color-nasa-red-shade · #B60109', color:'#b60109', use:'Hover and pressed states for red actions, and red on lighter surfaces.', avoid:'Resting states. It reads as engaged, not at rest.' },
+                'nasa-blue':       { name:'NASA Blue', token:'--hds-color-nasa-blue · #1C67E3', color:'#1c67e3', use:'Links, secondary buttons, and interactive elements on light palettes.', avoid:'Body text or large fills. Reserve it for things that are actionable.' },
+                'nasa-blue-tint':  { name:'NASA Blue · Tint', token:'--hds-color-nasa-blue-tint · #288BFF', color:'#288bff', use:'Links and interactive color on dark and black palettes, for contrast.', avoid:'Light backgrounds, where the base blue reads better.' },
+                'nasa-blue-shade': { name:'NASA Blue · Shade', token:'--hds-color-nasa-blue-shade · #0B3D91', color:'#0b3d91', use:'The Blue palette background, and blue actions on midtone surfaces.', avoid:'Small text on dark surfaces, where contrast drops.' },
+                'spacesuit-white': { name:'Spacesuit White', token:'--hds-color-spacesuit-white · #FFFFFF', color:'#ffffff', use:'The default page surface, and text and icons on dark palettes.', avoid:'As an accent. White is a surface and a contrast color, not an action.' },
+                'carbon-05':       { name:'Carbon 05', token:'--hds-color-carbon-05 · #F6F6F6', color:'#f6f6f6', use:'The Light palette surface, and quiet section backgrounds and cards.', avoid:'Text or icons. Nothing meaningful should sit at this contrast.' },
+                'carbon-20':       { name:'Carbon 20', token:'--hds-color-carbon-20 · #D1D1D1', color:'#d1d1d1', use:'The Midtone palette surface, borders, dividers, and disabled fills.', avoid:'Body text. It falls below readable contrast on white.' },
+                'carbon-60':       { name:'Carbon 60', token:'--hds-color-carbon-60 · #58585B', color:'#58585b', use:'Secondary text, captions, and metadata that support the main content.', avoid:'Primary reading text on light surfaces at small sizes.' },
+                'carbon-90':       { name:'Carbon 90', token:'--hds-color-carbon-90 · #17171B', color:'#17171b', use:'Default ink for text and headings, and the Dark palette surface.', avoid:'Pairing with midtone backgrounds that drop below 4.5:1 contrast.' },
+                'carbon-black':    { name:'Carbon Black', token:'--hds-color-carbon-black · #000000', color:'#000000', use:'The Black palette surface, reserved for headers and footers.', avoid:'General content areas. True black is held back for chrome.' },
+                'international-orange': { name:'International Orange', token:'--hds-color-international-orange · #EA6F24', color:'#ea6f24', use:'A limited heritage accent, drawn from NASA’s history, for special emphasis.', avoid:'Competing with NASA Red. Only one warm accent should lead at a time.' },
+                'active-green':    { name:'Active Green', token:'--hds-color-active-green · #47DA84', color:'#47da84', use:'Positive and operational states: live, nominal, complete.', avoid:'Decoration. Green here always means something is working.' },
+                'btn-cta':       { name:'CTA button', token:'component · .usa-button', color:'#d83933', use:'The default HDS button and the one primary action on a view.', avoid:'Two CTAs side by side. One primary action per screen.' },
+                'btn-secondary': { name:'Secondary button', token:'component · .usa-button--secondary', color:'#1c67e3', use:'An alternative action that sits beside the CTA: apply, filter, continue.', avoid:'The single most important action. It reads as second in line.' },
+                'btn-outline':   { name:'Outline button', token:'component · .usa-button--outline', color:'#17171b', use:'Lower-emphasis actions. Its border and text adapt to the palette around it.', avoid:'The primary action. An outline always reads as lighter weight.' },
+                'btn-unstyled':  { name:'Unstyled button', token:'component · .usa-button--unstyled', color:'#17171b', use:'A button that needs to read as a plain text link, like cancel or dismiss.', avoid:'Primary or destructive actions that need to be easy to spot.' },
+                'btn-arrow':     { name:'Primary arrow link', token:'component · .hds-btn--primary', color:'#f64137', use:'A prominent directional link for “keep going” moments. External variant marks off-site links.', avoid:'Routine navigation. Its weight is meant to pull the eye.' },
+                'btn-disabled':  { name:'Disabled state', token:'component · button[disabled]', color:'#d1d1d1', use:'Signalling an action that is not available yet, without removing it from view.', avoid:'Hiding why it is disabled. Pair it with a hint where you can.' },
+                'pal-white':   { name:'White palette', token:'.hds-palette-white · Spacesuit White', color:'#ffffff', use:'The default surface for most content. Maximum legibility for long reading.', avoid:'Nothing special — this is the baseline every other palette is measured against.' },
+                'pal-light':   { name:'Light palette', token:'.hds-palette-light · Carbon 05', color:'#f6f6f6', use:'Separating a section from a white page without a hard border.', avoid:'Stacking directly on white with no other cue. The step is subtle.' },
+                'pal-midtone': { name:'Midtone palette', token:'.hds-palette-midtone · Carbon 20', color:'#d1d1d1', use:'A heavier section break that still keeps dark text readable.', avoid:'Long body copy. Contrast is fine but tiring over many paragraphs.' },
+                'pal-dark':    { name:'Dark palette', token:'.hds-palette-dark · Carbon 90', color:'#17171b', use:'High-impact sections. Text flips to white and links to the blue tint automatically.', avoid:'Dense forms and tables, where a light surface is easier to scan.' },
+                'pal-blue':    { name:'Blue palette', token:'.hds-palette-blue · NASA Blue Shade', color:'#0b3d91', use:'Brand-forward moments: heroes and feature bands that should feel unmistakably NASA.', avoid:'Overuse. Its strength comes from being the exception, not the rule.' },
+                'pal-black':   { name:'Black palette', token:'.hds-palette-black · Carbon Black', color:'#000000', use:'Headers and footers only. It frames the page rather than carrying content.', avoid:'Content sections. This palette is deliberately restricted to page chrome.' }
+              };
+          
+              var empty = document.getElementById('hz-guide-empty');
+              var detail = document.getElementById('hz-guide-detail');
+          
+              window.hzPick = function (el, key) {
+                var d = G[key]; if (!d) return;
+                vis.querySelectorAll('.is-sel').forEach(function (n) { n.classList.remove('is-sel'); });
+                if (el.classList.contains('hz-sw') || el.classList.contains('hz-pal')) el.classList.add('is-sel');
+                empty.style.display = 'none';
+                detail.style.display = 'block';
+                document.getElementById('hz-g-name').textContent = d.name;
+                document.getElementById('hz-g-token').textContent = d.token;
+                document.getElementById('hz-g-swatch').style.background = d.color;
+                document.getElementById('hz-g-use').textContent = d.use;
+                document.getElementById('hz-g-avoid').textContent = d.avoid;
+              };
+            })();
+            </script>
+            </figure>
         </section>
 
         <section class="case-section" id="outcome">
