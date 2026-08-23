@@ -1257,3 +1257,85 @@ h3.subsection-heading:first-of-type { margin-top: 0; }
   .philosophy-grid { grid-template-columns: 1fr; }
   .contact-inner { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   EXAMPLE FIGURES — "view full screen" button + modal
+   ============================================================ */
+.ex-fullscreen-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: -1rem 0 2.75rem auto;
+  padding: 7px 13px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.ex-fullscreen-btn:hover { color: var(--c-page); border-color: var(--c-page); }
+.ex-fullscreen-btn:focus-visible { outline: 2px solid var(--c-page); outline-offset: 2px; }
+.ex-fullscreen-btn svg { flex: none; }
+
+body.ex-modal-open { overflow: hidden; }
+
+.ex-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(14px, 3vw, 44px);
+}
+.ex-modal[hidden] { display: none; }
+.ex-modal-backdrop { position: absolute; inset: 0; background: rgba(8, 8, 12, 0.74); }
+@supports (backdrop-filter: blur(2px)) { .ex-modal-backdrop { backdrop-filter: blur(3px); } }
+
+.ex-modal-shell {
+  position: relative;
+  z-index: 1;
+  width: min(1200px, 100%);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: exModalIn 0.3s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+.ex-modal-bar { flex: none; display: flex; justify-content: flex-end; }
+.ex-modal-stage { flex: 1 1 auto; overflow: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; }
+.ex-modal-stage > figure { margin: 0 !important; width: 100%; max-width: none; }
+
+.ex-modal-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 15px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  background: #fff;
+  color: #17171b;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  transition: background 0.15s ease;
+}
+.ex-modal-close:hover { background: #ededed; }
+.ex-modal-close:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.ex-modal-close svg { flex: none; }
+
+@keyframes exModalIn {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+[data-motion="off"] .ex-modal-shell { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="on"]) .ex-modal-shell { animation: none; }
+}

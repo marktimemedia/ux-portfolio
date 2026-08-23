@@ -291,6 +291,113 @@ function initCaseStudy() {
   });
 }
 
+/* ---- EXAMPLE FIGURES: full-screen modal ---- */
+function initExampleModals() {
+  // An "example" is any <figure> that contains a fake browser-chrome bar
+  // (an element whose class ends in "-chrome", e.g. nx-chrome / hz-chrome / pv-chrome).
+  const figures = Array.from(document.querySelectorAll('figure'))
+    .filter(f => f.querySelector('div[class$="-chrome"]'));
+  if (!figures.length) return;
+
+  // Shared overlay (built once)
+  const overlay = document.createElement('div');
+  overlay.className = 'ex-modal';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.hidden = true;
+  overlay.innerHTML =
+    '<div class="ex-modal-backdrop" data-ex-close></div>' +
+    '<div class="ex-modal-shell">' +
+      '<div class="ex-modal-bar">' +
+        '<button type="button" class="ex-modal-close" data-ex-close aria-label="Close full screen view">' +
+          '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>' +
+          '<span>Close</span>' +
+        '</button>' +
+      '</div>' +
+      '<div class="ex-modal-stage"></div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  const stage    = overlay.querySelector('.ex-modal-stage');
+  const closeBtn = overlay.querySelector('.ex-modal-close');
+  const inertEls = () => [document.querySelector('main'), document.querySelector('nav.site-nav'), document.querySelector('footer.site-footer')].filter(Boolean);
+
+  let openFig = null, placeholder = null, opener = null, keyHandler = null;
+
+  function openModal(fig, trigger) {
+    if (openFig) return;
+    openFig = fig; opener = trigger || null;
+    fig.classList.add('is-visible'); // make sure scroll-in content is shown
+    placeholder = document.createComment('ex-fig');
+    fig.parentNode.insertBefore(placeholder, fig);
+    stage.appendChild(fig);
+    fig.classList.add('ex-in-modal');
+    const cap = fig.querySelector('figcaption');
+    overlay.setAttribute('aria-label', (cap ? cap.textContent.trim() : 'Example') + ', full screen');
+    overlay.hidden = false;
+    document.body.classList.add('ex-modal-open');
+    inertEls().forEach(el => el.setAttribute('inert', ''));
+    keyHandler = function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); closeModal(); return; }
+      if (e.key === 'Tab') {
+        const f = Array.from(overlay.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'))
+          .filter(el => el.offsetParent !== null);
+        if (!f.length) { e.preventDefault(); return; }
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+    document.addEventListener('keydown', keyHandler, true);
+    closeBtn.focus();
+  }
+
+  function closeModal() {
+    if (!openFig) return;
+    const fig = openFig;
+    fig.classList.remove('ex-in-modal');
+    placeholder.parentNode.insertBefore(fig, placeholder);
+    placeholder.remove(); placeholder = null;
+    overlay.hidden = true;
+    document.body.classList.remove('ex-modal-open');
+    inertEls().forEach(el => el.removeAttribute('inert'));
+    document.removeEventListener('keydown', keyHandler, true);
+    keyHandler = null;
+    const t = opener; openFig = null; opener = null;
+    if (t && typeof t.focus === 'function') t.focus();
+  }
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target.closest('[data-ex-close]')) closeModal();
+  });
+
+  figures.forEach(fig => {
+    const cap = fig.querySelector('figcaption');
+    const label = cap ? cap.textContent.trim().split('—')[0].trim() : 'this example';
+
+    // Accessible trigger: a real button placed AFTER the (aria-hidden) figure
+    const viewBtn = document.createElement('button');
+    viewBtn.type = 'button';
+    viewBtn.className = 'ex-fullscreen-btn';
+    viewBtn.setAttribute('aria-label', 'View ' + label + ' full screen');
+    viewBtn.innerHTML =
+      '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '<span>View full screen</span>';
+    viewBtn.addEventListener('click', () => openModal(fig, viewBtn));
+    fig.insertAdjacentElement('afterend', viewBtn);
+
+    // Fake browser controls: green dot expands, red dot closes (mouse affordances)
+    const chrome = fig.querySelector('div[class$="-chrome"]');
+    const dots = chrome ? chrome.querySelectorAll('[class$="-chrome-dots"] span') : [];
+    if (dots.length >= 3) {
+      const red = dots[0], green = dots[2];
+      green.style.cursor = 'pointer'; green.title = 'Expand to full screen';
+      green.addEventListener('click', () => openModal(fig, viewBtn));
+      red.style.cursor = 'pointer'; red.title = 'Close';
+      red.addEventListener('click', () => { if (openFig === fig) closeModal(); });
+    }
+  });
+}
+
 /* ---- INIT ---- */
 document.addEventListener('DOMContentLoaded', function() {
   applyPrefs(getPrefs());
@@ -300,4 +407,6 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     initHomeNav();
   }
+
+  initExampleModals();
 });
