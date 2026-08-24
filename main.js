@@ -383,7 +383,7 @@ function initExampleModals() {
       '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M2 6V2h4M14 6V2h-4M2 10v4h4M14 10v4h-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
       '<span>View full screen</span>';
     viewBtn.addEventListener('click', () => openModal(fig, viewBtn));
-    fig.insertAdjacentElement('afterend', viewBtn);
+    fig.insertAdjacentElement('beforebegin', viewBtn);
 
     // Fake browser controls: green dot expands, red dot closes (mouse affordances)
     const chrome = fig.querySelector('div[class$="-chrome"]');
