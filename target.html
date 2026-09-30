@@ -163,6 +163,554 @@
           <p>The most complex part of this project was balancing a lot of competing needs simultaneously. The dev team was stretched thin and needed structure and support. The original business owners brought years of accumulated vision for the product and deep personal investment in where it should go. And on top of all of that, we needed to keep listening to actual users and make sure every decision preserved the sense of community and of being heard that made the app work. My role was to hold all of those needs together from a design perspective and find a path forward that didn't sacrifice any of them unnecessarily.</p>
           <p>Implementing a formal scrum process helped us manage this from both a procedural and an empathetic standpoint. Retrospectives gave the dev team a structured place to be heard. Defined sprints made expectations clear across the whole group. I ran separate meetings with the business owners and Target designers to understand what they needed and pressure-test design directions before bringing them to the broader team.</p>
           <p>On the design system side, we didn't just adopt it — we contributed back to it. StudioConnect needed a color scheme that didn't exist in the system yet, so we developed one and shared it with that team. The app and the admin screens needed to feel cohesive even though they were built differently, and the new palette made that possible.</p>
+
+          <figure class="sc-visual" id="sc-visual" aria-hidden="true">
+            <style>
+            /* ── StudioConnect illustrative visual ── */
+            .sc-visual {
+              --sc-purple: #7026b9; --sc-purple-dk: #5a1c96; --sc-tint: #f3ebfb; --sc-tint-2: #e3d2f5;
+              --sc-ink: #1b1726; --sc-ink-2: #4a4458; --sc-muted: #7a7489; --sc-line: #e8e4ef; --sc-bg: #fafafa;
+              margin: 2rem 0 2.5rem;
+              border-radius: 10px; overflow: hidden;
+              border: 1px solid rgba(0,0,0,.08);
+              box-shadow: 0 2px 4px rgba(0,0,0,.07), 0 8px 32px rgba(0,0,0,.12);
+              font-family: Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+              font-size: 12px; line-height: 1.4; color: var(--sc-ink); font-weight: 400; letter-spacing: normal;
+              background: linear-gradient(160deg, #f3f0f8 0%, #ebe6f3 100%);
+            }
+            .sc-visual * { box-sizing: border-box; }
+            .sc-visual button { font-family: inherit; }
+
+            .sc-stage { display: flex; flex-direction: column; padding: 22px 22px 18px; }
+            .sc-surface-label { margin-top: 10px; font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--sc-muted); display: flex; align-items: center; gap: 7px; }
+            .sc-surface-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--sc-purple); }
+            .sc-hint { max-width: calc(100% - 250px); margin-top: 14px; font-size: 12px; line-height: 1.5; color: var(--sc-ink-2); }
+
+            /* ── desktop window ── */
+            .sc-desk { container-type: inline-size; min-width: 0; width: calc(100% - 64px); }
+            .sc-window { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 2px rgba(27,23,38,.08), 0 10px 30px rgba(27,23,38,.12); }
+            .sc-chrome { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #eceaf0; border-bottom: 1px solid #dcd8e3; }
+            .sc-chrome-dots { display: flex; gap: 5px; }
+            .sc-chrome-dots span { width: 9px; height: 9px; border-radius: 50%; }
+            .sc-chrome-dots span:nth-child(1) { background: #ff5f57; }
+            .sc-chrome-dots span:nth-child(2) { background: #febc2e; }
+            .sc-chrome-dots span:nth-child(3) { background: #28c840; }
+            .sc-chrome-url { flex: 1; text-align: center; margin-right: 44px; font-size: 10.5px; color: #8a8594; }
+
+            .sc-app { display: flex; height: 420px; }
+            .sc-rail { flex: none; width: 50px; background: var(--sc-bg); border-right: 1px solid var(--sc-line); display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 0; }
+            .sc-mark { width: 28px; height: 28px; border-radius: 8px; background: var(--sc-purple); color: #fff; font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+            .sc-rail-i { width: 32px; height: 32px; padding: 0; border: none; border-radius: 8px; background: none; display: flex; align-items: center; justify-content: center; color: var(--sc-muted); cursor: pointer; transition: background .15s ease, color .15s ease; }
+            .sc-rail-i:hover { background: #f0edf4; color: var(--sc-ink-2); }
+            .sc-rail-i svg { width: 16px; height: 16px; }
+            .sc-rail-i.is-active { background: var(--sc-tint); color: var(--sc-purple); }
+
+            .sc-main { flex: 1; min-width: 0; overflow-y: auto; scrollbar-width: thin; }
+            .sc-view[hidden] { display: none; }
+            .sc-topbar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; background: rgba(255,255,255,.95); border-bottom: 1px solid var(--sc-line); }
+            .sc-title { font-size: 14px; font-weight: 700; }
+            .sc-pill { flex: none; padding: 4px 9px; border-radius: 12px; border: 1px solid var(--sc-line); font-size: 10.5px; color: var(--sc-ink-2); }
+            .sc-btn { flex: none; padding: 6px 11px; border-radius: 7px; border: none; background: var(--sc-purple); color: #fff; font-size: 11px; font-weight: 600; cursor: pointer; transition: background .15s ease; }
+            .sc-btn:hover { background: var(--sc-purple-dk); }
+            .sc-body { padding: 12px 14px 18px; display: flex; flex-direction: column; gap: 12px; }
+
+            .sc-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+            .sc-kpi { padding: 9px 10px; border: 1px solid var(--sc-line); border-radius: 8px; }
+            .sc-kpi-l { font-size: 10px; color: var(--sc-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .sc-kpi-v { margin-top: 2px; font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+            .sc-kpi-s { font-size: 10px; color: var(--sc-purple); font-weight: 600; }
+
+            .sc-card { border: 1px solid var(--sc-line); border-radius: 8px; padding: 10px 12px; }
+            .sc-card h4 { margin: 0 0 8px; font-size: 11px; font-weight: 700; color: var(--sc-ink); display: flex; justify-content: space-between; }
+            .sc-card h4 span { font-weight: 400; font-size: 10px; color: var(--sc-muted); text-align: right; }
+            .sc-card h4 { gap: 10px; }
+
+            .sc-chart { display: flex; align-items: flex-end; gap: 6px; height: 70px; }
+            .sc-chart div { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 4px; }
+            .sc-chart i { display: block; width: 100%; border-radius: 3px 3px 0 0; background: var(--sc-tint-2); }
+            .sc-chart div:last-child i { background: var(--sc-purple); }
+            .sc-chart span { font-size: 9px; color: var(--sc-muted); }
+
+            .sc-table { width: 100%; }
+            .sc-tr { display: grid; grid-template-columns: minmax(0, 1fr) 44px 44px; gap: 8px; align-items: center; padding: 6px 0; border-top: 1px solid var(--sc-line); font-size: 11px; }
+            .sc-tr.head { border-top: none; padding-top: 0; font-size: 9.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--sc-muted); }
+            .sc-tr > :not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+            .sc-post-t { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .sc-post-t small { display: block; font-weight: 400; font-size: 10px; color: var(--sc-muted); }
+            .sc-tr.is-bump { background: linear-gradient(90deg, var(--sc-tint), transparent); }
+
+            .sc-split { display: grid; grid-template-columns: 1fr; gap: 12px; }
+            @container (min-width: 560px) { .sc-split { grid-template-columns: 1fr 1fr; } }
+            .sc-li { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 11px; }
+            .sc-li + .sc-li { border-top: 1px solid var(--sc-line); }
+            .sc-li b { margin-left: auto; font-variant-numeric: tabular-nums; }
+            .sc-li em { font-style: normal; color: var(--sc-muted); font-size: 10px; }
+            .sc-meter { flex: 1; height: 6px; border-radius: 3px; background: var(--sc-bg); overflow: hidden; }
+            .sc-meter i { display: block; height: 100%; background: var(--sc-purple); border-radius: 3px; }
+            .sc-team { width: 58px; flex: none; }
+
+            .sc-av { flex: none; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; }
+            .sc-av.p { background: var(--sc-purple); color: #fff; }
+            .sc-av.g1 { background: #fde6d8; color: #8a3d18; }
+            .sc-av.g2 { background: #dcefe3; color: #2c6844; }
+            .sc-av.g3 { background: #e0e8f7; color: #2f4c86; }
+            .sc-av.g4 { background: #f5e3ef; color: #7d2c5f; }
+            .sc-av.sm { width: 22px; height: 22px; font-size: 9px; }
+
+            .sc-search { display: flex; gap: 8px; }
+            .sc-input { flex: 1; min-width: 0; padding: 7px 10px; border: 1px solid var(--sc-line); border-radius: 7px; font-size: 11px; color: var(--sc-muted); }
+            .sc-seg { flex: none; display: inline-flex; border: 1px solid var(--sc-line); border-radius: 7px; overflow: hidden; font-size: 10.5px; }
+            .sc-seg span { padding: 6px 9px; color: var(--sc-muted); }
+            .sc-seg span.on { background: var(--sc-tint); color: var(--sc-purple); font-weight: 600; }
+
+            .sc-mrow { display: flex; align-items: center; gap: 9px; padding: 8px 0; border-top: 1px solid var(--sc-line); font-size: 11px; }
+            .sc-mrow:first-child { border-top: none; }
+            .sc-mname { flex: 1; min-width: 0; }
+            .sc-mname b { display: block; font-weight: 600; }
+            .sc-mname small { font-size: 10px; color: var(--sc-muted); }
+            .sc-pts { width: 58px; text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+            .sc-pts small { display: block; font-weight: 400; font-size: 9.5px; color: var(--sc-muted); }
+            .sc-status { flex: none; width: 56px; text-align: center; padding: 2px 0; border-radius: 10px; font-size: 9.5px; font-weight: 600; background: var(--sc-tint); color: var(--sc-purple); }
+            .sc-mrow.is-inactive .sc-status { background: #efeef1; color: var(--sc-muted); }
+            .sc-mrow.is-inactive .sc-mname, .sc-mrow.is-inactive .sc-pts, .sc-mrow.is-inactive .sc-av { opacity: .5; }
+            .sc-link { flex: none; width: 66px; text-align: right; padding: 0; border: none; background: none; font-size: 10.5px; font-weight: 600; color: var(--sc-muted); cursor: pointer; }
+            .sc-link:hover { color: var(--sc-purple); }
+            .sc-link.wide { display: none; }
+            @container (min-width: 600px) { .sc-link.wide { display: block; } }
+
+            .sc-rrow { display: flex; align-items: center; gap: 9px; padding: 8px 0; border-top: 1px solid var(--sc-line); font-size: 11px; }
+            .sc-rrow:first-of-type { border-top: none; }
+            .sc-rrow .sc-mname small b { display: inline; color: var(--sc-ink-2); font-weight: 600; }
+            .sc-send { flex: none; width: 58px; padding: 5px 0; border-radius: 7px; border: 1.5px solid var(--sc-purple); background: #fff; color: var(--sc-purple); font-size: 10.5px; font-weight: 600; cursor: pointer; transition: background .15s ease, color .15s ease, border-color .15s ease; }
+            .sc-send:hover { background: var(--sc-tint); }
+            .sc-send.is-sent { border-color: transparent; background: var(--sc-tint); cursor: default; }
+            .sc-recent .sc-li { animation: none; }
+            .sc-recent .sc-li.is-new { animation: scIn .45s cubic-bezier(.2,.8,.25,1); }
+            .sc-live { height: 14px; font-size: 10.5px; color: var(--sc-purple); font-weight: 600; opacity: 0; transition: opacity .3s ease; }
+            .sc-live.is-on { opacity: 1; }
+
+            /* ── phone ── */
+            .sc-phone-wrap { position: relative; z-index: 3; align-self: flex-end; margin-top: -210px; display: flex; flex-direction: column; align-items: center; }
+            .sc-phone { width: 214px; height: 450px; border-radius: 24px; padding: 6px; background: #1b1726; box-shadow: 0 1px 2px rgba(27,23,38,.1), 0 14px 34px rgba(27,23,38,.22); }
+            .sc-screen { position: relative; height: 100%; border-radius: 18px; overflow: hidden; background: #fff; display: flex; flex-direction: column; font-size: 11px; }
+            .sc-sbar { flex: none; display: flex; justify-content: space-between; align-items: center; padding: 7px 16px 3px; font-size: 10px; font-weight: 600; }
+            .sc-cam { position: absolute; top: 7px; left: 50%; transform: translateX(-50%); width: 9px; height: 9px; border-radius: 50%; background: #1b1726; }
+            .sc-sbar-r { display: flex; align-items: center; gap: 4px; }
+            .sc-sbar-r svg { width: 10px; height: 10px; }
+            .sc-sbar i { display: inline-block; width: 16px; height: 8px; border: 1px solid var(--sc-ink); border-radius: 2px; position: relative; }
+            .sc-sbar i::after { content: ''; position: absolute; inset: 1px; right: 4px; background: var(--sc-ink); border-radius: 1px; }
+            .sc-p-head { flex: none; display: flex; justify-content: space-between; align-items: center; padding: 6px 12px 8px; border-bottom: 1px solid var(--sc-line); }
+            .sc-word { font-weight: 700; font-size: 14px; letter-spacing: -.02em; }
+            .sc-word span { color: var(--sc-purple); }
+            .sc-bell { position: relative; display: flex; }
+            .sc-bell svg { width: 16px; height: 16px; }
+            .sc-dot { position: absolute; top: -1px; right: -1px; width: 7px; height: 7px; border-radius: 50%; background: var(--sc-purple); box-shadow: 0 0 0 1.5px #fff; opacity: 0; transform: scale(.3); transition: opacity .25s ease, transform .3s cubic-bezier(.34,1.6,.5,1); }
+            .sc-dot.is-on { opacity: 1; transform: scale(1); }
+            .sc-p-view { flex: 1; overflow-y: auto; scrollbar-width: none; }
+            .sc-p-view::-webkit-scrollbar { display: none; }
+            .sc-p-view[hidden] { display: none; }
+
+            .sc-p-post { padding: 10px 12px 4px; }
+            .sc-author { display: flex; align-items: center; gap: 7px; }
+            .sc-name { font-weight: 600; font-size: 11px; }
+            .sc-role { display: inline-block; margin-left: 3px; padding: 1px 5px; border-radius: 4px; background: var(--sc-tint); color: var(--sc-purple); font-size: 8.5px; font-weight: 600; vertical-align: 1px; }
+            .sc-meta { font-size: 9.5px; color: var(--sc-muted); }
+            .sc-shot { display: flex; align-items: flex-end; justify-content: center; gap: 8%; height: 118px; margin: 9px -12px 0; padding: 0 10% 16px; background: linear-gradient(180deg, #f6f3ee 0%, #ece6dc 100%); position: relative; }
+            .sc-shot::after { content: ''; position: absolute; left: 6%; right: 6%; bottom: 15px; height: 1px; background: rgba(0,0,0,.08); }
+            .sc-bin { position: relative; flex: 1; max-width: 60px; aspect-ratio: 1 / .82; border-radius: 5px 5px 7px 7px; box-shadow: inset 0 -5px 0 rgba(0,0,0,.07); }
+            .sc-bin::before { content: ''; position: absolute; left: -4%; right: -4%; top: -8px; height: 8px; border-radius: 4px 4px 1px 1px; background: inherit; filter: brightness(.9); }
+            .sc-bin::after { content: ''; position: absolute; left: 34%; right: 34%; top: 26%; height: 4px; border-radius: 3px; background: rgba(0,0,0,.14); }
+            .sc-bin.a { background: #9fb59a; } .sc-bin.b { background: #c9775a; } .sc-bin.c { background: #55535c; }
+            .sc-bin span { position: absolute; left: 50%; bottom: -15px; transform: translateX(-50%); font-size: 9px; font-weight: 700; color: #6d6558; }
+            .sc-p-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; }
+            .sc-p-dots span { width: 5px; height: 5px; border-radius: 50%; background: var(--sc-line); }
+            .sc-p-dots span:first-child { background: var(--sc-purple); }
+            .sc-p-react { display: flex; gap: 12px; margin-top: 4px; }
+            .sc-p-react svg { width: 16px; height: 16px; }
+            .sc-like { padding: 0; border: none; background: none; color: inherit; cursor: pointer; display: inline-flex; }
+            .sc-like svg { transition: transform .2s cubic-bezier(.34,1.6,.5,1); }
+            .sc-like.is-on { color: var(--sc-purple); }
+            .sc-like.is-on svg { fill: currentColor; transform: scale(1.15); }
+            .sc-p-likes { margin-top: 4px; font-size: 10.5px; }
+            .sc-p-likes b { font-weight: 700; font-variant-numeric: tabular-nums; }
+            .sc-p-body { margin-top: 4px; font-size: 11px; line-height: 1.45; color: var(--sc-ink-2); }
+            .sc-p-body b { color: var(--sc-ink); }
+            .sc-p-cmts { padding: 8px 12px 14px; }
+            .sc-p-cmts-head { font-size: 10px; color: var(--sc-muted); margin-bottom: 2px; }
+            .sc-pc { display: flex; gap: 7px; padding-top: 8px; }
+            .sc-pc-body { flex: 1; min-width: 0; }
+            .sc-pc-text { margin-top: 1px; font-size: 10.5px; color: var(--sc-ink-2); line-height: 1.45; }
+            .sc-pc-reply { margin-top: 3px; font-size: 9.5px; font-weight: 600; color: var(--sc-muted); }
+            .sc-p-thread { margin-top: 2px; padding-left: 9px; border-left: 2px solid var(--sc-tint-2); }
+
+            /* profile: the app's marble background for non-feed screens */
+            .sc-profile { position: relative; padding: 12px 12px 18px; min-height: 100%;
+              background:
+                linear-gradient(118deg, transparent 38%, rgba(150,150,160,.16) 39%, transparent 41.5%),
+                linear-gradient(32deg, transparent 58%, rgba(150,150,160,.13) 59%, transparent 60.5%),
+                linear-gradient(165deg, transparent 18%, rgba(160,160,170,.12) 19%, transparent 20.5%),
+                linear-gradient(75deg, transparent 72%, rgba(160,160,170,.10) 73%, transparent 74%),
+                radial-gradient(ellipse at 30% 20%, #ffffff, #ececef 75%); }
+            .sc-pencils { position: absolute; right: -18px; bottom: -8px; width: 120px; height: 90px; pointer-events: none; }
+            .sc-pencils i { position: absolute; right: 0; width: 110px; height: 9px; border-radius: 1px; transform-origin: right center; }
+            .sc-pencils i::before { content: ''; position: absolute; left: -12px; top: 0; border-style: solid; border-width: 4.5px 12px 4.5px 0; border-color: transparent #e6c9a4 transparent transparent; }
+            .sc-pencils i:nth-child(1) { bottom: 70px; transform: rotate(-32deg); background: #7a3fc4; }
+            .sc-pencils i:nth-child(2) { bottom: 54px; transform: rotate(-30deg); background: #2f8fcf; }
+            .sc-pencils i:nth-child(3) { bottom: 38px; transform: rotate(-28deg); background: #3cbf9a; }
+            .sc-pencils i:nth-child(4) { bottom: 22px; transform: rotate(-26deg); background: #c9de4f; }
+            .sc-pencils i:nth-child(5) { bottom: 6px;  transform: rotate(-24deg); background: #e8573f; }
+            .sc-prof-h { position: relative; text-align: center; font-size: 17px; font-weight: 700; margin: 2px 0 10px; }
+            .sc-prof-card { position: relative; z-index: 1; background: #fff; border-radius: 10px; padding: 14px 12px 12px; box-shadow: 0 1px 3px rgba(0,0,0,.1); text-align: center; }
+            .sc-prof-av { width: 58px; height: 58px; margin: 0 auto 8px; border-radius: 50%; border: 3px solid var(--sc-purple); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; background: #dcefe3; color: #2c6844; }
+            .sc-prof-name { font-size: 13px; font-weight: 700; }
+            .sc-prof-sub { font-size: 10px; color: var(--sc-muted); margin-top: 2px; }
+            .sc-prof-stats { display: flex; justify-content: space-around; margin: 12px 0 4px; padding-top: 10px; border-top: 1px solid var(--sc-line); }
+            .sc-prof-stats div { font-size: 9.5px; color: var(--sc-muted); }
+            .sc-prof-stats b { display: block; font-size: 13px; color: var(--sc-ink); font-variant-numeric: tabular-nums; }
+            .sc-prof-rw { position: relative; z-index: 1; margin-top: 10px; background: #fff; border-radius: 10px; padding: 10px 12px; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+            .sc-prof-rw h5 { margin: 0 0 4px; font-size: 10.5px; font-weight: 700; }
+            .sc-rw { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 10.5px; }
+            .sc-rw + .sc-rw { border-top: 1px solid var(--sc-line); }
+            .sc-rw-ic { flex: none; width: 24px; height: 24px; border-radius: 6px; background: var(--sc-tint); color: var(--sc-purple); display: flex; align-items: center; justify-content: center; }
+            .sc-rw-ic svg { width: 13px; height: 13px; }
+            .sc-rw small { display: block; font-size: 9.5px; color: var(--sc-muted); }
+            .sc-rw .sc-new-tag { margin-left: auto; padding: 1px 6px; border-radius: 8px; background: var(--sc-purple); color: #fff; font-size: 8.5px; font-weight: 700; }
+            .sc-rw.is-hidden { display: none; }
+            .sc-rw > span:nth-child(2) { flex: 1; min-width: 0; }
+            .sc-rw.is-new { animation: scIn .45s cubic-bezier(.2,.8,.25,1); }
+
+            .sc-tabs { flex: none; display: flex; justify-content: space-around; padding: 7px 0; border-top: 1px solid var(--sc-line); background: #fff; }
+            .sc-tab { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 0 8px; border: none; background: none; font-size: 8.5px; color: var(--sc-muted); cursor: pointer; }
+            .sc-tab svg { width: 17px; height: 17px; }
+            .sc-tab.on { color: var(--sc-purple); font-weight: 600; }
+            .sc-tab .sc-dot { top: -2px; right: 8px; }
+            .sc-andnav { flex: none; display: flex; justify-content: space-around; padding: 5px 30px 7px; background: #f4f4f4; color: #555; }
+            .sc-andnav svg { width: 11px; height: 11px; }
+
+            .sc-caption { display: block; margin: 0; padding: 10px 16px; font-size: 11px; font-style: italic; color: #6d6780; text-align: right; background: rgba(255,255,255,.55); border-top: 1px solid rgba(27,23,38,.08); }
+
+            @keyframes scIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+            /* full screen view */
+            .sc-visual.ex-in-modal .sc-stage { padding: 32px; }
+            .sc-visual.ex-in-modal .sc-desk { width: calc(100% - 300px); }
+            .sc-visual.ex-in-modal .sc-app { height: 540px; }
+            .sc-visual.ex-in-modal .sc-phone-wrap { margin-top: -600px; }
+            .sc-visual.ex-in-modal .sc-phone { width: 250px; height: 520px; }
+            .sc-visual.ex-in-modal .sc-hint { max-width: calc(100% - 330px); }
+
+            /* entrance animation */
+            .sc-desk, .sc-phone-wrap { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .7s cubic-bezier(.2,.8,.25,1); }
+            .sc-visual.is-visible .sc-desk { opacity: 1; transform: none; }
+            .sc-visual.is-visible .sc-phone-wrap { opacity: 1; transform: none; transition-delay: .18s; }
+            @media (prefers-reduced-motion: reduce) {
+              :root:not([data-motion="on"]) .sc-desk,
+              :root:not([data-motion="on"]) .sc-phone-wrap { opacity: 1 !important; transform: none !important; transition: none !important; }
+              :root:not([data-motion="on"]) .sc-visual * { animation: none !important; }
+            }
+            [data-motion="off"] .sc-desk,
+            [data-motion="off"] .sc-phone-wrap { opacity: 1 !important; transform: none !important; transition: none !important; }
+            [data-motion="off"] .sc-visual * { animation: none !important; }
+
+            @media (max-width: 700px) {
+              .sc-stage { padding: 16px; }
+              .sc-desk { width: 100%; }
+              .sc-hint { max-width: none; }
+              .sc-phone-wrap { align-self: center; margin-top: 24px; }
+              .sc-app { height: 400px; }
+            }
+            </style>
+
+            <div class="sc-stage">
+
+              <!-- DESKTOP: admin platform -->
+              <div class="sc-desk">
+                <div class="sc-window">
+                  <div class="sc-chrome">
+                    <div class="sc-chrome-dots"><span></span><span></span><span></span></div>
+                    <span class="sc-chrome-url">StudioConnect &middot; internal</span>
+                  </div>
+                  <div class="sc-app">
+                    <nav class="sc-rail">
+                      <span class="sc-mark">SC</span>
+                      <button class="sc-rail-i is-active" data-tab="overview" tabindex="-1" title="Overview" onclick="scTab('overview')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 13V9M8 13V3M13 13V6"/></svg></button>
+                      <button class="sc-rail-i" data-tab="members" tabindex="-1" title="Members" onclick="scTab('members')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5.5" r="2.5"/><path d="M3 13.5c.6-2.6 2.6-4 5-4s4.4 1.4 5 4"/></svg></button>
+                      <button class="sc-rail-i" data-tab="rewards" tabindex="-1" title="Rewards" onclick="scTab('rewards')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="2.5" y="6" width="11" height="7.5" rx="1"/><path d="M2 6h12M8 6v7.5M8 6C6.5 3 4 3 4.5 4.8 5 6 8 6 8 6zM8 6c1.5-3 4-3 3.5-1.2C11 6 8 6 8 6z"/></svg></button>
+                    </nav>
+
+                    <div class="sc-main">
+
+                      <!-- OVERVIEW -->
+                      <div class="sc-view" data-view="overview">
+                        <div class="sc-topbar"><span class="sc-title">Overview</span><span class="sc-pill">Last 8 weeks</span></div>
+                        <div class="sc-body">
+                          <div class="sc-kpis">
+                            <div class="sc-kpi"><div class="sc-kpi-l">Active members</div><div class="sc-kpi-v">642</div><div class="sc-kpi-s">of 1,284 guests</div></div>
+                            <div class="sc-kpi"><div class="sc-kpi-l">Comments</div><div class="sc-kpi-v">1,106</div><div class="sc-kpi-s">up 12%</div></div>
+                            <div class="sc-kpi"><div class="sc-kpi-l">Likes</div><div class="sc-kpi-v" data-sc="likestotal">3,480</div><div class="sc-kpi-s">up 8%</div></div>
+                          </div>
+                          <div class="sc-card">
+                            <h4>Active members by week <span>guests who liked or commented</span></h4>
+                            <div class="sc-chart">
+                              <div><i style="height:48%"></i><span>W1</span></div>
+                              <div><i style="height:55%"></i><span>W2</span></div>
+                              <div><i style="height:51%"></i><span>W3</span></div>
+                              <div><i style="height:63%"></i><span>W4</span></div>
+                              <div><i style="height:58%"></i><span>W5</span></div>
+                              <div><i style="height:70%"></i><span>W6</span></div>
+                              <div><i style="height:74%"></i><span>W7</span></div>
+                              <div><i style="height:82%"></i><span>W8</span></div>
+                            </div>
+                          </div>
+                          <div class="sc-card">
+                            <h4>Engagement by post</h4>
+                            <div class="sc-table">
+                              <div class="sc-tr head"><span>Post</span><span>Likes</span><span>Cmts</span></div>
+                              <div class="sc-tr" id="sc-row-storage"><span class="sc-post-t">Stackable storage colorways<small>Home &middot; Priya R.</small></span><span data-sc="likes">286</span><span>38</span></div>
+                              <div class="sc-tr"><span class="sc-post-t">Fall bedding patterns<small>Home &middot; Sam K.</small></span><span>241</span><span>52</span></div>
+                              <div class="sc-tr"><span class="sc-post-t">Kids rain boots, first look<small>Kids &middot; Lena O.</small></span><span>198</span><span>31</span></div>
+                              <div class="sc-tr"><span class="sc-post-t">Holiday mug shapes<small>Kitchen &middot; Theo B.</small></span><span>176</span><span>44</span></div>
+                            </div>
+                          </div>
+                          <div class="sc-split">
+                            <div class="sc-card">
+                              <h4>Top contributors</h4>
+                              <div class="sc-li"><span class="sc-av sm g1">DM</span>Dana M.<b>64 <em>comments</em></b></div>
+                              <div class="sc-li"><span class="sc-av sm g2">JL</span>Jess L.<b>51 <em>comments</em></b></div>
+                              <div class="sc-li"><span class="sc-av sm g3">MT</span>Marcus T.<b>47 <em>comments</em></b></div>
+                            </div>
+                            <div class="sc-card">
+                              <h4>Design team activity <span>posts</span></h4>
+                              <div class="sc-li"><span class="sc-team">Home</span><span class="sc-meter"><i style="width:100%"></i></span><b>12</b></div>
+                              <div class="sc-li"><span class="sc-team">Apparel</span><span class="sc-meter"><i style="width:75%"></i></span><b>9</b></div>
+                              <div class="sc-li"><span class="sc-team">Kids</span><span class="sc-meter"><i style="width:50%"></i></span><b>6</b></div>
+                              <div class="sc-li"><span class="sc-team">Kitchen</span><span class="sc-meter"><i style="width:33%"></i></span><b>4</b></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- MEMBERS -->
+                      <div class="sc-view" data-view="members" hidden>
+                        <div class="sc-topbar"><span class="sc-title">Members</span><button class="sc-btn" tabindex="-1">Invite guests</button></div>
+                        <div class="sc-body">
+                          <div class="sc-search"><span class="sc-input">Search by name or email</span><span class="sc-seg"><span class="on">All</span><span>Active</span><span>Inactive</span></span></div>
+                          <div>
+                            <div class="sc-mrow"><span class="sc-av g1">DM</span><span class="sc-mname"><b>Dana M.</b><small>Joined 3 yrs ago</small></span><span class="sc-pts">1,420<small>points</small></span><span class="sc-status">Active</span><button class="sc-link wide" tabindex="-1">Profile</button><button class="sc-link" tabindex="-1" onclick="scDeact(this)">Deactivate</button></div>
+                            <div class="sc-mrow"><span class="sc-av g3">MT</span><span class="sc-mname"><b>Marcus T.</b><small>Joined 2 yrs ago</small></span><span class="sc-pts">1,090<small>points</small></span><span class="sc-status">Active</span><button class="sc-link wide" tabindex="-1">Profile</button><button class="sc-link" tabindex="-1" onclick="scDeact(this)">Deactivate</button></div>
+                            <div class="sc-mrow"><span class="sc-av g2">JL</span><span class="sc-mname"><b>Jess L.</b><small>Joined 1 yr ago</small></span><span class="sc-pts">860<small>points</small></span><span class="sc-status">Active</span><button class="sc-link wide" tabindex="-1">Profile</button><button class="sc-link" tabindex="-1" onclick="scDeact(this)">Deactivate</button></div>
+                            <div class="sc-mrow is-inactive"><span class="sc-av g4">AP</span><span class="sc-mname"><b>Ana P.</b><small>No activity in 4 months</small></span><span class="sc-pts">310<small>points</small></span><span class="sc-status">Inactive</span><button class="sc-link wide" tabindex="-1">Profile</button><button class="sc-link" tabindex="-1" onclick="scDeact(this)">Reactivate</button></div>
+                            <div class="sc-mrow"><span class="sc-av sm p" style="width:26px;height:26px">+</span><span class="sc-mname"><b>3 pending invites</b><small>Sent this week</small></span><button class="sc-link" tabindex="-1">Resend</button></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- REWARDS -->
+                      <div class="sc-view" data-view="rewards" hidden>
+                        <div class="sc-topbar"><span class="sc-title">Rewards</span><span class="sc-pill">Points to gift cards &amp; coupons</span></div>
+                        <div class="sc-body">
+                          <div class="sc-card">
+                            <h4>Ready for a reward</h4>
+                            <div class="sc-rrow"><span class="sc-av g1">DM</span><span class="sc-mname"><b>Dana M.</b><small>1,420 pts &middot; <b>$25 gift card</b></small></span><button class="sc-send" tabindex="-1" onclick="scSend(this, 'Dana M.', '$25 gift card')">Send</button></div>
+                            <div class="sc-rrow"><span class="sc-av g3">MT</span><span class="sc-mname"><b>Marcus T.</b><small>1,090 pts &middot; <b>$10 gift card</b></small></span><button class="sc-send" tabindex="-1" onclick="scSend(this, 'Marcus T.', '$10 gift card')">Send</button></div>
+                            <div class="sc-rrow"><span class="sc-av g2">JL</span><span class="sc-mname"><b>Jess L.</b><small>860 pts &middot; <b>20% off coupon</b></small></span><button class="sc-send" tabindex="-1" onclick="scSend(this, 'Jess L.', '20% off coupon', true)">Send</button></div>
+                            <div class="sc-live" id="sc-live">Sent to Jess in the app</div>
+                          </div>
+                          <div class="sc-card sc-recent">
+                            <h4>Recently sent</h4>
+                            <div id="sc-recent">
+                              <div class="sc-li">Sam W. &middot; $10 gift card<b><em>2 days ago</em></b></div>
+                              <div class="sc-li">Rosa G. &middot; 20% off coupon<b><em>last week</em></b></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="sc-surface-label">Internal platform &middot; web</div>
+                <div class="sc-hint">Designers post and guests like and comment in the app. On the web, designers and admins follow trends, and admins manage members and send rewards. Try liking the post on the phone, or open Rewards on the desktop and send Jess her coupon.</div>
+              </div>
+
+              <!-- PHONE: guest app -->
+              <div class="sc-phone-wrap">
+                <div class="sc-phone">
+                  <div class="sc-screen">
+                    <span class="sc-cam"></span>
+                    <div class="sc-sbar"><span>2:36</span><span class="sc-sbar-r"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M5 9 0.5 3.5a6.5 6.5 0 0 1 9 0z"/></svg><svg viewBox="0 0 10 10" fill="currentColor"><path d="M9 1v8H1z"/></svg><i></i></span></div>
+                    <div class="sc-p-head">
+                      <span class="sc-word">Studio<span>Connect</span></span>
+                      <span class="sc-bell"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 11V7a4 4 0 0 1 8 0v4l1 1.5H3zM6.5 14h3"/></svg><span class="sc-dot" data-dot></span></span>
+                    </div>
+
+                    <div class="sc-p-view" data-pview="home">
+                      <div class="sc-p-post">
+                        <div class="sc-author">
+                          <span class="sc-av sm p">PR</span>
+                          <div><div class="sc-name">Priya R.<span class="sc-role">Target Design</span></div><div class="sc-meta">2h</div></div>
+                        </div>
+                        <div class="sc-shot">
+                          <div class="sc-bin a"><span>A</span></div>
+                          <div class="sc-bin b"><span>B</span></div>
+                          <div class="sc-bin c"><span>C</span></div>
+                        </div>
+                        <div class="sc-p-dots"><span></span><span></span><span></span></div>
+                        <div class="sc-p-react">
+                          <button class="sc-like" id="sc-like" tabindex="-1" onclick="scLike()"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 13.5S2.5 10.2 2.5 6.2A2.7 2.7 0 0 1 8 5a2.7 2.7 0 0 1 5.5 1.2c0 4-5.5 7.3-5.5 7.3z"/></svg></button>
+                          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2.5 12.5V4a1.5 1.5 0 0 1 1.5-1.5h8A1.5 1.5 0 0 1 13.5 4v5A1.5 1.5 0 0 1 12 10.5H5z"/></svg>
+                        </div>
+                        <div class="sc-p-likes"><b data-sc="likes">286</b> likes</div>
+                        <div class="sc-p-body"><b>Priya R.</b> Three colorways for a stackable storage line. Which one would you put in your home? Tell us in the comments.</div>
+                      </div>
+                      <div class="sc-p-cmts">
+                        <div class="sc-p-cmts-head">View all 38 comments</div>
+                        <div class="sc-pc">
+                          <span class="sc-av sm g1">DM</span>
+                          <div class="sc-pc-body">
+                            <span class="sc-name">Dana M.</span>
+                            <div class="sc-pc-text">Terracotta, but only if the lids stack too. Every set I own has lids that slide right off.</div>
+                            <div class="sc-pc-reply">Reply</div>
+                            <div class="sc-p-thread">
+                              <div class="sc-pc">
+                                <span class="sc-av sm p">PR</span>
+                                <div class="sc-pc-body">
+                                  <span class="sc-name">Priya R.</span><span class="sc-role">Target Design</span>
+                                  <div class="sc-pc-text">They do! The lid locks into the bin above it. We&rsquo;ll post a photo of that detail next week.</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="sc-pc">
+                          <span class="sc-av sm g3">MT</span>
+                          <div class="sc-pc-body">
+                            <span class="sc-name">Marcus T.</span>
+                            <div class="sc-pc-text">Charcoal. It hides dust and goes with everything. I&rsquo;d buy four.</div>
+                            <div class="sc-pc-reply">Reply</div>
+                          </div>
+                        </div>
+                        <div class="sc-pc">
+                          <span class="sc-av sm g2">JL</span>
+                          <div class="sc-pc-body">
+                            <span class="sc-name">Jess L.</span>
+                            <div class="sc-pc-text">Sage. Everything in my apartment is white and wood and it would fit right in.</div>
+                            <div class="sc-pc-reply">Reply</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="sc-p-view" data-pview="profile" hidden>
+                      <div class="sc-profile">
+                        <div class="sc-pencils"><i></i><i></i><i></i><i></i><i></i></div>
+                        <div class="sc-prof-h">Your Profile</div>
+                        <div class="sc-prof-card">
+                          <div class="sc-prof-av">JL</div>
+                          <div class="sc-prof-name">Jess L.</div>
+                          <div class="sc-prof-sub">Small spaces, plants, anything sage green</div>
+                          <div class="sc-prof-stats">
+                            <div><b>860</b>points</div>
+                            <div><b>51</b>comments</div>
+                            <div><b>1 yr</b>member</div>
+                          </div>
+                        </div>
+                        <div class="sc-prof-rw">
+                          <h5>Your rewards</h5>
+                          <div class="sc-rw is-hidden" id="sc-rw-new">
+                            <span class="sc-rw-ic"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="2.5" y="6" width="11" height="7.5" rx="1"/><path d="M2 6h12M8 6v7.5"/></svg></span>
+                            <span>20% off coupon<small>From the StudioConnect team</small></span>
+                            <span class="sc-new-tag">New</span>
+                          </div>
+                          <div class="sc-rw">
+                            <span class="sc-rw-ic"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="2.5" y="6" width="11" height="7.5" rx="1"/><path d="M2 6h12M8 6v7.5"/></svg></span>
+                            <span>$5 gift card<small>Redeemed</small></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="sc-tabs">
+                      <button class="sc-tab on" data-ptab="home" tabindex="-1" onclick="scPTab('home')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 7.5 8 3l5.5 4.5V13h-11z"/></svg>Home</button>
+                      <button class="sc-tab" data-ptab="profile" tabindex="-1" onclick="scPTab('profile')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5.5" r="2.5"/><path d="M3 13.5c.6-2.6 2.6-4 5-4s4.4 1.4 5 4"/></svg>Profile<span class="sc-dot" data-dot></span></button>
+                    </div>
+                    <div class="sc-andnav"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 2.5v7M6 2.5v7M9 2.5v7"/></svg><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="2.5" y="2.5" width="7" height="7" rx="2.5"/></svg><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><path d="M7.5 2.5 4 6l3.5 3.5"/></svg></div>
+                  </div>
+                </div>
+                <div class="sc-surface-label">Guest app &middot; React Native</div>
+              </div>
+            </div>
+
+            <figcaption class="sc-caption">StudioConnect internal platform and guest app sharing one palette &mdash; illustrative representation</figcaption>
+
+            <script>
+            (function () {
+              function motionOff() {
+                var m = document.documentElement.getAttribute('data-motion');
+                if (m === 'off') return true;
+                if (m === 'on')  return false;
+                return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+              }
+              var vis = document.getElementById('sc-visual');
+              if (motionOff()) { vis.classList.add('is-visible'); }
+              else { new IntersectionObserver(function (ee) { ee.forEach(function (e) { if (e.isIntersecting) vis.classList.add('is-visible'); }); }, { threshold: 0.15 }).observe(vis); }
+
+              var likes = 286, likesTotal = 3480, liked = false, liveTimer = null;
+              function setText(key, val) { vis.querySelectorAll('[data-sc="' + key + '"]').forEach(function (el) { el.textContent = val; }); }
+
+              window.scTab = function (v) {
+                vis.querySelectorAll('.sc-view').forEach(function (el) { el.hidden = el.getAttribute('data-view') !== v; });
+                vis.querySelectorAll('.sc-rail-i').forEach(function (el) { el.classList.toggle('is-active', el.getAttribute('data-tab') === v); });
+                vis.querySelector('.sc-main').scrollTop = 0;
+              };
+
+              window.scPTab = function (v) {
+                vis.querySelectorAll('.sc-p-view').forEach(function (el) { el.hidden = el.getAttribute('data-pview') !== v; });
+                vis.querySelectorAll('.sc-tab').forEach(function (el) { el.classList.toggle('on', el.getAttribute('data-ptab') === v); });
+                if (v === 'profile') vis.querySelectorAll('[data-dot]').forEach(function (d) { d.classList.remove('is-on'); });
+              };
+
+              window.scLike = function () {
+                liked = !liked;
+                likes += liked ? 1 : -1; likesTotal += liked ? 1 : -1;
+                setText('likes', likes);
+                setText('likestotal', likesTotal.toLocaleString('en-US'));
+                document.getElementById('sc-like').classList.toggle('is-on', liked);
+                var row = document.getElementById('sc-row-storage');
+                row.classList.add('is-bump');
+                clearTimeout(liveTimer);
+                liveTimer = setTimeout(function () { row.classList.remove('is-bump'); }, 1600);
+              };
+
+              window.scDeact = function (btn) {
+                var row = btn.closest('.sc-mrow');
+                var off = row.classList.toggle('is-inactive');
+                row.querySelector('.sc-status').textContent = off ? 'Inactive' : 'Active';
+                btn.textContent = off ? 'Reactivate' : 'Deactivate';
+              };
+
+              window.scSend = function (btn, who, what, isJess) {
+                if (btn.classList.contains('is-sent')) return;
+                btn.classList.add('is-sent'); btn.textContent = 'Sent';
+                var li = document.createElement('div');
+                li.className = 'sc-li is-new';
+                li.innerHTML = who + ' &middot; ' + what + '<b><em>just now</em></b>';
+                var list = document.getElementById('sc-recent');
+                list.insertBefore(li, list.firstChild);
+                if (isJess) {
+                  var rw = document.getElementById('sc-rw-new');
+                  rw.classList.remove('is-hidden'); rw.classList.add('is-new');
+                  if (!vis.querySelector('.sc-p-view[data-pview="profile"]').hidden) return;
+                  vis.querySelectorAll('[data-dot]').forEach(function (d) { d.classList.add('is-on'); });
+                  var live = document.getElementById('sc-live');
+                  live.classList.add('is-on');
+                  setTimeout(function () { live.classList.remove('is-on'); }, 2600);
+                }
+              };
+            })();
+            </script>
+          </figure>
+
           <p>We shipped user profiles — which sounds basic until you realize it was a community app that had never had them. We significantly improved the admin interface. We worked through a roadmap that had far more on it than we could ever build and made the hard calls about what actually mattered.</p>
         </section>
 
