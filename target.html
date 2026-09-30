@@ -153,6 +153,368 @@
           <h3 class="subsection-heading">The reporting tool: replacing a fragile workaround</h3>
           <p>Target Media Network ran campaign performance reporting out of a bespoke Excel file. Marketing analysts used it to generate visual outputs: infographics, iconography, deck-style PDFs. It worked until it didn't. The file broke frequently, version control was a constant headache, and every new metric meant rebuilding something that was never meant to be rebuilt.</p>
           <p>The goal was to design an interface that gave analysts enough options to tell any story they needed without overwhelming them with complexity. We wanted the tool to feel simple to use while still being flexible enough to handle the range of reporting their work required.</p>
+
+          <figure class="rt-visual" id="rt-visual" aria-hidden="true">
+            <style>
+            /* ── Reporting tool illustrative visual ── */
+            .rt-visual {
+              --rt-red: #cc0000; --rt-ink: #222; --rt-ink-2: #555; --rt-muted: #888; --rt-line: #e2e2e2; --rt-bg: #f4f4f4; --rt-ui: #333;
+              margin: 2rem 0 2.5rem;
+              border-radius: 8px; overflow: hidden;
+              border: 1px solid rgba(0,0,0,.1);
+              box-shadow: 0 2px 4px rgba(0,0,0,.07), 0 8px 32px rgba(0,0,0,.12);
+              font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+              font-size: 12px; line-height: 1.4; color: var(--rt-ink); font-weight: 400; letter-spacing: normal;
+              background: #fff;
+            }
+            .rt-visual * { box-sizing: border-box; }
+            .rt-visual button, .rt-visual input, .rt-visual textarea { font-family: inherit; }
+
+            .rt-chrome { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #e9e9e9; border-bottom: 1px solid #d4d4d4; }
+            .rt-chrome-dots { display: flex; gap: 5px; }
+            .rt-chrome-dots span { width: 9px; height: 9px; border-radius: 50%; }
+            .rt-chrome-dots span:nth-child(1) { background: #ff5f57; }
+            .rt-chrome-dots span:nth-child(2) { background: #febc2e; }
+            .rt-chrome-dots span:nth-child(3) { background: #28c840; }
+            .rt-chrome-url { flex: 1; text-align: center; margin-right: 44px; font-size: 10.5px; color: #888; }
+
+            .rt-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--rt-line); }
+            .rt-doc { min-width: 0; }
+            .rt-doc b { display: block; font-size: 12.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .rt-doc small { font-size: 10px; color: var(--rt-muted); }
+            .rt-actions { flex: none; display: flex; gap: 6px; }
+            .rt-btn { padding: 6px 11px; border-radius: 4px; border: 1px solid #cfcfcf; background: #fff; color: var(--rt-ui); font-size: 11px; font-weight: 600; cursor: pointer; transition: background .15s ease; }
+            .rt-btn:hover { background: var(--rt-bg); }
+            .rt-btn.dark { border-color: var(--rt-ui); background: var(--rt-ui); color: #fff; }
+            .rt-btn.dark:hover { background: #111; }
+
+            .rt-work { display: flex; min-height: 0; }
+            .rt-stage { flex: 1; min-width: 0; padding: 16px; background: var(--rt-bg); display: flex; align-items: center; justify-content: center; }
+            .rt-stage .rt-slide { width: 100%; box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.08); }
+
+            .rt-panel { flex: none; width: 176px; border-left: 1px solid var(--rt-line); display: flex; flex-direction: column; background: #fff; }
+            .rt-panel-h { padding: 9px 12px 8px; border-bottom: 1px solid var(--rt-line); }
+            .rt-panel-h b { display: block; font-size: 11.5px; }
+            .rt-panel-h small { font-size: 10px; color: var(--rt-muted); }
+            .rt-fields { flex: 1; padding: 8px 12px 12px; overflow-y: auto; scrollbar-width: thin; height: 0; }
+            .rt-f { margin-top: 8px; }
+            .rt-f label { display: block; margin-bottom: 3px; font-size: 9.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--rt-ink-2); }
+            .rt-f input, .rt-f textarea { width: 100%; padding: 5px 7px; border: 1px solid #cfcfcf; border-radius: 3px; background: #fff; font-size: 11px; color: var(--rt-ink); outline: none; transition: border-color .15s ease, box-shadow .15s ease; }
+            .rt-f textarea { resize: none; height: 70px; line-height: 1.35; }
+            .rt-f input:focus, .rt-f textarea:focus { border-color: var(--rt-ui); box-shadow: 0 0 0 2px rgba(51,51,51,.12); }
+            .rt-f .rt-calc { padding: 5px 7px; border-radius: 3px; background: var(--rt-bg); font-size: 11px; font-weight: 700; display: flex; justify-content: space-between; }
+            .rt-f .rt-calc span { font-weight: 400; font-size: 9.5px; color: var(--rt-muted); align-self: center; }
+            .rt-f .rt-pre { position: relative; }
+            .rt-f .rt-pre input { padding-left: 16px; }
+            .rt-f .rt-pre::before { content: '$'; position: absolute; left: 7px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--rt-muted); }
+
+            .rt-strip { position: relative; display: flex; align-items: center; gap: 10px; padding: 10px 12px 12px; border-top: 1px solid var(--rt-line); overflow-x: auto; scrollbar-width: thin; }
+            .rt-thumb { flex: none; width: 74px; padding: 0; border: none; background: none; cursor: pointer; text-align: left; }
+            .rt-thumb .rt-slide { width: 100%; border-radius: 2px; box-shadow: 0 0 0 1px var(--rt-line); pointer-events: none; transition: box-shadow .15s ease; }
+            .rt-thumb:hover .rt-slide { box-shadow: 0 0 0 1px #aaa; }
+            .rt-thumb.is-on .rt-slide { box-shadow: 0 0 0 2px var(--rt-ui); }
+            .rt-thumb > span { display: block; margin-top: 4px; font-size: 9px; color: var(--rt-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .rt-thumb.is-on > span { color: var(--rt-ink); font-weight: 700; }
+            .rt-thumb.is-new .rt-slide { animation: rtIn .4s cubic-bezier(.2,.8,.25,1); }
+            @keyframes rtIn { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: none; } }
+            .rt-add { flex: none; width: 30px; height: 30px; margin: 0 4px 14px; border-radius: 50%; border: 1.5px solid var(--rt-ui); background: #fff; color: var(--rt-ui); font-size: 17px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s ease, color .15s ease; }
+            .rt-add:hover, .rt-add.is-open { background: var(--rt-ui); color: #fff; }
+
+            .rt-menu { position: absolute; z-index: 5; right: 12px; bottom: 58px; width: 190px; padding: 6px; border-radius: 6px; background: #fff; border: 1px solid #d4d4d4; box-shadow: 0 8px 24px rgba(0,0,0,.16); }
+            .rt-menu[hidden] { display: none; }
+            .rt-menu p { margin: 2px 6px 5px; font-size: 9.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--rt-muted); }
+            .rt-menu button { display: block; width: 100%; padding: 6px 8px; border: none; border-radius: 4px; background: none; text-align: left; font-size: 11px; color: var(--rt-ink); cursor: pointer; }
+            .rt-menu button small { display: block; font-size: 9.5px; color: var(--rt-muted); }
+            .rt-menu button:hover { background: var(--rt-bg); }
+            .rt-wrap { position: relative; }
+
+            /* ── slides (Target Media Network style) ── */
+            .rt-slide { container-type: inline-size; position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #fff; color: #222; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+            .rt-s { position: absolute; inset: 0; padding: 7cqw 8cqw 6cqw; display: flex; flex-direction: column; }
+            .rt-s-foot { position: absolute; left: 8cqw; right: 8cqw; bottom: 3.6cqw; display: flex; justify-content: space-between; font-size: 1.5cqw; letter-spacing: .12em; text-transform: uppercase; color: #999; }
+            .rt-s-h { font-size: 3.8cqw; font-weight: 700; line-height: 1.1; letter-spacing: -.01em; }
+            .rt-s-h::after { content: ''; display: block; width: 6cqw; height: .6cqw; margin-top: 1.8cqw; background: var(--rt-red); }
+            .rt-s-p { margin-top: 3cqw; font-size: 2.2cqw; line-height: 1.5; color: #555; max-width: 70cqw; white-space: pre-line; }
+
+            .rt-s.title { justify-content: center; padding-left: 11cqw; }
+            .rt-s.title::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3cqw; background: var(--rt-red); }
+            .rt-s-eyebrow { font-size: 1.8cqw; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--rt-red); margin-bottom: 2cqw; }
+            .rt-s-t { font-size: 6.6cqw; font-weight: 700; line-height: 1.04; letter-spacing: -.02em; max-width: 72cqw; }
+            .rt-s-sub { margin-top: 2.2cqw; font-size: 2.6cqw; color: #666; }
+
+            .rt-s-stats { display: flex; gap: 5cqw; margin-top: auto; margin-bottom: 4cqw; }
+            .rt-stat { flex: 1; min-width: 0; }
+            .rt-ico { width: 5.2cqw; height: 5.2cqw; border-radius: 50%; border: .4cqw solid var(--rt-red); color: var(--rt-red); display: flex; align-items: center; justify-content: center; margin-bottom: 1.4cqw; }
+            .rt-ico svg { width: 2.8cqw; height: 2.8cqw; }
+            .rt-num { font-size: 6.2cqw; font-weight: 700; letter-spacing: -.02em; line-height: 1; }
+            .rt-stat.hero .rt-num { color: var(--rt-red); }
+            .rt-lbl { margin-top: 1cqw; font-size: 1.9cqw; font-weight: 700; color: #333; }
+            .rt-lbl small { display: block; font-weight: 400; color: #888; font-size: 1.7cqw; margin-top: .3cqw; }
+
+            .rt-s-list { margin: 3.4cqw 0 0; padding: 0; list-style: none; }
+            .rt-s-list li { position: relative; padding-left: 3.4cqw; margin-bottom: 1.8cqw; font-size: 2.3cqw; line-height: 1.4; color: #444; }
+            .rt-s-list li::before { content: ''; position: absolute; left: 0; top: .9cqw; width: 1.3cqw; height: 1.3cqw; background: var(--rt-red); }
+
+
+            /* ── compare bar + Roundel output style ── */
+            .rt-compare { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 14px; background: #fafafa; border-top: 1px solid var(--rt-line); }
+            .rt-compare > span { font-size: 11px; color: var(--rt-ink-2); }
+            .rt-seg { display: inline-flex; padding: 2px; border-radius: 6px; background: #ececec; }
+            .rt-seg button { padding: 5px 10px; border: none; border-radius: 4px; background: none; font-size: 11px; font-weight: 600; color: var(--rt-ink-2); cursor: pointer; transition: background .15s ease, color .15s ease; }
+            .rt-seg button.on { background: #fff; color: var(--rt-ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+
+            .rt-ring { display: none; }
+            .rt-visual.is-roundel { --rt-c: #d4f6fa; --rt-c2: #5fd3e6; --rt-y: #ffd23f; --rt-m: #e11fb4; }
+            .rt-visual.is-roundel .rt-ico { width: 5.6cqw; height: 5.6cqw; border: .16cqw solid #111; color: #111; margin-bottom: 1.8cqw; }
+            .rt-visual.is-roundel .rt-ico svg { width: 3cqw; height: 3cqw; stroke-width: .9; }
+            .rt-visual.is-roundel .rt-ring { display: block; position: absolute; border-radius: 50%; pointer-events: none;
+              background:
+                repeating-radial-gradient(circle, transparent 0 2.2cqw, rgba(255,255,255,.75) 2.2cqw 2.6cqw),
+                radial-gradient(circle, #e9fbfd 0%, var(--rt-c2) 45%, #3fbfd6 75%); }
+            .rt-visual.is-roundel .rt-s:not(.title):not(.list) .rt-ring { width: 46cqw; height: 46cqw; right: -18cqw; top: -20cqw;
+              background: radial-gradient(circle, rgba(95,211,230,.55) 0%, rgba(95,211,230,.28) 35%, rgba(212,246,250,.18) 55%, rgba(255,255,255,0) 70%); }
+            .rt-visual.is-roundel .rt-s.list .rt-ring { width: 44cqw; height: 44cqw; right: -12cqw; bottom: -14cqw;
+              background:
+                repeating-radial-gradient(circle, transparent 0 2.4cqw, rgba(255,255,255,.72) 2.4cqw 2.8cqw),
+                radial-gradient(circle, #f3e0ff 0%, #c86ef0 35%, var(--rt-m) 70%); }
+            .rt-visual.is-roundel .rt-s.title .rt-ring { width: 64cqw; height: 64cqw; right: -18cqw; top: 50%; transform: translateY(-50%);
+              background:
+                repeating-radial-gradient(circle, transparent 0 3.2cqw, rgba(255,255,255,.7) 3.2cqw 3.7cqw),
+                radial-gradient(circle, #fff6d6 0%, var(--rt-y) 32%, #f0709a 62%, var(--rt-m) 82%); }
+            .rt-visual.is-roundel .rt-s-h { font-weight: 400; font-size: 4.2cqw; letter-spacing: -.02em; }
+            .rt-visual.is-roundel .rt-s-h::after { display: none; }
+            .rt-visual.is-roundel .rt-s-p { margin-top: 2.4cqw; }
+            .rt-visual.is-roundel .rt-s-stats { margin: auto -8cqw 0; padding: 4cqw 8cqw 9cqw; background: var(--rt-c); }
+            .rt-visual.is-roundel .rt-num { font-size: 6.6cqw; font-weight: 400; letter-spacing: -.03em; }
+            .rt-visual.is-roundel .rt-stat.hero .rt-num { color: var(--rt-m); }
+            .rt-visual.is-roundel .rt-lbl { font-weight: 400; color: #222; }
+            .rt-visual.is-roundel .rt-s-list li::before { border-radius: 50%; background: var(--rt-m); }
+            .rt-visual.is-roundel .rt-s.title { padding-left: 8cqw; }
+            .rt-visual.is-roundel .rt-s.title::before { display: none; }
+            .rt-visual.is-roundel .rt-s-eyebrow { color: var(--rt-m); font-weight: 400; letter-spacing: .08em; }
+            .rt-visual.is-roundel .rt-s-t { position: relative; max-width: 50cqw; font-weight: 400; letter-spacing: -.03em; }
+            .rt-visual.is-roundel .rt-s-sub, .rt-visual.is-roundel .rt-s-eyebrow { position: relative; }
+            .rt-visual.is-roundel .rt-s-foot { z-index: 1; }
+            .rt-slide, .rt-slide * { transition: color .3s ease, border-color .3s ease, background-color .3s ease; }
+            .rt-caption { display: block; margin: 0; padding: 10px 16px; font-size: 11px; font-style: italic; color: #777; text-align: right; background: #fafafa; border-top: 1px solid var(--rt-line); }
+
+            .rt-visual.ex-in-modal .rt-panel { width: 240px; }
+            .rt-visual.ex-in-modal .rt-stage { padding: 28px 40px; }
+            .rt-visual.ex-in-modal .rt-thumb { width: 104px; }
+
+            /* entrance */
+            .rt-top, .rt-stage .rt-slide, .rt-panel, .rt-strip { opacity: 0; transition: opacity .5s ease, transform .6s cubic-bezier(.2,.8,.25,1); }
+            .rt-stage .rt-slide { transform: translateY(14px) scale(.97); }
+            .rt-visual.is-visible .rt-top { opacity: 1; }
+            .rt-visual.is-visible .rt-stage .rt-slide { opacity: 1; transform: none; transition-delay: .12s; }
+            .rt-visual.is-visible .rt-panel { opacity: 1; transition-delay: .24s; }
+            .rt-visual.is-visible .rt-strip { opacity: 1; transition-delay: .34s; }
+            @media (prefers-reduced-motion: reduce) {
+              :root:not([data-motion="on"]) .rt-top, :root:not([data-motion="on"]) .rt-stage .rt-slide,
+              :root:not([data-motion="on"]) .rt-panel, :root:not([data-motion="on"]) .rt-strip { opacity: 1 !important; transform: none !important; transition: none !important; }
+              :root:not([data-motion="on"]) .rt-thumb.is-new .rt-slide { animation: none; }
+            }
+            [data-motion="off"] .rt-top, [data-motion="off"] .rt-stage .rt-slide,
+            [data-motion="off"] .rt-panel, [data-motion="off"] .rt-strip { opacity: 1 !important; transform: none !important; transition: none !important; }
+            [data-motion="off"] .rt-thumb.is-new .rt-slide { animation: none; }
+
+            @media (max-width: 600px) {
+              .rt-work { flex-direction: column; }
+              .rt-panel { width: auto; border-left: none; border-top: 1px solid var(--rt-line); }
+              .rt-fields { height: auto; max-height: 220px; }
+              .rt-actions .rt-btn:not(.dark) { display: none; }
+            }
+            </style>
+
+            <div class="rt-chrome">
+              <div class="rt-chrome-dots"><span></span><span></span><span></span></div>
+              <span class="rt-chrome-url">Campaign report builder &middot; internal</span>
+            </div>
+            <div class="rt-top">
+              <div class="rt-doc"><b>Holiday Home campaign recap</b><small><span id="rt-brandname">Target Media Network</span> &middot; <span id="rt-count">5</span> slides &middot; saved just now</small></div>
+              <div class="rt-actions"><button class="rt-btn" tabindex="-1">Preview</button><button class="rt-btn dark" tabindex="-1">Export PDF</button></div>
+            </div>
+            <div class="rt-wrap">
+              <div class="rt-work">
+                <div class="rt-stage"><div class="rt-slide" id="rt-canvas"></div></div>
+                <div class="rt-panel">
+                  <div class="rt-panel-h"><b id="rt-panel-title">Slide 1</b><small id="rt-panel-type">Title</small></div>
+                  <div class="rt-fields" id="rt-fields"></div>
+                </div>
+              </div>
+              <div class="rt-strip" id="rt-strip"></div>
+              <div class="rt-menu" id="rt-menu" hidden>
+                <p>Add a slide</p>
+                <button tabindex="-1" data-add="section">Section intro<small>Heading and short intro</small></button>
+                <button tabindex="-1" data-add="text">Explainer<small>Heading and paragraph</small></button>
+                <button tabindex="-1" data-add="roas">Return on ad spend<small>Spend, revenue, ROAS</small></button>
+                <button tabindex="-1" data-add="cart">Cart activity<small>Add to carts, purchases, conversion</small></button>
+                <button tabindex="-1" data-add="list">Key takeaways<small>Heading and bullet points</small></button>
+              </div>
+            </div>
+
+            <div class="rt-compare">
+              <span>Output brand</span>
+              <div class="rt-seg"><button class="on" tabindex="-1" data-brand="tmn">Target Media Network</button><button tabindex="-1" data-brand="roundel">After the Roundel rebrand</button></div>
+            </div>
+
+            <figcaption class="rt-caption">Slide-based report builder, before and after the Roundel rebrand &mdash; illustrative representation</figcaption>
+
+            <script>
+            (function () {
+              function motionOff() {
+                var m = document.documentElement.getAttribute('data-motion');
+                if (m === 'off') return true;
+                if (m === 'on')  return false;
+                return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+              }
+              var vis = document.getElementById('rt-visual');
+              if (motionOff()) { vis.classList.add('is-visible'); }
+              else { new IntersectionObserver(function (ee) { ee.forEach(function (e) { if (e.isIntersecting) vis.classList.add('is-visible'); }); }, { threshold: 0.15 }).observe(vis); }
+
+              var ICON = {
+                cash: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M10 5.8C9.6 5.2 8.9 5 8 5c-1.2 0-2 .6-2 1.5S6.8 7.7 8 8s2 .7 2 1.6S9.2 11 8 11c-.9 0-1.7-.3-2-1M8 3.8V5M8 11v1.2"/></svg>',
+                trend: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 11.5 6.5 7.5l2.5 2.5 4.5-5M10 5h3.5v3.5"/></svg>',
+                cart: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M1.5 2.5h2l1.6 7.5h7.4l1.5-5.5H4.3"/><circle cx="6.2" cy="13" r="1"/><circle cx="11.6" cy="13" r="1"/></svg>',
+                bag: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 5.5h10l-.8 8H3.8zM5.8 5.5V4a2.2 2.2 0 0 1 4.4 0v1.5"/></svg>',
+                pct: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 4 4 12"/><circle cx="4.8" cy="4.8" r="1.6"/><circle cx="11.2" cy="11.2" r="1.6"/></svg>'
+              };
+              var NAMES = { title: 'Title', section: 'Section intro', text: 'Explainer', roas: 'Return on ad spend', cart: 'Cart activity', list: 'Key takeaways' };
+              var FIELDS = {
+                title:   [['eyebrow','Label'], ['title','Title'], ['sub','Subtitle']],
+                section: [['heading','Heading'], ['body','Intro text','area']],
+                text:    [['heading','Heading'], ['body','Paragraph','area']],
+                roas:    [['heading','Heading'], ['spend','Ad spend','money'], ['rev','Attributed revenue','money'], ['calc:roas','ROAS']],
+                cart:    [['heading','Heading'], ['atc','Add to carts','num'], ['buy','Purchases','num'], ['calc:conv','Conversion rate']],
+                list:    [['heading','Heading'], ['items','Points, one per line','area']]
+              };
+              var DEFAULTS = {
+                section: { heading: 'Campaign results', body: 'How the holiday home campaign performed across onsite and offsite placements.' },
+                text:    { heading: 'About this report', body: 'Numbers reflect guests who saw an ad and then added to cart or purchased within 14 days.' },
+                roas:    { heading: 'Return on ad spend (ROAS)', spend: '120000', rev: '468000' },
+                cart:    { heading: 'Cart activity', atc: '94000', buy: '11200' },
+                list:    { heading: 'Key takeaways', items: 'First takeaway\nSecond takeaway\nThird takeaway' }
+              };
+              var slides = [
+                { t: 'title', d: { eyebrow: 'Performance recap', title: 'Holiday Home campaign', sub: 'November 1 to December 31' } },
+                { t: 'text',  d: { heading: 'About this report', body: 'This recap covers onsite and offsite ads for the holiday home collection. Results count guests who saw an ad and then added to cart or purchased within 14 days.' } },
+                { t: 'roas',  d: { heading: 'Return on ad spend (ROAS)', spend: '250000', rev: '1050000' } },
+                { t: 'cart',  d: { heading: 'Cart activity', atc: '258000', buy: '30000' } },
+                { t: 'list',  d: { heading: 'Key takeaways', items: 'Offsite video drove the most new guests\nCart adds peaked the week after Thanksgiving\nDecor outperformed bedding by 2 to 1' } }
+              ];
+              var sel = 0;
+
+              function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+              function n(v) { var x = parseFloat(String(v).replace(/[^0-9.]/g, '')); return isFinite(x) ? x : 0; }
+              function compact(x) {
+                if (x >= 1e6) return (x / 1e6).toFixed(x >= 1e7 ? 1 : 2).replace(/\.?0+$/, '') + 'M';
+                if (x >= 1e3) return (x / 1e3).toFixed(x >= 1e5 ? 0 : 1).replace(/\.0$/, '') + 'K';
+                return String(Math.round(x));
+              }
+              function calc(s, key) {
+                var d = s.d;
+                if (key === 'roas') { var sp = n(d.spend); return sp ? '$' + (n(d.rev) / sp).toFixed(2) : '$0.00'; }
+                if (key === 'conv') { var a = n(d.atc); return a ? (n(d.buy) / a * 100).toFixed(1) + '%' : '0%'; }
+                return '';
+              }
+              var BRAND = 'Target Media Network';
+              function foot(i) { return '<div class="rt-s-foot"><span>' + BRAND + '</span><span>' + (i + 1) + '</span></div>'; }
+              function stat(icon, num, lbl, sub, hero) {
+                return '<div class="rt-stat' + (hero ? ' hero' : '') + '"><div class="rt-ico">' + ICON[icon] + '</div><div class="rt-num">' + num + '</div><div class="rt-lbl">' + lbl + (sub ? '<small>' + sub + '</small>' : '') + '</div></div>';
+              }
+              function html(s, i) {
+                var d = s.d;
+                switch (s.t) {
+                  case 'title':
+                    return '<div class="rt-s title"><i class="rt-ring"></i><div class="rt-s-eyebrow">' + esc(d.eyebrow) + '</div><div class="rt-s-t">' + esc(d.title) + '</div><div class="rt-s-sub">' + esc(d.sub) + '</div>' + foot(i) + '</div>';
+                  case 'section':
+                  case 'text':
+                    return '<div class="rt-s"><i class="rt-ring"></i><div class="rt-s-h">' + esc(d.heading) + '</div><div class="rt-s-p">' + esc(d.body) + '</div>' + foot(i) + '</div>';
+                  case 'roas':
+                    return '<div class="rt-s"><div class="rt-s-h">' + esc(d.heading) + '</div><div class="rt-s-stats">' +
+                      stat('trend', calc(s, 'roas'), 'ROAS', 'revenue for every $1 spent', true) +
+                      stat('cash', '$' + compact(n(d.spend)), 'Ad spend') +
+                      stat('bag', '$' + compact(n(d.rev)), 'Attributed revenue') +
+                      '</div>' + foot(i) + '</div>';
+                  case 'cart':
+                    return '<div class="rt-s"><div class="rt-s-h">' + esc(d.heading) + '</div><div class="rt-s-stats">' +
+                      stat('cart', compact(n(d.atc)), 'Add to carts') +
+                      stat('bag', compact(n(d.buy)), 'Purchases') +
+                      stat('pct', calc(s, 'conv'), 'Conversion rate', 'purchases from cart adds', true) +
+                      '</div>' + foot(i) + '</div>';
+                  case 'list':
+                    var items = String(d.items || '').split('\n').filter(function (x) { return x.trim(); }).slice(0, 5);
+                    return '<div class="rt-s list"><i class="rt-ring"></i><div class="rt-s-h">' + esc(d.heading) + '</div><ul class="rt-s-list">' + items.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' + foot(i) + '</div>';
+                }
+                return '';
+              }
+
+              var canvas = document.getElementById('rt-canvas');
+              var strip = document.getElementById('rt-strip');
+              var fields = document.getElementById('rt-fields');
+              var menu = document.getElementById('rt-menu');
+
+              function drawCanvas() { canvas.innerHTML = html(slides[sel], sel); }
+              function drawThumb(i) { var t = strip.querySelector('[data-i="' + i + '"] .rt-slide'); if (t) t.innerHTML = html(slides[i], i); }
+              function drawStrip(newIdx) {
+                strip.innerHTML = slides.map(function (s, i) {
+                  return '<button class="rt-thumb' + (i === sel ? ' is-on' : '') + (i === newIdx ? ' is-new' : '') + '" data-i="' + i + '" tabindex="-1"><div class="rt-slide">' + html(s, i) + '</div><span>' + (i + 1) + '. ' + NAMES[s.t] + '</span></button>';
+                }).join('') + '<button class="rt-add" id="rt-add" tabindex="-1" title="Add a slide">+</button>';
+                document.getElementById('rt-count').textContent = slides.length;
+              }
+              function drawFields() {
+                var s = slides[sel];
+                document.getElementById('rt-panel-title').textContent = 'Slide ' + (sel + 1);
+                document.getElementById('rt-panel-type').textContent = NAMES[s.t];
+                fields.innerHTML = FIELDS[s.t].map(function (f) {
+                  var key = f[0], label = f[1], kind = f[2];
+                  if (key.indexOf('calc:') === 0) return '<div class="rt-f"><label>' + label + '</label><div class="rt-calc" data-calc="' + key.slice(5) + '">' + calc(s, key.slice(5)) + '<span>calculated</span></div></div>';
+                  var v = esc(s.d[key]);
+                  if (kind === 'area') return '<div class="rt-f"><label>' + label + '</label><textarea tabindex="-1" data-k="' + key + '">' + v + '</textarea></div>';
+                  var input = '<input tabindex="-1" data-k="' + key + '" value="' + v + '"' + (kind ? ' inputmode="numeric"' : '') + '>';
+                  return '<div class="rt-f"><label>' + label + '</label>' + (kind === 'money' ? '<div class="rt-pre">' + input + '</div>' : input) + '</div>';
+                }).join('');
+              }
+              function select(i) { sel = i; drawCanvas(); drawStrip(); drawFields(); }
+
+              fields.addEventListener('input', function (e) {
+                var k = e.target.getAttribute('data-k'); if (!k) return;
+                slides[sel].d[k] = e.target.value;
+                drawCanvas(); drawThumb(sel);
+                fields.querySelectorAll('[data-calc]').forEach(function (el) { el.firstChild.nodeValue = calc(slides[sel], el.getAttribute('data-calc')); });
+              });
+              strip.addEventListener('click', function (e) {
+                if (e.target.closest('#rt-add')) { var open = menu.hidden; menu.hidden = !open; e.target.closest('#rt-add').classList.toggle('is-open', open); e.stopPropagation(); return; }
+                var t = e.target.closest('.rt-thumb'); if (t) select(+t.getAttribute('data-i'));
+              });
+              menu.addEventListener('click', function (e) {
+                var b = e.target.closest('[data-add]'); if (!b) return;
+                var type = b.getAttribute('data-add');
+                slides.push({ t: type, d: JSON.parse(JSON.stringify(DEFAULTS[type])) });
+                sel = slides.length - 1;
+                menu.hidden = true;
+                drawCanvas(); drawStrip(sel); drawFields();
+                strip.scrollTo({ left: strip.scrollWidth, behavior: motionOff() ? 'auto' : 'smooth' });
+              });
+              vis.addEventListener('click', function (e) {
+                if (!menu.hidden && !e.target.closest('#rt-menu')) { menu.hidden = true; var a = document.getElementById('rt-add'); if (a) a.classList.remove('is-open'); }
+              });
+
+              vis.querySelector('.rt-seg').addEventListener('click', function (e) {
+                var b = e.target.closest('[data-brand]'); if (!b) return;
+                var r = b.getAttribute('data-brand') === 'roundel';
+                vis.classList.toggle('is-roundel', r);
+                BRAND = r ? 'Roundel' : 'Target Media Network';
+                document.getElementById('rt-brandname').textContent = BRAND;
+                vis.querySelectorAll('.rt-seg button').forEach(function (x) { x.classList.toggle('on', x === b); });
+                drawCanvas(); drawStrip();
+              });
+
+              select(0);
+            })();
+            </script>
+          </figure>
+
           <p>While we were designing the tool, I heard about the team building Target's new internal design system and component library. I reached out to them directly and decided to adopt it for the reporting tool. Our project became one of the first to use the system in practice, and we demoed it as an early proof of concept for what the system could do.</p>
           <p>Then the rebrand happened. Target Media Network became Roundel overnight: a completely new brand with its own fonts, colors, iconography, and visual language. No advance notice. The deck outputs we had designed were already done. We redesigned all of them from scratch — new layouts, new typography, new color application, new iconography. The builder interface stayed intact but everything the tool produced had to be rebuilt to match a brand that hadn't existed when the project started.</p>
           <p>The tool was fully built and functional but never rolled out, likely because internal priorities shifted after the rebrand.</p>
