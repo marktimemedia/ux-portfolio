@@ -1066,6 +1066,15 @@ footer.site-footer .container {
   padding-left: calc(1rem - 2px);
 }
 
+.sidebar-subnav { display: none; list-style: none; margin: 0.35rem 0 0.15rem; padding-left: 0.75rem; }
+.sidebar-subnav.open { display: block; animation: subnavIn 0.25s ease; }
+.sidebar-subnav li + li { margin-top: 0.2rem; }
+.sidebar-nav .sidebar-subnav a { font-size: calc(var(--fluid-xs) * 0.94); line-height: 1.35; padding: 0.1rem 0; }
+.sidebar-nav .sidebar-subnav a.active { border-left: none; margin-left: 0; padding-left: 0; font-weight: 400; }
+@keyframes subnavIn { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+[data-motion="off"] .sidebar-subnav.open { animation: none; }
+@media (prefers-reduced-motion: reduce) { :root:not([data-motion="on"]) .sidebar-subnav.open { animation: none; } }
+
 /* CASE CONTENT */
 .case-section {
   padding-bottom: clamp(2.5rem, 5vw, 4rem);

@@ -219,8 +219,49 @@ function initHomeNav() {
   update();
 }
 
+/* ---- CASE STUDY: sub-links for "The Work" subsections ---- */
+function buildWorkSubnav() {
+  const work = document.getElementById('work');
+  const workLink = document.querySelector('#sidebar-nav a[href="#work"]');
+  if (!work || !workLink) return [];
+  const heads = Array.from(work.querySelectorAll('h3.subsection-heading'));
+  if (heads.length < 2) return [];
+
+  const subs = heads.map(h => {
+    const label = h.textContent.split(':')[0].trim();
+    if (!h.id) {
+      h.id = 'work-' + label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+    return { id: h.id, label, el: h };
+  });
+
+  // Desktop sidebar: nested list under The Work, shown while that section is active
+  const ul = document.createElement('ul');
+  ul.className = 'sidebar-subnav';
+  ul.id = 'work-subnav';
+  ul.innerHTML = subs.map(s => `<li><a href="#${s.id}">${s.label}</a></li>`).join('');
+  workLink.parentElement.appendChild(ul);
+
+  // Mobile dropdown: always-visible sub-items right after The Work
+  const select = document.querySelector('.mobile-sticky-select');
+  const workOpt = select?.querySelector('option[value="work"]');
+  if (workOpt) {
+    let after = workOpt;
+    subs.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = '\u00A0\u00A0\u00A0\u00B7 ' + s.label;
+      after.insertAdjacentElement('afterend', opt);
+      after = opt;
+    });
+  }
+  return subs;
+}
+
 /* ---- CASE STUDY: sidebar active + sticky org ---- */
 function initCaseStudy() {
+  const workSubs = buildWorkSubnav();
+  const subnav = document.getElementById('work-subnav');
   const sections = ['situation','role','work','outcome','learned'];
   const navLinks = {};
   sections.forEach(id => {
@@ -276,8 +317,23 @@ function initCaseStudy() {
       navLinks[id]?.setAttribute('aria-current', isActive ? 'true' : 'false');
     });
 
+    // Sub-links under The Work
+    let currentSub = null;
+    if (current === 'work' && workSubs.length) {
+      workSubs.forEach(s => {
+        if (s.el.getBoundingClientRect().top <= navH + 120) currentSub = s.id;
+      });
+    }
+    subnav?.classList.toggle('open', current === 'work');
+    workSubs.forEach(s => {
+      const a = subnav?.querySelector(`a[href="#${s.id}"]`);
+      const on = s.id === currentSub;
+      a?.classList.toggle('active', on);
+      a?.setAttribute('aria-current', on ? 'true' : 'false');
+    });
+
     const mobileSelect = document.querySelector('.mobile-sticky-select');
-    if (mobileSelect) mobileSelect.value = current;
+    if (mobileSelect) mobileSelect.value = currentSub || current;
   }
 
   window.addEventListener('scroll', updateScroll, { passive: true });
@@ -372,7 +428,7 @@ function initExampleModals() {
 
   figures.forEach(fig => {
     const cap = fig.querySelector('figcaption');
-    const label = cap ? cap.textContent.trim().split('—')[0].trim() : 'this example';
+    const label = cap ? cap.textContent.trim().split(/\s*(?:—|:\s|\.\s)/)[0].replace(/\.$/, '').trim() : 'this example';
 
     // Accessible trigger: a real button placed AFTER the (aria-hidden) figure
     const viewBtn = document.createElement('button');
